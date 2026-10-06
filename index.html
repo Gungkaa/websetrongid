@@ -28,12 +28,12 @@
 
         body {
             font-family: Arial, sans-serif;
-            color: #222;
+            color: hsl(115, 89%, 49%);
 
             background:
                 radial-gradient(
                     circle at 10% 20%,
-                    rgba(0, 217, 255, 0.25),
+                    rgba(255, 230, 0, 0.25),
                     transparent 30%
                 ),
                 radial-gradient(
@@ -68,7 +68,7 @@
         ========================== */
 
         nav {
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(67, 194, 8, 0.85);
 
             padding: 18px 6%;
 
@@ -122,14 +122,14 @@
             align-items: center;
 
             text-align: center;
-            color: white;
+            color: rgb(19, 204, 13);
 
             padding: 40px 20px;
 
             background-image:
                 linear-gradient(
-                    rgba(0, 0, 0, 0.60),
-                    rgba(0, 0, 0, 0.60)
+                    rgba(197, 10, 150, 0.6),
+                    rgba(179, 176, 32, 0.6)
                 ),
                 url("foto2.jpg");
 
@@ -191,7 +191,7 @@
         }
 
         .btn:hover {
-            background: #00d9ff;
+            background: #2ecc0e;
             color: white;
 
             transform: scale(1.05);
@@ -769,7 +769,7 @@
         ========================== */
 
         footer {
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(130, 214, 19, 0.85);
 
             color: white;
 
@@ -888,7 +888,150 @@
             }
         }
 
-    </style>
+        /* =========================
+           FOTO BISA DIKLIK
+        ========================== */
+
+        .photo-popup {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.90);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .photo-popup img {
+            max-width: 90%;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+
+        .close-popup {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: white;
+            font-size: 45px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-popup:hover {
+            color: #00d9ff;
+        }
+
+    
+        /* Background kuning gradasi pink */
+        body {
+            background: linear-gradient(135deg, #FFD93D 0%, #FFB6C1 50%, #FF69B4 100%) !important;
+            background-attachment: fixed;
+        }
+
+
+        /* =========================
+           TEKS LEBIH JELAS DI BACKGROUND KUNING-PINK
+        ========================== */
+
+        body {
+            color: #42d117;
+        }
+
+        h1, h2, h3, h4, h5, h6,
+        .title, .section-title {
+            color: #111827 !important;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.45);
+        }
+
+        p, li, span, label {
+            color: #1f2937;
+        }
+
+        a {
+            color: #7ece16;
+        }
+
+        .navbar,
+        .nav-links a {
+            color: #111827 !important;
+        }
+
+        .card,
+        .member-card,
+        .album-card,
+        .skill-card,
+        .travel-card,
+        .contact-card {
+            color: #1f2937;
+        }
+
+        .card p,
+        .member-card p,
+        .album-card p,
+        .skill-card p,
+        .travel-card p,
+        .contact-card p {
+            color: #374151;
+        }
+
+        footer {
+            color: #111827;
+        }
+
+
+        /* =========================
+           BACKGROUND 5 WARNA
+           MERAH - BIRU - KUNING - PINK - HIJAU
+        ========================== */
+
+        body {
+            background: linear-gradient(
+                135deg,
+                #1c43ad 0%,
+                #3b82f6 25%,
+                #facc15 50%,
+                #ec4899 75%,
+                #22c55e 100%
+            ) !important;
+            background-attachment: fixed;
+            color: #188d49 !important;
+        }
+
+        /* Teks gelap agar tetap terbaca di warna terang */
+        body,
+        p, li, span, label,
+        h1, h2, h3, h4, h5, h6,
+        .title, .section-title,
+        .card, .member-card, .album-card,
+        .skill-card, .travel-card, .contact-card,
+        footer {
+            color: #111827 !important;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.55);
+        }
+
+        a,
+        .navbar,
+        .nav-links a {
+            color: #111827 !important;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.6);
+        }
+
+        .card p,
+        .member-card p,
+        .album-card p,
+        .skill-card p,
+        .travel-card p,
+        .contact-card p {
+            color: #1f2937 !important;
+        }
+
+</style>
 
 </head>
 
@@ -955,6 +1098,8 @@
                 src="foto2.jpg"
                 alt="Foto Para Boeng"
                 class="profile"
+            
+                onclick="openPhoto(this)"
             >
 
             <h1>
@@ -1001,8 +1146,10 @@
             <br>
 
             <p>
-                WEBSITE INI MASIH DALAM TAHAP PENGEMBANGAN.
-                INFO LEBIH LANJUT AKAN DIUPDATE.
+                Website ini akan terus diupdate
+                jadi pantau terus untuk keseruannya.
+    
+                
             </p>
 
         </div>
@@ -1032,7 +1179,9 @@
                     <img
                         src="orang1.jpeg"
                         alt="Boeng Karina"
-                    >
+                    
+                onclick="openPhoto(this)"
+            >
 
                 </div>
 
@@ -1054,22 +1203,22 @@
 
                     <div>
                         <strong>Nama:</strong>
-                        Boeng Karina
-                    </div>
-
-                    <div>
-                        <strong>Kelas:</strong>
-                        XI
-                    </div>
-
-                    <div>
-                        <strong>Jurusan:</strong>
-                        Informatika
+                        Febri Karina Natalia
                     </div>
 
                     <div>
                         <strong>Hobi:</strong>
-                        Touring & Wisata
+                        Nonton Anime 
+                    </div>
+
+                    <div>
+                        <strong>Game favorit:</strong>
+                        Mobile Legends
+                    </div>
+
+                    <div>
+                        <strong>Sosmed:</strong>
+                        -
                     </div>
 
                 </div>
@@ -1077,15 +1226,15 @@
                 <div class="member-tags">
 
                     <span class="member-tag">
-                        Touring
+                        Animelovers
                     </span>
 
                     <span class="member-tag">
-                        Wisata
+                        Kpopers
                     </span>
 
                     <span class="member-tag">
-                        Gaming
+                        Gamers
                     </span>
 
                 </div>
@@ -1109,7 +1258,9 @@
                     <img
                         src="orang2.jpeg"
                         alt="Boeng Aini"
-                    >
+                    
+                onclick="openPhoto(this)"
+            >
 
                 </div>
 
@@ -1131,22 +1282,22 @@
 
                     <div>
                         <strong>Nama:</strong>
-                        Boeng Aini
-                    </div>
-
-                    <div>
-                        <strong>Kelas:</strong>
-                        XI
-                    </div>
-
-                    <div>
-                        <strong>Jurusan:</strong>
-                        Informatika
+                        Aini Febriani
                     </div>
 
                     <div>
                         <strong>Hobi:</strong>
-                        Jalan-jalan
+                        Ngelaprak
+                    </div>
+
+                    <div>
+                        <strong>Game favorit:</strong>
+                        Mobile legends
+                    </div>
+
+                    <div>
+                        <strong>Sosmed</strong>
+                        -
                     </div>
 
                 </div>
@@ -1186,7 +1337,9 @@
                     <img
                         src="orang3.jpeg"
                         alt="Boeng Fera"
-                    >
+                    
+                onclick="openPhoto(this)"
+            >
 
                 </div>
 
@@ -1208,22 +1361,22 @@
 
                     <div>
                         <strong>Nama:</strong>
-                        Boeng Fera
-                    </div>
-
-                    <div>
-                        <strong>Kelas:</strong>
-                        XI
-                    </div>
-
-                    <div>
-                        <strong>Jurusan:</strong>
-                        Informatika
+                        Fera suci lestari
                     </div>
 
                     <div>
                         <strong>Hobi:</strong>
-                        Travelling
+                        Nyari seblak
+                    </div>
+
+                    <div>
+                        <strong>game favorit:</strong>
+                        Free Fire
+                    </div>
+
+                    <div>
+                        <strong>Sosmed:</strong>
+                        -
                     </div>
 
                 </div>
@@ -1263,7 +1416,9 @@
                     <img
                         src="orang4.jpeg"
                         alt="Boeng Daffa"
-                    >
+                    
+                onclick="openPhoto(this)"
+            >
 
                 </div>
 
@@ -1285,22 +1440,22 @@
 
                     <div>
                         <strong>Nama:</strong>
-                        Boeng Daffa
+                        M. daffa alka ridho
                     </div>
 
                     <div>
-                        <strong>Kelas:</strong>
-                        XI
+                        <strong>hobi:</strong>
+                        Ngegame
                     </div>
 
                     <div>
-                        <strong>Jurusan:</strong>
-                        Informatika
+                        <strong>Game favorit:</strong>
+                        Mobile legends
                     </div>
 
                     <div>
-                        <strong>Hobi:</strong>
-                        Gaming
+                        <strong>sosmed:</strong>
+                        -
                     </div>
 
                 </div>
@@ -1340,7 +1495,9 @@
                     <img
                         src="orang5.jpeg"
                         alt="Boeng Agung"
-                    >
+                    
+                onclick="openPhoto(this)"
+            >
 
                 </div>
 
@@ -1362,22 +1519,22 @@
 
                     <div>
                         <strong>Nama:</strong>
-                        Boeng Agung
-                    </div>
-
-                    <div>
-                        <strong>Kelas:</strong>
-                        XI
-                    </div>
-
-                    <div>
-                        <strong>Jurusan:</strong>
-                        Informatika
+                        Agung kurniawan
                     </div>
 
                     <div>
                         <strong>Hobi:</strong>
-                        Coding & Touring
+                        Nonton FC BARCALONA
+                    </div>
+
+                    <div>
+                        <strong>Game favorit:</strong>
+                        Free fire
+                    </div>
+
+                    <div>
+                        <strong>sosmed:</strong>
+                        -
                     </div>
 
                 </div>
@@ -1582,17 +1739,23 @@
                     <img
                         src="pagaralam1.jpeg"
                         alt="Pagar Alam Foto 1"
-                    >
+                    
+                onclick="openPhoto(this)"
+            >
 
                     <img
                         src="pagaralam2.jpeg"
                         alt="Pagar Alam Foto 2"
-                    >
+                    
+                onclick="openPhoto(this)"
+            >
 
                     <img
                         src="pagaralam3.jpeg"
                         alt="Pagar Alam Foto 3"
-                    >
+                    
+                onclick="openPhoto(this)"
+            >
 
                 </div>
 
@@ -1616,17 +1779,23 @@
                     <img
                         src="airlangkap1.jpeg"
                         alt="Pantai Air Langkap Foto 1"
-                    >
+                    
+                onclick="openPhoto(this)"
+            >
 
                     <img
                         src="airlangkap2.jpeg"
                         alt="Pantai Air Langkap Foto 2"
-                    >
+                    
+                onclick="openPhoto(this)"
+            >
 
                     <img
                         src="airlangkap3.jpeg"
                         alt="Pantai Air Langkap Foto 3"
-                    >
+                    
+                onclick="openPhoto(this)"
+            >
 
                 </div>
 
@@ -1650,17 +1819,23 @@
                     <img
                         src="pantaiceria1.jpeg"
                         alt="Pantai Ceria Foto 1"
-                    >
+                    
+                onclick="openPhoto(this)"
+            >
 
                     <img
                         src="pantaiceria2.jpeg"
                         alt="Pantai Ceria Foto 2"
-                    >
+                    
+                onclick="openPhoto(this)"
+            >
 
                     <img
                         src="pantaiceria3.jpeg"
                         alt="Pantai Ceria Foto 3"
-                    >
+                    
+                onclick="openPhoto(this)"
+            >
 
                 </div>
 
@@ -1707,8 +1882,8 @@
                 </h3>
 
                 <p>
-                    Target utama perjalanan
-                    Para Boeng selanjutnya.
+                     Nanti di infokan Tanggalnya
+                    
                 </p>
 
                 <span class="status">
@@ -1727,12 +1902,11 @@
                 </div>
 
                 <h3>
-                    Pantai Panjang
+                    Belum ada rencana
                 </h3>
 
                 <p>
-                    Rencana menikmati suasana
-                    pantai bersama.
+                 Nanti di infokan
                 </p>
 
                 <span class="status">
@@ -1751,12 +1925,12 @@
                 </div>
 
                 <h3>
-                    Air Terjun
+                    Belum ada rencana
                 </h3>
 
                 <p>
-                    Eksplorasi wisata alam
-                    dan air terjun.
+                     Nanti di infokan
+                    
                 </p>
 
                 <span class="status">
@@ -1775,12 +1949,12 @@
                 </div>
 
                 <h3>
-                    Wisata Alam
+                    Belum ada rencana
                 </h3>
 
                 <p>
-                    Mencari tempat wisata
-                    alam yang menarik.
+                     Nanti di infokan
+                    
                 </p>
 
                 <span class="status">
@@ -1799,12 +1973,12 @@
                 </div>
 
                 <h3>
-                    Camping
+                    Belum ada rencana
                 </h3>
 
                 <p>
-                    Camping dan menikmati
-                    malam bersama.
+                    Nanti di infokan
+                    
                 </p>
 
                 <span class="status">
@@ -1864,7 +2038,46 @@
     </footer>
 
 
+
+    <!-- =========================
+         POPUP FOTO
+    ========================== -->
+
+    <div class="photo-popup" id="photoPopup" onclick="closePhoto()">
+
+        <span class="close-popup" onclick="closePhoto()">
+            &times;
+        </span>
+
+        <img id="popupImage" src="" alt="Foto" onclick="event.stopPropagation()">
+
+    </div>
+
+
+    <script>
+
+        function openPhoto(image) {
+            const popup = document.getElementById("photoPopup");
+            const popupImage = document.getElementById("popupImage");
+            popupImage.src = image.src;
+            popup.style.display = "flex";
+        }
+
+        function closePhoto() {
+            const popup = document.getElementById("photoPopup");
+            popup.style.display = "none";
+        }
+
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Escape") {
+                closePhoto();
+            }
+        });
+
+    </script>
+
 </body>
 
 </html>
+
 ```
