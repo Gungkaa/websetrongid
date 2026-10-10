@@ -1037,6 +1037,152 @@ body:not(.terkunci) #kunci { display: none; }
     to   { stroke-dashoffset: 0; }
 }
 
+
+/* ========================= EDIT & HAPUS PESAN ========================= */
+.chat-aksi {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 4px;
+}
+.chat-aksi button {
+    border: none;
+    background: none;
+    color: #e0e7ff;
+    font: inherit;
+    font-size: 11px;
+    cursor: pointer;
+    opacity: 0.8;
+    padding: 2px 0;
+}
+.chat-aksi button:hover { opacity: 1; text-decoration: underline; }
+.chat-aksi button.hapus:hover { color: #fecaca; }
+
+.chat-msg.mengedit { width: 85%; }
+.chat-edit { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
+.chat-edit input {
+    width: 100%;
+    border: none;
+    border-radius: 12px;
+    padding: 8px 12px;
+    font: inherit;
+    font-size: 14px;
+    background: white;
+    color: #111827;
+}
+.chat-edit-tombol { display: flex; gap: 6px; justify-content: flex-end; }
+.chat-edit-tombol button {
+    border: none;
+    border-radius: 14px;
+    padding: 5px 14px;
+    font: inherit;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    background: linear-gradient(90deg, #06b6d4, #6366f1);
+}
+.chat-edit-tombol button.batal { background: rgba(255,255,255,0.2); }
+.chat-edit-tombol button:disabled { opacity: 0.6; cursor: wait; }
+
+.chat-msg.hilang { animation: pesanHilang 0.3s ease forwards; }
+@keyframes pesanHilang {
+    to { opacity: 0; transform: translateX(30px) scale(0.8); }
+}
+
+
+/* ========================= KOLOM CHAT LEBIH BESAR ========================= */
+.chat-form { padding: 16px; gap: 10px; }
+.chat-form input {
+    padding: 15px 20px;
+    font-size: 16px;      /* 16px juga mencegah layar HP otomatis zoom saat mengetik */
+    min-height: 52px;
+}
+.chat-form #chatNama { width: 32%; }
+.chat-form button {
+    min-width: 84px;
+    min-height: 52px;
+    padding: 0 24px;
+    font-size: 15px;
+}
+
+/* ========================= EDIT/HAPUS MUNCUL SAAT DITEKAN LAMA ========================= */
+.chat-aksi { display: none; }
+.chat-msg.aksi-tampil .chat-aksi {
+    display: flex;
+    animation: aksiMuncul 0.25s ease;
+}
+.chat-aksi button { font-size: 13px; padding: 4px 6px; }
+@keyframes aksiMuncul {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* cegah teks terpilih / menu bawaan HP saat pesan sendiri ditekan lama */
+.chat-msg.me .chat-name,
+.chat-msg.me .chat-text,
+.chat-msg.me .chat-time {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+}
+
+
+/* ========================= ANIMASI TEKAN LAMA ========================= */
+
+/* pesan sendiri: siap dianimasikan + garis progres di bagian bawah */
+.chat-msg.me {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+.chat-msg.me::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 0;
+    opacity: 0;
+    background: linear-gradient(90deg, #38bdf8, #a855f7);
+    border-radius: 0 3px 3px 0;
+}
+
+/* 1) SAAT DITAHAN: pesan mengecil, menyala, dan garis progres terisi */
+.chat-msg.me.menekan {
+    transform: scale(0.94);
+    box-shadow: 0 0 0 2px rgba(56,189,248,0.7), 0 0 22px rgba(99,102,241,0.8);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+.chat-msg.me.menekan::after {
+    width: 100%;
+    opacity: 1;
+    transition: width 0.5s linear;
+}
+
+/* 2) SAAT TERPILIH: pesan "membal", tetap bercahaya, tombol muncul satu per satu */
+.chat-msg.aksi-tampil {
+    animation: pesanDipilih 0.4s cubic-bezier(.2,1.4,.4,1);
+    box-shadow: 0 0 0 2px #38bdf8, 0 0 20px rgba(99,102,241,0.7);
+}
+@keyframes pesanDipilih {
+    0%   { transform: scale(0.94); }
+    55%  { transform: scale(1.07); }
+    100% { transform: scale(1); }
+}
+.chat-msg.aksi-tampil .chat-aksi button {
+    animation: tombolMuncul 0.35s ease both;
+}
+.chat-msg.aksi-tampil .chat-aksi button:nth-child(2) { animation-delay: 0.08s; }
+@keyframes tombolMuncul {
+    from { opacity: 0; transform: translateY(8px) scale(0.7); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* animasi hapus tetap jalan walau pesan sedang terpilih */
+.chat-msg.aksi-tampil.hilang { animation: pesanHilang 0.3s ease forwards; }
+
 </style>
 </head>
 
@@ -1160,7 +1306,7 @@ body:not(.terkunci) #kunci { display: none; }
         </div>
 
         <div class="chat-note" id="chatNote"></div>
-        <div class="chat-hint">🔍 Klik chat untuk memperbesar</div>
+        <div class="chat-hint">🔍 Klik chat untuk memperbesar · tekan lama pesanmu untuk edit/hapus</div>
 
         <div class="chat-list" id="chatList"></div>
 
@@ -1593,6 +1739,10 @@ if ("IntersectionObserver" in window) {
 
    Kalau masih kosong, chat tetap jalan tapi pesannya hanya
    terlihat di browser sendiri (mode uji coba).
+
+   PENTING untuk fitur EDIT & HAPUS:
+   Aturan (Rules) Firestore harus mengizinkan update dan delete
+   pada koleksi "chat".
 */
 
 const pengaturan = {
@@ -1628,6 +1778,7 @@ const pengaturan = {
     let lastSend = 0;
     let lastSignature = "";
     let pesanBaruWaktu = 0;   // penanda pesan yang baru saja dikirim
+    let sedangEdit = false;   // true saat ada pesan yang sedang diedit
     const SVG_CENTANG = '<svg class="centang" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>';
 
     // ---------- Penyimpanan lokal ----------
@@ -1643,6 +1794,40 @@ const pengaturan = {
     if (!saya) {
         saya = "u" + Math.random().toString(36).slice(2, 10);
         lsSet(KEY_SAYA, saya);
+    }
+
+    // ---------- Suara pesan terkirim ----------
+    let audioCtx = null;
+
+    // dipanggil saat tombol Kirim ditekan (browser mewajibkan suara dimulai dari aksi pengguna)
+    function siapkanAudio() {
+        try {
+            const AC = window.AudioContext || window.webkitAudioContext;
+            if (!AC) return;
+            if (!audioCtx) audioCtx = new AC();
+            if (audioCtx.state === "suspended") audioCtx.resume();
+        } catch (e) {}
+    }
+
+    // nada naik pendek "ting-ting", dibuat langsung dari kode (tanpa file suara)
+    function bunyiKirim() {
+        try {
+            if (!audioCtx) return;
+            const t = audioCtx.currentTime;
+            [[660, 0], [990, 0.1]].forEach(function (n) {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = "sine";
+                osc.frequency.value = n[0];
+                gain.gain.setValueAtTime(0.0001, t + n[1]);
+                gain.gain.exponentialRampToValueAtTime(0.25, t + n[1] + 0.02);
+                gain.gain.exponentialRampToValueAtTime(0.0001, t + n[1] + 0.28);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(t + n[1]);
+                osc.stop(t + n[1] + 0.3);
+            });
+        } catch (e) {}
     }
 
     // ---------- Nama terkunci ----------
@@ -1678,10 +1863,15 @@ const pengaturan = {
         note.classList.add("warn");
     }
 
-    // ---------- Ambil & kirim ----------
+    // ---------- Ambil, kirim, edit, hapus ----------
     async function loadMessages() {
         if (!shared) {
-            try { return JSON.parse(lsGet(KEY_LOCAL) || "[]"); } catch (e) { return []; }
+            let arr = [];
+            try { arr = JSON.parse(lsGet(KEY_LOCAL) || "[]"); } catch (e) {}
+            return arr.map(function (m) {
+                m.id = m.id || String(m.waktu);
+                return m;
+            });
         }
 
         const res = await fetch(
@@ -1695,10 +1885,12 @@ const pengaturan = {
         return (data.documents || []).map(function (doc) {
             const f = doc.fields || {};
             return {
+                id: doc.name ? doc.name.split("/").pop() : "",
                 nama: f.nama ? f.nama.stringValue : "Anonim",
                 isi: f.isi ? f.isi.stringValue : "",
                 waktu: f.waktu ? Number(f.waktu.integerValue) : 0,
-                uid: f.uid ? f.uid.stringValue : ""
+                uid: f.uid ? f.uid.stringValue : "",
+                diedit: !!(f.diedit && f.diedit.booleanValue)
             };
         }).reverse(); // terlama di atas, terbaru di bawah
     }
@@ -1707,6 +1899,7 @@ const pengaturan = {
         if (!shared) {
             let arr = [];
             try { arr = JSON.parse(lsGet(KEY_LOCAL) || "[]"); } catch (e) {}
+            msg.id = String(msg.waktu);
             arr.push(msg);
             lsSet(KEY_LOCAL, JSON.stringify(arr.slice(-60)));
             return;
@@ -1719,15 +1912,65 @@ const pengaturan = {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     fields: {
-                        nama:  { stringValue: msg.nama },
-                        isi:   { stringValue: msg.isi },
-                        waktu: { integerValue: String(msg.waktu) },
-                        uid:   { stringValue: msg.uid }
+                        nama:   { stringValue: msg.nama },
+                        isi:    { stringValue: msg.isi },
+                        waktu:  { integerValue: String(msg.waktu) },
+                        uid:    { stringValue: msg.uid },
+                        diedit: { booleanValue: false }
                     }
                 })
             }
         );
         if (!res.ok) throw new Error("gagal mengirim");
+    }
+
+    async function editMessage(id, isiBaru) {
+        if (!shared) {
+            let arr = [];
+            try { arr = JSON.parse(lsGet(KEY_LOCAL) || "[]"); } catch (e) {}
+            arr.forEach(function (m) {
+                if ((m.id || String(m.waktu)) === id) {
+                    m.isi = isiBaru;
+                    m.diedit = true;
+                }
+            });
+            lsSet(KEY_LOCAL, JSON.stringify(arr));
+            return;
+        }
+
+        const res = await fetch(
+            endpoint + "/" + encodeURIComponent(id) +
+            "?updateMask.fieldPaths=isi&updateMask.fieldPaths=diedit&key=" +
+            encodeURIComponent(pengaturan.firebaseApiKey),
+            {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    fields: {
+                        isi:    { stringValue: isiBaru },
+                        diedit: { booleanValue: true }
+                    }
+                })
+            }
+        );
+        if (!res.ok) throw new Error("gagal mengedit");
+    }
+
+    async function deleteMessage(id) {
+        if (!shared) {
+            let arr = [];
+            try { arr = JSON.parse(lsGet(KEY_LOCAL) || "[]"); } catch (e) {}
+            arr = arr.filter(function (m) { return (m.id || String(m.waktu)) !== id; });
+            lsSet(KEY_LOCAL, JSON.stringify(arr));
+            return;
+        }
+
+        const res = await fetch(
+            endpoint + "/" + encodeURIComponent(id) +
+            "?key=" + encodeURIComponent(pengaturan.firebaseApiKey),
+            { method: "DELETE" }
+        );
+        if (!res.ok) throw new Error("gagal menghapus");
     }
 
     // ---------- Tampilan ----------
@@ -1741,12 +1984,209 @@ const pengaturan = {
               d.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
     }
 
+    // ---------- Edit pesan (langsung di gelembung) ----------
+    function mulaiEdit(bubble, textEl, aksi, m) {
+        if (sedangEdit) return;
+        sedangEdit = true;
+        info.textContent = "";
+
+        bubble.classList.add("mengedit");
+
+        const box = document.createElement("div");
+        box.className = "chat-edit";
+
+        const inp = document.createElement("input");
+        inp.type = "text";
+        inp.maxLength = 300;
+        inp.value = m.isi;
+
+        const tombol = document.createElement("div");
+        tombol.className = "chat-edit-tombol";
+
+        const batal = document.createElement("button");
+        batal.type = "button";
+        batal.className = "batal";
+        batal.textContent = "Batal";
+
+        const simpan = document.createElement("button");
+        simpan.type = "button";
+        simpan.textContent = "Simpan";
+
+        tombol.appendChild(batal);
+        tombol.appendChild(simpan);
+        box.appendChild(inp);
+        box.appendChild(tombol);
+
+        // klik di dalam kotak edit tidak ikut membesarkan chat
+        box.addEventListener("click", function (e) { e.stopPropagation(); });
+
+        textEl.replaceWith(box);
+        aksi.style.display = "none";
+
+        inp.focus();
+        inp.setSelectionRange(inp.value.length, inp.value.length);
+
+        function batalkan() {
+            sedangEdit = false;
+            lastSignature = "";
+            refresh(false);
+        }
+
+        async function simpanEdit() {
+            const baru = inp.value.trim().slice(0, 300);
+
+            if (!baru) {
+                info.textContent = "Pesan tidak boleh kosong.";
+                return;
+            }
+            if (baru === m.isi) {
+                batalkan();
+                return;
+            }
+
+            simpan.disabled = true;
+            batal.disabled = true;
+
+            try {
+                await editMessage(m.id, baru);
+                info.textContent = "";
+                sedangEdit = false;
+                lastSignature = "";
+                await refresh(false);
+            } catch (err) {
+                info.textContent = "Gagal mengedit. Coba lagi.";
+                simpan.disabled = false;
+                batal.disabled = false;
+            }
+        }
+
+        batal.addEventListener("click", batalkan);
+        simpan.addEventListener("click", simpanEdit);
+
+        inp.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                simpanEdit();
+            } else if (e.key === "Escape") {
+                e.stopPropagation();
+                batalkan();
+            }
+        });
+    }
+
+    // ---------- Hapus pesan ----------
+    async function hapusPesan(bubble, m) {
+        if (!confirm("Hapus pesan ini?")) return;
+
+        bubble.classList.add("hilang");
+
+        try {
+            await Promise.all([
+                deleteMessage(m.id),
+                new Promise(function (r) { setTimeout(r, 300); })
+            ]);
+            info.textContent = "";
+            lastSignature = "";
+            await refresh(false);
+        } catch (err) {
+            bubble.classList.remove("hilang");
+            info.textContent = "Gagal menghapus. Coba lagi.";
+        }
+    }
+
+    // ---------- Tekan lama pesan sendiri -> muncul Edit / Hapus ----------
+    function sembunyikanAksi() {
+        list.querySelectorAll(".chat-msg.aksi-tampil").forEach(function (el) {
+            el.classList.remove("aksi-tampil");
+        });
+    }
+
+    function tampilkanAksi(bubble) {
+        if (sedangEdit) return;
+        sembunyikanAksi();
+        bubble.classList.add("aksi-tampil");
+        if (navigator.vibrate) { try { navigator.vibrate(25); } catch (e) {} }
+    }
+
+    function pasangTekanLama(bubble) {
+        const DURASI = 500;   // milidetik untuk dianggap "tekan lama" (samakan dengan 0.5s di CSS)
+        let timer = null;
+        let ditahan = false;
+        let startX = 0;
+        let startY = 0;
+
+        function mulai(e) {
+            if (sedangEdit) return;
+            if (e.target.closest(".chat-aksi")) return;
+            if (e.pointerType === "mouse" && e.button !== 0) return;
+
+            ditahan = false;
+            startX = e.clientX;
+            startY = e.clientY;
+            clearTimeout(timer);
+
+            bubble.classList.add("menekan");     // ▶ mulai animasi tahan (mengecil + garis progres)
+
+            timer = setTimeout(function () {
+                timer = null;
+                ditahan = true;
+                bubble.classList.remove("menekan");
+                tampilkanAksi(bubble);           // ▶ animasi "membal" + tombol muncul
+            }, DURASI);
+        }
+
+        function batal() {
+            clearTimeout(timer);
+            timer = null;
+            bubble.classList.remove("menekan");  // lepas sebelum waktunya -> animasi kembali normal
+        }
+
+        function gerak(e) {
+            // kalau jari bergeser (scroll), batalkan
+            if (timer && (Math.abs(e.clientX - startX) > 10 || Math.abs(e.clientY - startY) > 10)) {
+                batal();
+            }
+        }
+
+        bubble.addEventListener("pointerdown", mulai);
+        bubble.addEventListener("pointermove", gerak);
+        bubble.addEventListener("pointerup", batal);
+        bubble.addEventListener("pointercancel", batal);
+        bubble.addEventListener("pointerleave", batal);
+
+        // setelah tekan lama, jangan ikut membesarkan chat
+        bubble.addEventListener("click", function (e) {
+            if (ditahan) {
+                e.stopPropagation();
+                ditahan = false;
+            }
+        });
+
+        // klik kanan di PC / menu tekan lama bawaan HP -> tampilkan Edit/Hapus juga
+        bubble.addEventListener("contextmenu", function (e) {
+            e.preventDefault();
+            batal();
+            tampilkanAksi(bubble);
+        });
+    }
+
+    // sentuh/klik di luar tombol Edit/Hapus -> sembunyikan lagi
+    document.addEventListener("pointerdown", function (e) {
+        if (!e.target.closest(".chat-aksi")) sembunyikanAksi();
+    });
+
     function render(messages, forceScroll) {
-        const signature = messages.length + ":" + (messages.length ? messages[messages.length - 1].waktu : 0);
+        // jangan timpa tampilan saat ada pesan yang sedang diedit
+        if (sedangEdit && !forceScroll) return;
+
+        const signature = messages.length + ":" + messages.map(function (m) {
+            return m.id + "|" + m.isi + "|" + (m.diedit ? "1" : "0");
+        }).join("~");
         if (signature === lastSignature && !forceScroll) return; // tidak ada yang baru
         lastSignature = signature;
 
         const nearBottom = list.scrollHeight - list.scrollTop - list.clientHeight < 80;
+        const topLama = list.scrollTop;
 
         list.innerHTML = "";
 
@@ -1777,17 +2217,49 @@ const pengaturan = {
 
             const time = document.createElement("div");
             time.className = "chat-time";
-            time.textContent = jam(m.waktu);
+            time.textContent = (m.diedit ? "diedit · " : "") + jam(m.waktu);
             if (milikku) time.insertAdjacentHTML("beforeend", SVG_CENTANG);
 
             bubble.appendChild(name);
             bubble.appendChild(text);
             bubble.appendChild(time);
+
+            // tombol edit & hapus hanya untuk pesan milik sendiri (muncul saat ditekan lama)
+            if (milikku && m.id) {
+                const aksi = document.createElement("div");
+                aksi.className = "chat-aksi";
+
+                const bEdit = document.createElement("button");
+                bEdit.type = "button";
+                bEdit.textContent = "✏️ Edit";
+                bEdit.addEventListener("click", function (e) {
+                    e.stopPropagation();
+                    mulaiEdit(bubble, text, aksi, m);
+                });
+
+                const bHapus = document.createElement("button");
+                bHapus.type = "button";
+                bHapus.className = "hapus";
+                bHapus.textContent = "🗑️ Hapus";
+                bHapus.addEventListener("click", function (e) {
+                    e.stopPropagation();
+                    hapusPesan(bubble, m);
+                });
+
+                pasangTekanLama(bubble);
+
+                aksi.appendChild(bEdit);
+                aksi.appendChild(bHapus);
+                bubble.appendChild(aksi);
+            }
+
             list.appendChild(bubble);
         });
 
         if (nearBottom || forceScroll) {
             list.scrollTop = list.scrollHeight;
+        } else {
+            list.scrollTop = topLama;
         }
     }
 
@@ -1827,6 +2299,8 @@ const pengaturan = {
             return;
         }
 
+        siapkanAudio();            // aktifkan suara selagi masih di dalam aksi pengguna
+        sedangEdit = false;        // kalau sedang mengedit, tutup mode edit
         btn.disabled = true;
         info.textContent = "";
 
@@ -1837,6 +2311,8 @@ const pengaturan = {
             lsSet(KEY_NAMA, nama);
             kunciNama(nama);
             inputIsi.value = "";
+
+            bunyiKirim();          // 🔔 suara terkirim
 
             // animasi tombol centang
             btn.textContent = "✓";
