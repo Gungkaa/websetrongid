@@ -2,2672 +2,1680 @@
 <html lang="id">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>WEB PARA BOENG</title>
-
-    <style>
-
-        /* =========================
-           RESET
-        ========================== */
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-        }
-
-
-        /* =========================
-           BODY
-        ========================== */
-
-        body {
-            font-family: Arial, sans-serif;
-            color: white;
-
-            background:
-                radial-gradient(circle at 10% 20%, #2563eb55, transparent 30%),
-                radial-gradient(circle at 90% 10%, #9333ea55, transparent 30%),
-                radial-gradient(circle at 20% 90%, #ec489955, transparent 30%),
-                radial-gradient(circle at 80% 80%, #06b6d455, transparent 30%),
-                linear-gradient(135deg, #020617, #0f172a, #1e1b4b);
-
-            background-attachment: fixed;
-
-            min-height: 100vh;
-
-            overflow-x: hidden;
-        }
-
-
-        /* =========================
-           BACKGROUND ANIMATION
-        ========================== */
-
-        body::before,
-        body::after {
-            content: "";
-            position: fixed;
-
-            width: 350px;
-            height: 350px;
-
-            border-radius: 50%;
-
-            filter: blur(80px);
-
-            opacity: 0.35;
-
-            z-index: -1;
-
-            animation: floating 10s infinite alternate ease-in-out;
-        }
-
-        body::before {
-            background: #2563eb;
-            top: 10%;
-            left: -100px;
-        }
-
-        body::after {
-            background: #ec4899;
-            bottom: 5%;
-            right: -100px;
-
-            animation-delay: 3s;
-        }
-
-        @keyframes floating {
-
-            0% {
-                transform: translate(0, 0) scale(1);
-            }
-
-            50% {
-                transform: translate(100px, 80px) scale(1.2);
-            }
-
-            100% {
-                transform: translate(-50px, -50px) scale(0.9);
-            }
-        }
-
-
-        /* =========================
-           NAVBAR
-        ========================== */
-
-        nav {
-            background: rgba(2, 6, 23, 0.75);
-
-            padding: 18px 6%;
-
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-
-            position: sticky;
-
-            top: 0;
-
-            z-index: 1000;
-
-            backdrop-filter: blur(15px);
-
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-
-            animation: navDown 0.8s ease;
-        }
-
-        @keyframes navDown {
-
-            from {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-
-        }
-
-        nav h2 {
-
-            color: white;
-
-            letter-spacing: 1px;
-
-            text-shadow:
-                0 0 10px #38bdf8;
-        }
-
-        nav ul {
-
-            display: flex;
-
-            list-style: none;
-
-            gap: 20px;
-
-            flex-wrap: wrap;
-
-            justify-content: center;
-        }
-
-        nav ul li a {
-
-            color: #e2e8f0;
-
-            text-decoration: none;
-
-            font-weight: bold;
-
-            transition: 0.3s;
-
-            position: relative;
-        }
-
-        nav ul li a::after {
-
-            content: "";
-
-            position: absolute;
-
-            left: 0;
-
-            bottom: -7px;
-
-            width: 0;
-
-            height: 2px;
-
-            background: #38bdf8;
-
-            transition: 0.3s;
-        }
-
-        nav ul li a:hover {
-
-            color: #38bdf8;
-
-            text-shadow:
-                0 0 10px #38bdf8;
-        }
-
-        nav ul li a:hover::after {
-
-            width: 100%;
-        }
-
-
-        /* =========================
-           HERO
-        ========================== */
-
-        .hero {
-
-            min-height: 90vh;
-
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
-
-            text-align: center;
-
-            color: white;
-
-            padding: 40px 20px;
-
-            position: relative;
-
-            overflow: hidden;
-
-            background:
-                linear-gradient(
-                    rgba(2,6,23,0.65),
-                    rgba(30,27,75,0.75)
-                ),
-                url("foto2.jpg");
-
-            background-size: cover;
-
-            background-position: center;
-
-            background-repeat: no-repeat;
-        }
-
-        .hero::before {
-
-            content: "";
-
-            position: absolute;
-
-            width: 500px;
-
-            height: 500px;
-
-            border-radius: 50%;
-
-            background: #38bdf833;
-
-            filter: blur(100px);
-
-            animation: heroGlow 7s infinite alternate;
-        }
-
-        @keyframes heroGlow {
-
-            from {
-                transform: translate(-200px, -100px);
-            }
-
-            to {
-                transform: translate(200px, 100px);
-            }
-        }
-
-        .hero-content {
-
-            max-width: 800px;
-
-            position: relative;
-
-            z-index: 2;
-
-            animation: heroAppear 1.2s ease;
-        }
-
-        @keyframes heroAppear {
-
-            from {
-
-                opacity: 0;
-
-                transform:
-                    translateY(50px)
-                    scale(0.9);
-            }
-
-            to {
-
-                opacity: 1;
-
-                transform:
-                    translateY(0)
-                    scale(1);
-            }
-
-        }
-
-        .profile {
-
-            width: 190px;
-
-            height: 190px;
-
-            object-fit: cover;
-
-            border-radius: 50%;
-
-            border: 5px solid #38bdf8;
-
-            margin-bottom: 25px;
-
-            box-shadow:
-                0 0 20px #38bdf8,
-                0 0 50px #2563eb88;
-
-            animation:
-                profileFloat 4s infinite ease-in-out,
-                profileGlow 2s infinite alternate;
-        }
-
-        @keyframes profileFloat {
-
-            0%,100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-15px);
-            }
-
-        }
-
-        @keyframes profileGlow {
-
-            from {
-                box-shadow:
-                    0 0 15px #38bdf8;
-            }
-
-            to {
-                box-shadow:
-                    0 0 35px #9333ea;
-            }
-
-        }
-
-        .hero h1 {
-
-            font-size: 50px;
-
-            margin-bottom: 15px;
-
-            color: white;
-
-            text-shadow:
-                0 0 10px #38bdf8,
-                0 0 25px #2563eb;
-
-            animation: textGlow 2s infinite alternate;
-        }
-
-        @keyframes textGlow {
-
-            from {
-                text-shadow:
-                    0 0 10px #38bdf8;
-            }
-
-            to {
-                text-shadow:
-                    0 0 25px #a855f7;
-            }
-
-        }
-
-        .hero p {
-
-            font-size: 20px;
-
-            margin-bottom: 30px;
-
-            color: #cbd5e1;
-        }
-
-        .btn {
-
-            display: inline-block;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    #06b6d4,
-                    #6366f1,
-                    #a855f7
-                );
-
-            color: white;
-
-            padding: 14px 30px;
-
-            border-radius: 30px;
-
-            text-decoration: none;
-
-            font-weight: bold;
-
-            transition: 0.3s;
-
-            box-shadow:
-                0 0 20px #6366f155;
-        }
-
-        .btn:hover {
-
-            transform:
-                scale(1.08)
-                translateY(-3px);
-
-            box-shadow:
-                0 0 30px #a855f7aa;
-        }
-
-
-        /* =========================
-           SECTION
-        ========================== */
-
-        section {
-
-            padding: 90px 6%;
-
-            position: relative;
-        }
-
-        section h2 {
-
-            text-align: center;
-
-            font-size: 32px;
-
-            margin-bottom: 40px;
-
-            color: white;
-
-            text-shadow:
-                0 0 15px #38bdf855;
-
-            animation: titleGlow 3s infinite alternate;
-        }
-
-        @keyframes titleGlow {
-
-            from {
-                text-shadow:
-                    0 0 5px #38bdf8;
-            }
-
-            to {
-                text-shadow:
-                    0 0 20px #a855f7;
-            }
-
-        }
-
-
-        /* =========================
-           ABOUT
-        ========================== */
-
-        .about {
-
-            max-width: 850px;
-
-            margin: auto;
-
-            text-align: center;
-
-            line-height: 1.8;
-
-            font-size: 17px;
-
-            color: #e2e8f0;
-
-            background:
-                rgba(15,23,42,0.65);
-
-            padding: 30px;
-
-            border-radius: 20px;
-
-            backdrop-filter: blur(15px);
-
-            border:
-                1px solid
-                rgba(255,255,255,0.1);
-
-            box-shadow:
-                0 10px 40px rgba(0,0,0,0.25);
-
-            transition: 0.4s;
-        }
-
-        .about:hover {
-
-            transform: translateY(-8px);
-
-            box-shadow:
-                0 0 30px #6366f155;
-        }
-
-        .about p {
-
-            color: #cbd5e1;
-        }
-
-
-        /* =========================
-           MEMBERS
-        ========================== */
-
-        .members {
-
-            max-width: 1200px;
-
-            margin: auto;
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
-            gap: 28px;
-        }
-
-        .member-card {
-
-            background:
-                rgba(255,255,255,0.95);
-
-            padding: 28px 22px;
-
-            text-align: center;
-
-            border-radius: 22px;
-
-            box-shadow:
-                0 10px 30px rgba(0,0,0,0.25);
-
-            transition:
-                0.4s;
-
-            position: relative;
-
-            overflow: hidden;
-
-            animation: cardFloat 5s infinite ease-in-out;
-        }
-
-        @keyframes cardFloat {
-
-            0%,100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-5px);
-            }
-
-        }
-
-        .member-card::before {
-
-            content: "";
-
-            position: absolute;
-
-            width: 100%;
-
-            height: 5px;
-
-            left: 0;
-
-            top: 0;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    #06b6d4,
-                    #6366f1,
-                    #ec4899
-                );
-
-            background-size: 200%;
-
-            animation: gradientMove 3s linear infinite;
-        }
-
-        @keyframes gradientMove {
-
-            0% {
-                background-position: 0%;
-            }
-
-            100% {
-                background-position: 200%;
-            }
-
-        }
-
-        .member-card:hover {
-
-            transform:
-                translateY(-15px)
-                scale(1.02);
-
-            box-shadow:
-                0 20px 45px rgba(0,0,0,0.4),
-                0 0 25px #6366f155;
-        }
-
-        .member-photo {
-
-            width: 155px;
-
-            height: 155px;
-
-            margin: 8px auto 18px;
-
-            border-radius: 50%;
-
-            overflow: hidden;
-
-            border:
-                5px solid #38bdf8;
-
-            box-shadow:
-                0 0 20px #38bdf855;
-
-            transition: 0.4s;
-        }
-
-        .member-card:hover .member-photo {
-
-            transform:
-                rotate(5deg)
-                scale(1.05);
-
-            border-color:
-                #a855f7;
-
-            box-shadow:
-                0 0 30px #a855f7;
-        }
-
-        .member-photo img {
-
-            width: 100%;
-
-            height: 100%;
-
-            object-fit: cover;
-
-            display: block;
-
-            cursor: pointer;
-
-            transition: 0.5s;
-        }
-
-        .member-photo img:hover {
-
-            transform: scale(1.15);
-        }
-
-        .member-card h3 {
-
-            font-size: 23px;
-
-            color: #111827;
-
-            margin-bottom: 6px;
-        }
-
-        .member-role {
-
-            color: #6366f1;
-
-            font-weight: bold;
-
-            margin-bottom: 15px;
-        }
-
-        .member-bio {
-
-            color: #475569;
-
-            line-height: 1.6;
-
-            font-size: 14px;
-
-            min-height: 68px;
-        }
-
-        .member-data {
-
-            text-align: left;
-
-            background:
-                #f1f5f9;
-
-            border-radius: 14px;
-
-            padding: 13px 15px;
-
-            margin-top: 16px;
-
-            line-height: 1.8;
-
-            font-size: 13px;
-        }
-
-
-        /* =========================
-           WARNA FONT DATA ANGGOTA
-        ========================== */
-
-        /* Nama + isi nama = BIRU */
-
-        .member-data div:nth-child(1) {
-
-            color: #2563eb !important;
-
-            font-weight: 700;
-        }
-
-        .member-data div:nth-child(1) strong {
-
-            color: #2563eb !important;
-
-            font-weight: 800;
-        }
-
-
-        /* Hobi + isi hobi = PINK */
-
-        .member-data div:nth-child(2) {
-
-            color: #ec4899 !important;
-
-            font-weight: 700;
-        }
-
-        .member-data div:nth-child(2) strong {
-
-            color: #ec4899 !important;
-
-            font-weight: 800;
-        }
-
-
-        /* Game favorit + isi game = UNGU */
-
-        .member-data div:nth-child(3) {
-
-            color: #7c3aed !important;
-
-            font-weight: 700;
-        }
-
-        .member-data div:nth-child(3) strong {
-
-            color: #7c3aed !important;
-
-            font-weight: 800;
-        }
-
-
-        /* Sosmed + isi sosmed = HIJAU */
-
-        .member-data div:nth-child(4) {
-
-            color: #16a34a !important;
-
-            font-weight: 700;
-        }
-
-        .member-data div:nth-child(4) strong {
-
-            color: #16a34a !important;
-
-            font-weight: 800;
-        }
-
-
-        .member-tags {
-
-            margin-top: 14px;
-        }
-
-        .member-tag {
-
-            display: inline-block;
-
-            background:
-                #e0f2fe;
-
-            color: #0369a1;
-
-            border:
-                1px solid #bae6fd;
-
-            padding: 5px 9px;
-
-            border-radius: 20px;
-
-            margin: 3px;
-
-            font-size: 11px;
-
-            font-weight: bold;
-
-            transition: 0.3s;
-        }
-
-        .member-tag:hover {
-
-            background:
-                #6366f1;
-
-            color: white;
-
-            transform: scale(1.1);
-        }
-
-        .member-contact {
-
-            display: inline-block;
-
-            margin-top: 14px;
-
-            padding: 9px 17px;
-
-            border-radius: 22px;
-
-            text-decoration: none;
-
-            color: white;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    #06b6d4,
-                    #6366f1
-                );
-
-            font-size: 13px;
-
-            font-weight: bold;
-
-            transition: 0.3s;
-
-            box-shadow:
-                0 5px 15px #6366f144;
-        }
-
-        .member-contact:hover {
-
-            transform:
-                scale(1.08);
-
-            box-shadow:
-                0 0 20px #6366f1;
-        }
-
-
-        /* =========================
-           SKILLS
-        ========================== */
-
-        .skills {
-
-            max-width: 1000px;
-
-            margin: auto;
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(auto-fit,minmax(180px,1fr));
-
-            gap: 25px;
-        }
-
-        .skill {
-
-            background:
-                rgba(255,255,255,0.95);
-
-            padding: 30px;
-
-            text-align: center;
-
-            border-radius: 15px;
-
-            box-shadow:
-                0 8px 25px rgba(0,0,0,0.2);
-
-            transition: 0.4s;
-        }
-
-        .skill:hover {
-
-            transform:
-                translateY(-12px)
-                scale(1.03);
-
-            box-shadow:
-                0 0 30px #38bdf855;
-        }
-
-        .skill h3 {
-
-            color: #6366f1;
-
-            margin-bottom: 10px;
-        }
-
-        .skill p {
-
-            color: #475569;
-
-            line-height: 1.6;
-        }
-
-
-        /* =========================
-           PROJECT
-        ========================== */
-
-        .projects {
-
-            max-width: 1100px;
-
-            margin: auto;
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(3,1fr);
-
-            gap: 25px;
-        }
-
-        .project {
-
-            background:
-                rgba(255,255,255,0.95);
-
-            padding: 30px;
-
-            border-radius: 18px;
-
-            box-shadow:
-                0 8px 25px rgba(0,0,0,0.2);
-
-            transition: 0.4s;
-
-            position: relative;
-
-            overflow: hidden;
-        }
-
-        .project::after {
-
-            content: "";
-
-            position: absolute;
-
-            width: 100%;
-
-            height: 4px;
-
-            bottom: 0;
-
-            left: 0;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    #06b6d4,
-                    #6366f1,
-                    #ec4899
-                );
-        }
-
-        .project:hover {
-
-            transform:
-                translateY(-10px)
-                scale(1.02);
-
-            box-shadow:
-                0 0 30px #6366f155;
-        }
-
-        .project h3 {
-
-            color: #6366f1;
-
-            margin-bottom: 15px;
-        }
-
-        .project p {
-
-            color: #475569;
-
-            line-height: 1.6;
-        }
-
-
-        /* =========================
-           ALBUM
-        ========================== */
-
-        .album-title p {
-
-            text-align: center;
-
-            color: #cbd5e1;
-        }
-
-        .album-container {
-
-            max-width: 1200px;
-
-            margin: auto;
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(3,1fr);
-
-            gap: 30px;
-        }
-
-        .album-card {
-
-            background:
-                rgba(255,255,255,0.95);
-
-            border-radius: 20px;
-
-            overflow: hidden;
-
-            box-shadow:
-                0 8px 25px rgba(0,0,0,0.25);
-
-            transition: 0.4s;
-        }
-
-        .album-card:hover {
-
-            transform:
-                translateY(-12px);
-
-            box-shadow:
-                0 0 30px #ec489955;
-        }
-
-        .album-card h3 {
-
-            padding:
-                20px 20px 5px;
-
-            color: #6366f1;
-        }
-
-        .tanggal {
-
-            padding:
-                0 20px 15px;
-
-            color: #64748b;
-        }
-
-        .album-photos {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(3,1fr);
-
-            gap: 4px;
-        }
-
-        .album-photos img {
-
-            width: 100%;
-
-            height: 130px;
-
-            object-fit: cover;
-
-            display: block;
-
-            transition: 0.5s;
-
-            cursor: pointer;
-        }
-
-        .album-photos img:hover {
-
-            transform:
-                scale(1.08);
-
-            filter:
-                brightness(0.7);
-        }
-
-
-        /* =========================
-           FUTURE
-        ========================== */
-
-        .future-title p {
-
-            text-align: center;
-
-            color: #cbd5e1;
-        }
-
-        .future-container {
-
-            max-width: 1300px;
-
-            margin: auto;
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(5,1fr);
-
-            gap: 15px;
-        }
-
-        .future-card {
-
-            background:
-                rgba(15,23,42,0.65);
-
-            border:
-                1px solid
-                rgba(255,255,255,0.15);
-
-            color: white;
-
-            padding: 25px 15px;
-
-            text-align: center;
-
-            border-radius: 18px;
-
-            backdrop-filter: blur(15px);
-
-            transition: 0.4s;
-        }
-
-        .future-card:hover {
-
-            transform:
-                translateY(-12px)
-                scale(1.03);
-
-            background:
-                rgba(99,102,241,0.3);
-
-            box-shadow:
-                0 0 30px #6366f155;
-        }
-
-        .future-icon {
-
-            font-size: 40px;
-
-            margin-bottom: 15px;
-
-            animation:
-                iconFloat 3s infinite ease-in-out;
-        }
-
-        @keyframes iconFloat {
-
-            0%,100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-8px);
-            }
-        }
-
-        .future-card h3 {
-
-            margin-bottom: 10px;
-
-            color: white;
-        }
-
-        .future-card p {
-
-            color: #cbd5e1;
-
-            font-size: 14px;
-
-            line-height: 1.5;
-        }
-
-        .status {
-
-            display: inline-block;
-
-            margin-top: 15px;
-
-            padding: 5px 10px;
-
-            border-radius: 20px;
-
-            background:
-                #38bdf8;
-
-            color:
-                #020617;
-
-            font-size: 11px;
-
-            font-weight: bold;
-
-            animation:
-                statusPulse 2s infinite;
-        }
-
-        @keyframes statusPulse {
-
-            0%,100% {
-                box-shadow:
-                    0 0 5px #38bdf8;
-            }
-
-            50% {
-                box-shadow:
-                    0 0 20px #38bdf8;
-            }
-        }
-
-
-        /* =========================
-           CONTACT
-        ========================== */
-
-        .contact {
-
-            max-width: 700px;
-
-            margin: auto;
-
-            text-align: center;
-
-            line-height: 2;
-
-            font-size: 18px;
-
-            color: #e2e8f0;
-
-            background:
-                rgba(15,23,42,0.65);
-
-            padding: 30px;
-
-            border-radius: 20px;
-
-            backdrop-filter: blur(15px);
-
-            border:
-                1px solid
-                rgba(255,255,255,0.1);
-
-            transition: 0.4s;
-        }
-
-        .contact:hover {
-
-            transform:
-                translateY(-8px);
-
-            box-shadow:
-                0 0 30px #06b6d455;
-        }
-
-        .contact p {
-
-            color: #cbd5e1;
-        }
-
-
-        /* =========================
-           FOOTER
-        ========================== */
-
-        footer {
-
-            background:
-                rgba(2,6,23,0.85);
-
-            color: #cbd5e1;
-
-            text-align: center;
-
-            padding: 25px;
-
-            border-top:
-                1px solid
-                rgba(255,255,255,0.1);
-        }
-
-
-        /* =========================
-           POPUP FOTO
-        ========================== */
-
-        .photo-popup {
-
-            display: none;
-
-            position: fixed;
-
-            z-index: 9999;
-
-            left: 0;
-
-            top: 0;
-
-            width: 100%;
-
-            height: 100%;
-
-            background:
-                rgba(0,0,0,0.92);
-
-            justify-content: center;
-
-            align-items: center;
-
-            padding: 20px;
-
-            animation:
-                popupBackground 0.3s ease;
-        }
-
-        @keyframes popupBackground {
-
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        .photo-popup img {
-
-            max-width: 90%;
-
-            max-height: 85vh;
-
-            object-fit: contain;
-
-            border-radius: 12px;
-
-            box-shadow:
-                0 0 40px #38bdf8;
-
-            animation:
-                popupImage 0.4s ease;
-        }
-
-        @keyframes popupImage {
-
-            from {
-                transform:
-                    scale(0.5);
-                opacity: 0;
-            }
-
-            to {
-                transform:
-                    scale(1);
-                opacity: 1;
-            }
-        }
-
-        .close-popup {
-
-            position: absolute;
-
-            top: 20px;
-
-            right: 35px;
-
-            color: white;
-
-            font-size: 45px;
-
-            font-weight: bold;
-
-            cursor: pointer;
-
-            transition: 0.3s;
-        }
-
-        .close-popup:hover {
-
-            color: #38bdf8;
-
-            transform:
-                rotate(90deg);
-        }
-
-
-        /* =========================
-           SCROLL ANIMATION
-        ========================== */
-
-        .reveal {
-
-            opacity: 0;
-
-            transform:
-                translateY(50px);
-
-            transition:
-                1s ease;
-        }
-
-        .reveal.active {
-
-            opacity: 1;
-
-            transform:
-                translateY(0);
-        }
-
-
-        /* =========================
-           TABLET
-        ========================== */
-
-        @media (max-width:1100px) {
-
-            .future-container {
-
-                grid-template-columns:
-                    repeat(3,1fr);
-            }
-
-            .members {
-
-                grid-template-columns:
-                    repeat(2,1fr);
-            }
-
-            .projects {
-
-                grid-template-columns:
-                    repeat(2,1fr);
-            }
-
-            .album-container {
-
-                grid-template-columns:
-                    repeat(2,1fr);
-            }
-
-        }
-
-
-        /* =========================
-           HP
-        ========================== */
-
-        @media (max-width:600px) {
-
-            nav {
-
-                flex-direction: column;
-
-                gap: 15px;
-
-                padding: 15px 10px;
-            }
-
-            nav h2 {
-
-                font-size: 20px;
-            }
-
-            nav ul {
-
-                gap: 10px;
-            }
-
-            nav ul li a {
-
-                font-size: 12px;
-            }
-
-            .hero {
-
-                min-height: 80vh;
-            }
-
-            .hero h1 {
-
-                font-size: 34px;
-            }
-
-            .hero p {
-
-                font-size: 17px;
-            }
-
-            .profile {
-
-                width: 150px;
-
-                height: 150px;
-            }
-
-            section {
-
-                padding: 60px 5%;
-            }
-
-            section h2 {
-
-                font-size: 27px;
-            }
-
-            .members {
-
-                grid-template-columns: 1fr;
-            }
-
-            .projects {
-
-                grid-template-columns: 1fr;
-            }
-
-            .album-container {
-
-                grid-template-columns: 1fr;
-            }
-
-            .future-container {
-
-                grid-template-columns:
-                    repeat(2,1fr);
-            }
-
-            .album-photos img {
-
-                height: 110px;
-            }
-
-            .future-card {
-
-                padding: 20px 10px;
-            }
-
-            .future-icon {
-
-                font-size: 30px;
-            }
-
-        }
-
-    </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WEB PARA BOENG</title>
+
+<style>
+
+/* ========================= RESET ========================= */
+* { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+/* ========================= BODY ========================= */
+body {
+    font-family: Arial, sans-serif;
+    color: white;
+    background:
+        radial-gradient(circle at 10% 20%, #2563eb55, transparent 30%),
+        radial-gradient(circle at 90% 10%, #9333ea55, transparent 30%),
+        radial-gradient(circle at 20% 90%, #ec489955, transparent 30%),
+        radial-gradient(circle at 80% 80%, #06b6d455, transparent 30%),
+        linear-gradient(135deg, #020617, #0f172a, #1e1b4b);
+    background-attachment: fixed;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ========================= BACKGROUND ANIMATION ========================= */
+body::before, body::after {
+    content: "";
+    position: fixed;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+    z-index: -1;
+    animation: floating 10s infinite alternate ease-in-out;
+}
+body::before { background: #2563eb; top: 10%; left: -100px; }
+body::after { background: #ec4899; bottom: 5%; right: -100px; animation-delay: 3s; }
+
+@keyframes floating {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(100px, 80px) scale(1.2); }
+    100% { transform: translate(-50px, -50px) scale(0.9); }
+}
+
+/* ========================= NAVBAR ========================= */
+nav {
+    background: rgba(2, 6, 23, 0.75);
+    padding: 18px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    animation: navDown 0.8s ease;
+}
+
+@keyframes navDown {
+    from { transform: translateY(-100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+nav h2 { color: white; letter-spacing: 1px; text-shadow: 0 0 10px #38bdf8; }
+nav ul { display: flex; list-style: none; gap: 20px; flex-wrap: wrap; justify-content: center; }
+nav ul li a { color: #e2e8f0; text-decoration: none; font-weight: bold; transition: 0.3s; position: relative; }
+nav ul li a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -7px;
+    width: 0;
+    height: 2px;
+    background: #38bdf8;
+    transition: 0.3s;
+}
+nav ul li a:hover { color: #38bdf8; text-shadow: 0 0 10px #38bdf8; }
+nav ul li a:hover::after { width: 100%; }
+
+/* ========================= HERO ========================= */
+.hero {
+    min-height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    padding: 40px 20px;
+    position: relative;
+    overflow: hidden;
+    background:
+        linear-gradient(rgba(2,6,23,0.65), rgba(30,27,75,0.75)),
+        url("foto2.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: #38bdf833;
+    filter: blur(100px);
+    animation: heroGlow 7s infinite alternate;
+}
+
+@keyframes heroGlow {
+    from { transform: translate(-200px, -100px); }
+    to { transform: translate(200px, 100px); }
+}
+
+.hero-content { max-width: 800px; position: relative; z-index: 2; animation: heroAppear 1.2s ease; }
+
+@keyframes heroAppear {
+    from { opacity: 0; transform: translateY(50px) scale(0.9); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.profile {
+    width: 190px;
+    height: 190px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid #38bdf8;
+    margin-bottom: 25px;
+    box-shadow: 0 0 20px #38bdf8, 0 0 50px #2563eb88;
+    animation: profileFloat 4s infinite ease-in-out, profileGlow 2s infinite alternate;
+}
+
+@keyframes profileFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+@keyframes profileGlow {
+    from { box-shadow: 0 0 15px #38bdf8; }
+    to { box-shadow: 0 0 35px #9333ea; }
+}
+
+.hero h1 {
+    font-size: 50px;
+    margin-bottom: 15px;
+    color: white;
+    text-shadow: 0 0 10px #38bdf8, 0 0 25px #2563eb;
+    animation: textGlow 2s infinite alternate;
+}
+
+@keyframes textGlow {
+    from { text-shadow: 0 0 10px #38bdf8; }
+    to { text-shadow: 0 0 25px #a855f7; }
+}
+
+.hero p { font-size: 20px; margin-bottom: 30px; color: #cbd5e1; }
+
+.btn {
+    display: inline-block;
+    background: linear-gradient(90deg, #06b6d4, #6366f1, #a855f7);
+    color: white;
+    padding: 14px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+    box-shadow: 0 0 20px #6366f155;
+}
+.btn:hover { transform: scale(1.08) translateY(-3px); box-shadow: 0 0 30px #a855f7aa; }
+
+/* ========================= SECTION ========================= */
+section { padding: 90px 6%; position: relative; }
+
+section h2 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 40px;
+    color: white;
+    text-shadow: 0 0 15px #38bdf855;
+    animation: titleGlow 3s infinite alternate;
+}
+
+@keyframes titleGlow {
+    from { text-shadow: 0 0 5px #38bdf8; }
+    to { text-shadow: 0 0 20px #a855f7; }
+}
+
+/* ========================= ABOUT ========================= */
+.about {
+    max-width: 850px;
+    margin: auto;
+    text-align: center;
+    line-height: 1.8;
+    font-size: 17px;
+    color: #e2e8f0;
+    background: rgba(15,23,42,0.65);
+    padding: 30px;
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+    transition: 0.4s;
+}
+.about:hover { transform: translateY(-8px); box-shadow: 0 0 30px #6366f155; }
+.about p { color: #cbd5e1; }
+
+/* ========================= BERITA ========================= */
+.news-container {
+    max-width: 850px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.news-card {
+    background: rgba(15,23,42,0.65);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-left: 5px solid #38bdf8;
+    border-radius: 18px;
+    padding: 24px 28px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    transition: 0.4s;
+}
+.news-card:hover { transform: translateY(-6px); box-shadow: 0 0 30px #6366f155; border-left-color: #a855f7; }
+.news-card.user-post { border-left-color: #ec4899; }
+.news-card h3 { color: white; font-size: 22px; margin-bottom: 6px; overflow-wrap: anywhere; }
+.news-date { color: #38bdf8; font-size: 13px; font-weight: bold; margin-bottom: 14px; }
+.news-author { color: #a5b4fc; font-size: 13px; font-weight: bold; margin-bottom: 14px; overflow-wrap: anywhere; }
+.news-body { color: #cbd5e1; line-height: 1.8; font-size: 16px; white-space: pre-line; overflow-wrap: anywhere; }
+.news-empty { text-align: center; color: #cbd5e1; padding: 30px; }
+
+.news-delete {
+    margin-top: 14px;
+    background: transparent;
+    border: 1px solid #f87171;
+    color: #f87171;
+    border-radius: 16px;
+    padding: 5px 14px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: 0.3s;
+}
+.news-delete:hover { background: #f87171; color: #020617; }
+
+.news-subtitle {
+    text-align: center;
+    font-size: 24px;
+    color: white;
+    margin: 50px auto 20px;
+}
+
+.news-form {
+    max-width: 850px;
+    margin: 50px auto 0;
+    background: rgba(255,255,255,0.95);
+    border-radius: 18px;
+    padding: 24px 28px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.news-form h3 { color: #111827; margin-bottom: 8px; font-size: 22px; }
+.news-form label { display: block; margin: 12px 0 5px; font-size: 13px; font-weight: bold; color: #374151; }
+.news-form input, .news-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    font: inherit;
+    color: #111827;
+    background: white;
+}
+.news-form textarea { min-height: 120px; resize: vertical; }
+.news-form-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+.news-counter { font-size: 12px; color: #64748b; }
+.news-submit {
+    border: none;
+    border-radius: 22px;
+    padding: 11px 26px;
+    background: linear-gradient(90deg, #06b6d4, #6366f1, #a855f7);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.news-submit:hover { transform: scale(1.05); }
+.news-submit:disabled { opacity: 0.6; cursor: wait; transform: none; }
+.news-msg { margin-top: 10px; font-size: 13px; min-height: 18px; color: #475569; }
+.news-note { font-size: 12px; color: #64748b; margin-top: 4px; }
+
+/* ========================= MEMBERS ========================= */
+.members {
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+
+.member-card {
+    background: rgba(255,255,255,0.95);
+    padding: 28px 22px;
+    text-align: center;
+    border-radius: 22px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    transition: 0.4s;
+    position: relative;
+    overflow: hidden;
+    animation: cardFloat 5s infinite ease-in-out;
+}
+
+@keyframes cardFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.member-card::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    left: 0;
+    top: 0;
+    background: linear-gradient(90deg, #06b6d4, #6366f1, #ec4899);
+    background-size: 200%;
+    animation: gradientMove 3s linear infinite;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0%; }
+    100% { background-position: 200%; }
+}
+
+.member-card:hover {
+    transform: translateY(-15px) scale(1.02);
+    box-shadow: 0 20px 45px rgba(0,0,0,0.4), 0 0 25px #6366f155;
+}
+
+.member-photo {
+    width: 155px;
+    height: 155px;
+    margin: 8px auto 18px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid #38bdf8;
+    box-shadow: 0 0 20px #38bdf855;
+    transition: 0.4s;
+}
+
+.member-card:hover .member-photo {
+    transform: rotate(5deg) scale(1.05);
+    border-color: #a855f7;
+    box-shadow: 0 0 30px #a855f7;
+}
+
+.member-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    cursor: pointer;
+    transition: 0.5s;
+}
+.member-photo img:hover { transform: scale(1.15); }
+
+.member-card h3 { font-size: 23px; color: #111827; margin-bottom: 6px; }
+.member-role { color: #6366f1; font-weight: bold; margin-bottom: 15px; }
+.member-bio { color: #475569; line-height: 1.6; font-size: 14px; min-height: 68px; }
+
+.member-data {
+    text-align: left;
+    background: #f1f5f9;
+    border-radius: 14px;
+    padding: 13px 15px;
+    margin-top: 16px;
+    line-height: 1.8;
+    font-size: 13px;
+}
+
+/* ===== WARNA FONT DATA ANGGOTA ===== */
+/* Nama = BIRU */
+.member-data div:nth-child(1) { color: #2563eb !important; font-weight: 700; }
+.member-data div:nth-child(1) strong { color: #2563eb !important; font-weight: 800; }
+/* Hobi = PINK */
+.member-data div:nth-child(2) { color: #ec4899 !important; font-weight: 700; }
+.member-data div:nth-child(2) strong { color: #ec4899 !important; font-weight: 800; }
+/* Game favorit = UNGU */
+.member-data div:nth-child(3) { color: #7c3aed !important; font-weight: 700; }
+.member-data div:nth-child(3) strong { color: #7c3aed !important; font-weight: 800; }
+/* Sosmed = HIJAU */
+.member-data div:nth-child(4) { color: #16a34a !important; font-weight: 700; }
+.member-data div:nth-child(4) strong { color: #16a34a !important; font-weight: 800; }
+
+.member-tags { margin-top: 14px; }
+
+.member-tag {
+    display: inline-block;
+    background: #e0f2fe;
+    color: #0369a1;
+    border: 1px solid #bae6fd;
+    padding: 5px 9px;
+    border-radius: 20px;
+    margin: 3px;
+    font-size: 11px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+.member-tag:hover { background: #6366f1; color: white; transform: scale(1.1); }
+
+.member-contact {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 9px 17px;
+    border-radius: 22px;
+    text-decoration: none;
+    color: white;
+    background: linear-gradient(90deg, #06b6d4, #6366f1);
+    font-size: 13px;
+    font-weight: bold;
+    transition: 0.3s;
+    box-shadow: 0 5px 15px #6366f144;
+}
+.member-contact:hover { transform: scale(1.08); box-shadow: 0 0 20px #6366f1; }
+
+/* ========================= LAGU FAVORIT ========================= */
+.music-section { background: #ffffff30; backdrop-filter: blur(8px); }
+
+.music-intro { text-align: center; max-width: 700px; margin: -15px auto 30px; line-height: 1.7; }
+
+.music-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 22px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.music-card {
+    background: #ffffffef;
+    border-radius: 20px;
+    padding: 22px;
+    box-shadow: 0 12px 28px #0f172a25;
+}
+
+.music-icon {
+    width: 55px;
+    height: 55px;
+    display: grid;
+    place-items: center;
+    border-radius: 16px;
+    font-size: 28px;
+    background: linear-gradient(135deg, #fde047, #f9a8d4);
+    margin-bottom: 15px;
+}
+
+.music-card h3 { color: #111827; margin-bottom: 15px; }
+
+.spotify-player iframe { width: 100%; height: 152px; border: 0; border-radius: 12px; }
+
+/* Pemutar musik langsung di web (file mp3) */
+.audio-title { font-weight: bold; color: #111827; font-size: 16px; }
+.audio-artist { color: #64748b; font-size: 13px; margin-bottom: 14px; }
+.audio-controls { display: flex; align-items: center; gap: 10px; }
+.audio-btn {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #06b6d4, #6366f1);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.audio-btn:hover { transform: scale(1.1); box-shadow: 0 0 15px #6366f1; }
+.audio-seek { flex: 1; min-width: 0; accent-color: #6366f1; cursor: pointer; }
+.audio-time { font-size: 12px; color: #475569; min-width: 34px; text-align: right; }
+
+.music-status {
+    margin-top: 12px;
+    min-height: 32px;
+    color: #475569;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+/* ========================= SKILLS ========================= */
+.skills {
+    max-width: 1000px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 25px;
+}
+
+.skill {
+    background: rgba(255,255,255,0.95);
+    padding: 30px;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    transition: 0.4s;
+}
+.skill:hover { transform: translateY(-12px) scale(1.03); box-shadow: 0 0 30px #38bdf855; }
+.skill h3 { color: #6366f1; margin-bottom: 10px; }
+.skill p { color: #475569; line-height: 1.6; }
+
+/* ========================= PROJECT ========================= */
+.projects {
+    max-width: 1100px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.project {
+    background: rgba(255,255,255,0.95);
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    transition: 0.4s;
+    position: relative;
+    overflow: hidden;
+}
+
+.project::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(90deg, #06b6d4, #6366f1, #ec4899);
+}
+
+.project:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 0 30px #6366f155; }
+.project h3 { color: #6366f1; margin-bottom: 15px; }
+.project p { color: #475569; line-height: 1.6; }
+
+/* ========================= ALBUM ========================= */
+.album-title p { text-align: center; color: #cbd5e1; }
+
+.album-container {
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.album-card {
+    background: rgba(255,255,255,0.95);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+    transition: 0.4s;
+}
+.album-card:hover { transform: translateY(-12px); box-shadow: 0 0 30px #ec489955; }
+.album-card h3 { padding: 20px 20px 5px; color: #6366f1; }
+.tanggal { padding: 0 20px 15px; color: #64748b; }
+
+.album-photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+
+.album-photos img {
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+    display: block;
+    transition: 0.5s;
+    cursor: pointer;
+}
+.album-photos img:hover { transform: scale(1.08); filter: brightness(0.7); }
+
+/* ========================= FUTURE ========================= */
+.future-title p { text-align: center; color: #cbd5e1; }
+
+.future-container {
+    max-width: 1300px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+}
+
+.future-card {
+    background: rgba(15,23,42,0.65);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: white;
+    padding: 25px 15px;
+    text-align: center;
+    border-radius: 18px;
+    backdrop-filter: blur(15px);
+    transition: 0.4s;
+}
+
+.future-card:hover {
+    transform: translateY(-12px) scale(1.03);
+    background: rgba(99,102,241,0.3);
+    box-shadow: 0 0 30px #6366f155;
+}
+
+.future-icon { font-size: 40px; margin-bottom: 15px; animation: iconFloat 3s infinite ease-in-out; }
+
+@keyframes iconFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.future-card h3 { margin-bottom: 10px; color: white; }
+.future-card p { color: #cbd5e1; font-size: 14px; line-height: 1.5; }
+
+.status {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: #38bdf8;
+    color: #020617;
+    font-size: 11px;
+    font-weight: bold;
+    animation: statusPulse 2s infinite;
+}
+
+@keyframes statusPulse {
+    0%, 100% { box-shadow: 0 0 5px #38bdf8; }
+    50% { box-shadow: 0 0 20px #38bdf8; }
+}
+
+/* ========================= CONTACT ========================= */
+.contact {
+    max-width: 700px;
+    margin: auto;
+    text-align: center;
+    line-height: 2;
+    font-size: 18px;
+    color: #e2e8f0;
+    background: rgba(15,23,42,0.65);
+    padding: 30px;
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: 0.4s;
+}
+.contact:hover { transform: translateY(-8px); box-shadow: 0 0 30px #06b6d455; }
+.contact p { color: #cbd5e1; }
+
+/* ========================= FOOTER ========================= */
+footer {
+    background: rgba(2,6,23,0.85);
+    color: #cbd5e1;
+    text-align: center;
+    padding: 25px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ========================= POPUP FOTO ========================= */
+.photo-popup {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.92);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    animation: popupBackground 0.3s ease;
+}
+
+@keyframes popupBackground {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.photo-popup img {
+    max-width: 90%;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 0 40px #38bdf8;
+    animation: popupImage 0.4s ease;
+}
+
+@keyframes popupImage {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.close-popup {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: white;
+    font-size: 45px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.close-popup:hover { color: #38bdf8; transform: rotate(90deg); }
+
+/* ========================= SCROLL ANIMATION ========================= */
+.reveal { opacity: 0; transform: translateY(50px); transition: 1s ease; }
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+/* ========================= TABLET ========================= */
+@media (max-width: 1100px) {
+    .future-container { grid-template-columns: repeat(3, 1fr); }
+    .members { grid-template-columns: repeat(2, 1fr); }
+    .projects { grid-template-columns: repeat(2, 1fr); }
+    .album-container { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ========================= HP ========================= */
+@media (max-width: 600px) {
+    nav { flex-direction: column; gap: 15px; padding: 15px 10px; }
+    nav h2 { font-size: 20px; }
+    nav ul { gap: 10px; }
+    nav ul li a { font-size: 12px; }
+    .hero { min-height: 80vh; }
+    .hero h1 { font-size: 34px; }
+    .hero p { font-size: 17px; }
+    .profile { width: 150px; height: 150px; }
+    section { padding: 60px 5%; }
+    section h2 { font-size: 27px; }
+    .members { grid-template-columns: 1fr; }
+    .projects { grid-template-columns: 1fr; }
+    .album-container { grid-template-columns: 1fr; }
+    .future-container { grid-template-columns: repeat(2, 1fr); }
+    .album-photos img { height: 110px; }
+    .future-card { padding: 20px 10px; }
+    .future-icon { font-size: 30px; }
+    .news-form { padding: 20px 18px; }
+    .news-card { padding: 20px 18px; }
+}
+
+</style>
 </head>
 
 
 <body>
 
-
-    <!-- =========================
-         NAVBAR
-    ========================== -->
-
-    <nav>
-
-        <h2>WEB PARA BOENG</h2>
-
-        <ul>
-
-            <li><a href="#home">Home</a></li>
-
-            <li><a href="#about">Tentang</a></li>
-
-            <li><a href="#members">Anggota</a></li>
-
-            <li><a href="#skills">Skill</a></li>
-
-            <li><a href="#projects">Perjalanan</a></li>
-
-            <li><a href="#album">Album</a></li>
-
-            <li><a href="#future">Rencana</a></li>
-
-            <li><a href="#contact">Kontak</a></li>
-
-        </ul>
-
-    </nav>
-
-
-    <!-- =========================
-         HOME
-    ========================== -->
-
-    <section class="hero" id="home">
-
-        <div class="hero-content">
-
-            <img
-                src="foto2.jpg"
-                alt="Foto Para Boeng"
-                class="profile"
-                onclick="openPhoto(this)"
-            >
-
-            <h1>
-                Welcome To Web Para Boeng-boeng 👋
-            </h1>
-
-            <p>
-                🎮 Gamers | 🎬 Cinema | 🏍️ Touring
-            </p>
-
-            <a
-                href="#members"
-                class="btn"
-            >
-                Lihat Portofolio
-            </a>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         TENTANG
-    ========================== -->
-
-    <section id="about" class="reveal">
-
-        <h2>
-            Tentang Kami
-        </h2>
-
-        <div class="about">
-
-            <p>
-                Halo! Kami adalah Boeng Karina,
-                Boeng Aini, Boeng Fera,
-                Boeng Daffa, dan Boeng Agung.
-                Kami adalah kelompok Pemuda Anti Wacana
-                yang suka menjelajah alam dan wisata.
-                Tujuan selanjutnya adalah BUKIT KABA.
-            </p>
-
-            <br>
-
-            <p>
-                Website ini akan terus diupdate
-                jadi pantau terus untuk keseruannya.
-            </p>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         ANGGOTA
-    ========================== -->
-
-    <section id="members" class="reveal">
-
-        <h2>
-            Anggota Kelompok
-        </h2>
-
-        <div class="members">
-
-
-            <!-- ORANG 1 -->
-
-            <div class="member-card">
-
-                <div class="member-photo">
-
-                    <img
-                        src="orang1.jpeg"
-                        alt="Boeng Karina"
-                        onclick="openPhoto(this)"
-                    >
-
-                </div>
-
-                <h3>
-                    Boeng Karina
-                </h3>
-
-                <div class="member-role">
-                    Admin 1
-                </div>
-
-                <p class="member-bio">
-                    Bagian dari kelompok Pemuda Anti Wacana
-                    yang suka menjelajah alam, wisata,
-                    dan mencari pengalaman baru.
-                </p>
-
-                <div class="member-data">
-
-                    <div>
-                        <strong>Nama:</strong>
-                        Febri Karina Natalia
-                    </div>
-
-                    <div>
-                        <strong>Hobi:</strong>
-                        Nonton Anime
-                    </div>
-
-                    <div>
-                        <strong>Game favorit:</strong>
-                        Mobile Legends
-                    </div>
-
-                    <div>
-                        <strong>Sosmed:</strong>
-                        -
-                    </div>
-
-                </div>
-
-                <div class="member-tags">
-
-                    <span class="member-tag">
-                        Animelovers
-                    </span>
-
-                    <span class="member-tag">
-                        Kpopers
-                    </span>
-
-                    <span class="member-tag">
-                        Gamers
-                    </span>
-
-                </div>
-
-                <a
-                    class="member-contact"
-                    href="#contact"
-                >
-                    Profil
-                </a>
-
-            </div>
-
-
-            <!-- ORANG 2 -->
-
-            <div class="member-card">
-
-                <div class="member-photo">
-
-                    <img
-                        src="orang2.jpeg"
-                        alt="Boeng Aini"
-                        onclick="openPhoto(this)"
-                    >
-
-                </div>
-
-                <h3>
-                    Boeng Aini
-                </h3>
-
-                <div class="member-role">
-                    Admin 2
-                </div>
-
-                <p class="member-bio">
-                    Salah satu anggota kelompok yang aktif
-                    dalam kegiatan perjalanan dan kegiatan
-                    bersama teman-teman.
-                </p>
-
-                <div class="member-data">
-
-                    <div>
-                        <strong>Nama:</strong>
-                        Aini Febriani
-                    </div>
-
-                    <div>
-                        <strong>Hobi:</strong>
-                        Ngelaprak
-                    </div>
-
-                    <div>
-                        <strong>Game favorit:</strong>
-                        Mobile Legends
-                    </div>
-
-                    <div>
-                        <strong>Sosmed:</strong>
-                        -
-                    </div>
-
-                </div>
-
-                <div class="member-tags">
-
-                    <span class="member-tag">
-                        Touring
-                    </span>
-
-                    <span class="member-tag">
-                        Wisata
-                    </span>
-
-                    <span class="member-tag">
-                        Gaming
-                    </span>
-
-                </div>
-
-                <a
-                    class="member-contact"
-                    href="#contact"
-                >
-                    Profil
-                </a>
-
-            </div>
-
-
-            <!-- ORANG 3 -->
-
-            <div class="member-card">
-
-                <div class="member-photo">
-
-                    <img
-                        src="orang3.jpeg"
-                        alt="Boeng Fera"
-                        onclick="openPhoto(this)"
-                    >
-
-                </div>
-
-                <h3>
-                    Boeng Fera
-                </h3>
-
-                <div class="member-role">
-                    Admin 3
-                </div>
-
-                <p class="member-bio">
-                    Anggota kelompok yang ikut dalam perjalanan,
-                    eksplorasi tempat wisata, dan kegiatan
-                    seru bersama.
-                </p>
-
-                <div class="member-data">
-
-                    <div>
-                        <strong>Nama:</strong>
-                        Fera Suci Lestari
-                    </div>
-
-                    <div>
-                        <strong>Hobi:</strong>
-                        Nyari seblak
-                    </div>
-
-                    <div>
-                        <strong>Game favorit:</strong>
-                        Free Fire
-                    </div>
-
-                    <div>
-                        <strong>Sosmed:</strong>
-                        -
-                    </div>
-
-                </div>
-
-                <div class="member-tags">
-
-                    <span class="member-tag">
-                        Travel
-                    </span>
-
-                    <span class="member-tag">
-                        Wisata
-                    </span>
-
-                    <span class="member-tag">
-                        Gaming
-                    </span>
-
-                </div>
-
-                <a
-                    class="member-contact"
-                    href="#contact"
-                >
-                    Profil
-                </a>
-
-            </div>
-
-
-            <!-- ORANG 4 -->
-
-            <div class="member-card">
-
-                <div class="member-photo">
-
-                    <img
-                        src="orang4.jpeg"
-                        alt="Boeng Daffa"
-                        onclick="openPhoto(this)"
-                    >
-
-                </div>
-
-                <h3>
-                    Boeng Daffa
-                </h3>
-
-                <div class="member-role">
-                    Admin 4
-                </div>
-
-                <p class="member-bio">
-                    Bagian dari rombongan yang suka berkumpul,
-                    bermain, touring, dan menjelajah berbagai
-                    tempat.
-                </p>
-
-                <div class="member-data">
-
-                    <div>
-                        <strong>Nama:</strong>
-                        M. Daffa Alka Ridho
-                    </div>
-
-                    <div>
-                        <strong>Hobi:</strong>
-                        Ngegame
-                    </div>
-
-                    <div>
-                        <strong>Game favorit:</strong>
-                        Mobile Legends
-                    </div>
-
-                    <div>
-                        <strong>Sosmed:</strong>
-                        -
-                    </div>
-
-                </div>
-
-                <div class="member-tags">
-
-                    <span class="member-tag">
-                        Gaming
-                    </span>
-
-                    <span class="member-tag">
-                        Touring
-                    </span>
-
-                    <span class="member-tag">
-                        Wisata
-                    </span>
-
-                </div>
-
-                <a
-                    class="member-contact"
-                    href="#contact"
-                >
-                    Profil
-                </a>
-
-            </div>
-
-
-            <!-- ORANG 5 -->
-
-            <div class="member-card">
-
-                <div class="member-photo">
-
-                    <img
-                        src="orang5.jpeg"
-                        alt="Boeng Agung"
-                        onclick="openPhoto(this)"
-                    >
-
-                </div>
-
-                <h3>
-                    Boeng Agung
-                </h3>
-
-                <div class="member-role">
-                    Admin 5
-                </div>
-
-                <p class="member-bio">
-                    Membuat dan mengembangkan website kelompok
-                    serta ikut dalam berbagai kegiatan dan
-                    perjalanan.
-                </p>
-
-                <div class="member-data">
-
-                    <div>
-                        <strong>Nama:</strong>
-                        Agung Kurniawan
-                    </div>
-
-                    <div>
-                        <strong>Hobi:</strong>
-                        Nonton FC Barcelona
-                    </div>
-
-                    <div>
-                        <strong>Game favorit:</strong>
-                        Free Fire
-                    </div>
-
-                    <div>
-                        <strong>Sosmed:</strong>
-                        -
-                    </div>
-
-                </div>
-
-                <div class="member-tags">
-
-                    <span class="member-tag">
-                        HTML
-                    </span>
-
-                    <span class="member-tag">
-                        Gamers
-                    </span>
-
-                    <span class="member-tag">
-                        Python
-                    </span>
-
-                </div>
-
-                <a
-                    class="member-contact"
-                    href="#contact"
-                >
-                    Profil
-                </a>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         SKILL
-    ========================== -->
-
-    <section id="skills" class="reveal">
-
-        <h2>
-            Skill Kami
-        </h2>
-
-        <div class="skills">
-
-            <div class="skill">
-
-                <h3>
-                    🎮 BERMAIN GAME
-                </h3>
-
-                <p>
-                    Free Fire dan Mobile Legends.
-                </p>
-
-            </div>
-
-            <div class="skill">
-
-                <h3>
-                    🍚 MAKAN BANYAK
-                </h3>
-
-                <p>
-                    Pernah makan 2 piring melebihi
-                    porsi kuli.
-                </p>
-
-            </div>
-
-            <div class="skill">
-
-                <h3>
-                    😂 CARI BAHAN GOSIPAN
-                </h3>
-
-                <p>
-                    Kalian baru nyebur,
-                    kita sudah kering.
-                </p>
-
-            </div>
-
-            <div class="skill">
-
-                <h3>
-                    🍳 BISA MASAK
-                </h3>
-
-                <p>
-                    Masak mie dan goreng telur.
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         PERJALANAN
-    ========================== -->
-
-    <section id="projects" class="reveal">
-
-        <h2>
-            🗺️ Perjalanan yang Sudah Selesai
-        </h2>
-
-        <div class="projects">
-
-            <div class="project">
-
-                <h3>
-                    🏔️ PAGAR ALAM
-                </h3>
-
-                <p>
-                    Dikunjungi pada tanggal
-                    29 Juni 2026 dan berjalan lancar.
-                </p>
-
-            </div>
-
-            <div class="project">
-
-                <h3>
-                    🏖️ PANTAI AIR LANGKAP
-                </h3>
-
-                <p>
-                    Dikunjungi pada tanggal
-                    19 Juli 2026 dan berjalan lancar.
-                </p>
-
-            </div>
-
-            <div class="project">
-
-                <h3>
-                    🌊 PANTAI CERIA
-                </h3>
-
-                <p>
-                    Dikunjungi pada tanggal
-                    13 Juli 2026 dan berjalan lancar.
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         ALBUM
-    ========================== -->
-
-    <section id="album" class="reveal">
-
-        <div class="album-title">
-
-            <h2>
-                📸 Album Perjalanan
-            </h2>
-
-            <p>
-                Dokumentasi perjalanan yang sudah kami selesaikan
-            </p>
-
-        </div>
-
-        <div class="album-container">
-
-
-            <!-- PAGAR ALAM -->
-
-            <div class="album-card">
-
-                <h3>
-                    🏔️ Pagar Alam
-                </h3>
-
-                <p class="tanggal">
-                    📅 29 Juni 2026
-                </p>
-
-                <div class="album-photos">
-
-                    <img
-                        src="pagaralam1.jpeg"
-                        alt="Pagar Alam Foto 1"
-                        onclick="openPhoto(this)"
-                    >
-
-                    <img
-                        src="pagaralam2.jpeg"
-                        alt="Pagar Alam Foto 2"
-                        onclick="openPhoto(this)"
-                    >
-
-                    <img
-                        src="pagaralam3.jpeg"
-                        alt="Pagar Alam Foto 3"
-                        onclick="openPhoto(this)"
-                    >
-
-                </div>
-
-            </div>
-
-
-            <!-- AIR LANGKAP -->
-
-            <div class="album-card">
-
-                <h3>
-                    🏖️ Pantai Air Langkap
-                </h3>
-
-                <p class="tanggal">
-                    📅 19 Juli 2026
-                </p>
-
-                <div class="album-photos">
-
-                    <img
-                        src="airlangkap1.jpeg"
-                        alt="Pantai Air Langkap Foto 1"
-                        onclick="openPhoto(this)"
-                    >
-
-                    <img
-                        src="airlangkap2.jpeg"
-                        alt="Pantai Air Langkap Foto 2"
-                        onclick="openPhoto(this)"
-                    >
-
-                    <img
-                        src="airlangkap3.jpeg"
-                        alt="Pantai Air Langkap Foto 3"
-                        onclick="openPhoto(this)"
-                    >
-
-                </div>
-
-            </div>
-
-
-            <!-- PANTAI CERIA -->
-
-            <div class="album-card">
-
-                <h3>
-                    🌊 Pantai Ceria
-                </h3>
-
-                <p class="tanggal">
-                    📅 13 Juli 2026
-                </p>
-
-                <div class="album-photos">
-
-                    <img
-                        src="pantaiceria1.jpeg"
-                        alt="Pantai Ceria Foto 1"
-                        onclick="openPhoto(this)"
-                    >
-
-                    <img
-                        src="pantaiceria2.jpeg"
-                        alt="Pantai Ceria Foto 2"
-                        onclick="openPhoto(this)"
-                    >
-
-                    <img
-                        src="pantaiceria3.jpeg"
-                        alt="Pantai Ceria Foto 3"
-                        onclick="openPhoto(this)"
-                    >
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         RENCANA WISATA
-    ========================== -->
-
-    <section id="future" class="reveal">
-
-        <div class="future-title">
-
-            <h2>
-                🗺️ Wisata yang Akan Kami Kunjungi
-            </h2>
-
-            <p>
-                Rencana perjalanan Para Boeng selanjutnya
-            </p>
-
-        </div>
-
-        <div class="future-container">
-
-
-            <div class="future-card">
-
-                <div class="future-icon">
-                    ⛰️
-                </div>
-
-                <h3>
-                    Bukit Kaba
-                </h3>
-
-                <p>
-                    Nanti di infokan tanggalnya.
-                </p>
-
-                <span class="status">
-                    TARGET UTAMA
-                </span>
-
-            </div>
-
-
-            <div class="future-card">
-
-                <div class="future-icon">
-                    🏖️
-                </div>
-
-                <h3>
-                    Belum Ada Rencana
-                </h3>
-
-                <p>
-                    Nanti di infokan.
-                </p>
-
-                <span class="status">
-                    RENCANA
-                </span>
-
-            </div>
-
-
-            <div class="future-card">
-
-                <div class="future-icon">
-                    💦
-                </div>
-
-                <h3>
-                    Belum Ada Rencana
-                </h3>
-
-                <p>
-                    Nanti di infokan.
-                </p>
-
-                <span class="status">
-                    RENCANA
-                </span>
-
-            </div>
-
-
-            <div class="future-card">
-
-                <div class="future-icon">
-                    🌳
-                </div>
-
-                <h3>
-                    Belum Ada Rencana
-                </h3>
-
-                <p>
-                    Nanti di infokan.
-                </p>
-
-                <span class="status">
-                    RENCANA
-                </span>
-
-            </div>
-
-
-            <div class="future-card">
-
-                <div class="future-icon">
-                    ⛺
-                </div>
-
-                <h3>
-                    Belum Ada Rencana
-                </h3>
-
-                <p>
-                    Nanti di infokan.
-                </p>
-
-                <span class="status">
-                    RENCANA
-                </span>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         KONTAK
-    ========================== -->
-
-    <section id="contact" class="reveal">
-
-        <h2>
-            Kontak Kami
-        </h2>
-
-        <div class="contact">
-
-            <p>
-                📧 Email:
-                Agungkurniawan01111@gmail.com
-            </p>
-
-            <p>
-                📱 WhatsApp:
-                085366088451
-            </p>
-
-            <p>
-                📍 Kaur, Bengkulu, Indonesia
-            </p>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         FOOTER
-    ========================== -->
-
-    <footer>
-
+<!-- ========================= NAVBAR ========================= -->
+<nav>
+    <h2>WEB PARA BOENG</h2>
+    <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">Tentang</a></li>
+        <li><a href="#news">Berita</a></li>
+        <li><a href="#members">Anggota</a></li>
+        <li><a href="#music">Lagu</a></li>
+        <li><a href="#skills">Skill</a></li>
+        <li><a href="#projects">Perjalanan</a></li>
+        <li><a href="#album">Album</a></li>
+        <li><a href="#future">Rencana</a></li>
+        <li><a href="#contact">Kontak</a></li>
+    </ul>
+</nav>
+
+
+<!-- ========================= HOME ========================= -->
+<section class="hero" id="home">
+    <div class="hero-content">
+        <img src="foto2.jpg" alt="Foto Para Boeng" class="profile" onclick="openPhoto(this)">
+        <h1>Welcome To Web Para Boeng-boeng 👋</h1>
+        <p>🎮 Gamers | 🎬 Cinema | 🏍️ Touring</p>
+        <a href="#members" class="btn">Lihat Portofolio</a>
+    </div>
+</section>
+
+
+<!-- ========================= TENTANG ========================= -->
+<section id="about" class="reveal">
+    <h2>Tentang Kami</h2>
+    <div class="about">
         <p>
-            © 2026 Tentang kami |
-            Website Portofolio Para Boeng
+            Halo! Kami adalah Boeng Karina,
+            Boeng Aini, Boeng Fera,
+            Boeng Daffa, dan Boeng Agung.
+            Kami adalah kelompok Pemuda Anti Wacana
+            yang suka menjelajah alam dan wisata.
+            Tujuan selanjutnya adalah BUKIT KABA.
         </p>
+        <br>
+        <p>
+            Website ini akan terus diupdate
+            jadi pantau terus untuk keseruannya.
+        </p>
+    </div>
+</section>
 
-    </footer>
 
+<!-- ========================= BERITA ========================= -->
+<section id="news" class="reveal">
+    <h2>📰 Berita Para Boeng</h2>
 
-    <!-- =========================
-         POPUP FOTO
-    ========================== -->
+    <!-- Berita resmi (ditulis lewat kode) -->
+    <div class="news-container" id="newsContainer"></div>
 
-    <div
-        class="photo-popup"
-        id="photoPopup"
-        onclick="closePhoto()"
-    >
+    <!-- Form tulis berita (bebas untuk siapa saja) -->
+    <div class="news-form">
+        <h3>✍️ Tulis sesuka hatimu</h3>
+        <p class="news-note" id="newsNote"></p>
 
-        <span
-            class="close-popup"
-            onclick="closePhoto()"
-        >
-            &times;
-        </span>
+        <form id="newsForm" autocomplete="off">
+            <label for="newsNama">Nama (boleh nggak di isi )</label>
+            <input id="newsNama" type="text" maxlength="30" placeholder="Anonim">
 
-        <img
-            id="popupImage"
-            src=""
-            alt="Foto"
-            onclick="event.stopPropagation()"
-        >
+            <label for="newsJudul">Topiknya apa</label>
+            <input id="newsJudul" type="text" maxlength="80" placeholder="Judul berita" required>
 
+            <label for="newsIsi">Ceritakan apa saja</label>
+            <textarea id="newsIsi" maxlength="1000" placeholder="Tulis apa saja di sini..." required></textarea>
+
+            <div class="news-form-row">
+                <span class="news-counter" id="newsCounter">0/1000</span>
+                <button type="submit" class="news-submit" id="newsSubmit">Kirimkan jika selesai</button>
+            </div>
+
+            <p class="news-msg" id="newsMsg" aria-live="polite"></p>
+        </form>
     </div>
 
+    <!-- Tulisan dari pengunjung -->
+    <h3 class="news-subtitle">💬 Tulisan Para Pembaca</h3>
+    <div class="news-container" id="userNewsContainer"></div>
+</section>
 
-    <!-- =========================
-         JAVASCRIPT
-    ========================== -->
 
-    <script>
+<!-- ========================= ANGGOTA ========================= -->
+<section id="members" class="reveal">
+    <h2>Anggota Kelompok</h2>
 
-        /* =========================
-           POPUP FOTO
-        ========================== */
+    <div class="members">
 
-        function openPhoto(image) {
+        <!-- ORANG 1 -->
+        <div class="member-card">
+            <div class="member-photo">
+                <img src="orang1.jpeg" alt="Boeng Karina" onclick="openPhoto(this)">
+            </div>
+            <h3>Boeng Karina</h3>
+            <div class="member-role">Admin 1</div>
+            <p class="member-bio">
+                Bagian dari kelompok Pemuda Anti Wacana
+                yang suka menjelajah alam, wisata,
+                dan mencari pengalaman baru.
+            </p>
+            <div class="member-data">
+                <div><strong>Nama:</strong> Febri Karina Natalia</div>
+                <div><strong>Hobi:</strong> Nonton Anime</div>
+                <div><strong>Game favorit:</strong> Mobile Legends</div>
+                <div><strong>Sosmed:</strong> -</div>
+            </div>
+            <div class="member-tags">
+                <span class="member-tag">Animelovers</span>
+                <span class="member-tag">Kpopers</span>
+                <span class="member-tag">Gamers</span>
+            </div>
+            <a class="member-contact" href="#contact">Profil</a>
+        </div>
 
-            const popup =
-                document.getElementById("photoPopup");
 
-            const popupImage =
-                document.getElementById("popupImage");
+        <!-- ORANG 2 -->
+        <div class="member-card">
+            <div class="member-photo">
+                <img src="orang2.jpeg" alt="Boeng Aini" onclick="openPhoto(this)">
+            </div>
+            <h3>Boeng Aini</h3>
+            <div class="member-role">Admin 2</div>
+            <p class="member-bio">
+                Salah satu anggota kelompok yang aktif
+                dalam kegiatan perjalanan dan kegiatan
+                bersama teman-teman.
+            </p>
+            <div class="member-data">
+                <div><strong>Nama:</strong> Aini Febriani</div>
+                <div><strong>Hobi:</strong> Ngelaprak</div>
+                <div><strong>Game favorit:</strong> Mobile Legends</div>
+                <div><strong>Sosmed:</strong> -</div>
+            </div>
+            <div class="member-tags">
+                <span class="member-tag">Touring</span>
+                <span class="member-tag">Wisata</span>
+                <span class="member-tag">Gaming</span>
+            </div>
+            <a class="member-contact" href="#contact">Profil</a>
+        </div>
 
-            popupImage.src = image.src;
 
-            popup.style.display = "flex";
+        <!-- ORANG 3 -->
+        <div class="member-card">
+            <div class="member-photo">
+                <img src="orang3.jpeg" alt="Boeng Fera" onclick="openPhoto(this)">
+            </div>
+            <h3>Boeng Fera</h3>
+            <div class="member-role">Admin 3</div>
+            <p class="member-bio">
+                Anggota kelompok yang ikut dalam perjalanan,
+                eksplorasi tempat wisata, dan kegiatan
+                seru bersama.
+            </p>
+            <div class="member-data">
+                <div><strong>Nama:</strong> Fera Suci Lestari</div>
+                <div><strong>Hobi:</strong> Nyari seblak</div>
+                <div><strong>Game favorit:</strong> Free Fire</div>
+                <div><strong>Sosmed:</strong> -</div>
+            </div>
+            <div class="member-tags">
+                <span class="member-tag">Travel</span>
+                <span class="member-tag">Wisata</span>
+                <span class="member-tag">Gaming</span>
+            </div>
+            <a class="member-contact" href="#contact">Profil</a>
+        </div>
+
+
+        <!-- ORANG 4 -->
+        <div class="member-card">
+            <div class="member-photo">
+                <img src="orang4.jpeg" alt="Boeng Daffa" onclick="openPhoto(this)">
+            </div>
+            <h3>Boeng Daffa</h3>
+            <div class="member-role">Admin 4</div>
+            <p class="member-bio">
+                Bagian dari rombongan yang suka berkumpul,
+                bermain, touring, dan menjelajah berbagai
+                tempat.
+            </p>
+            <div class="member-data">
+                <div><strong>Nama:</strong> M. Daffa Alka Ridho</div>
+                <div><strong>Hobi:</strong> Ngegame</div>
+                <div><strong>Game favorit:</strong> Mobile Legends</div>
+                <div><strong>Sosmed:</strong> -</div>
+            </div>
+            <div class="member-tags">
+                <span class="member-tag">Gaming</span>
+                <span class="member-tag">Touring</span>
+                <span class="member-tag">Wisata</span>
+            </div>
+            <a class="member-contact" href="#contact">Profil</a>
+        </div>
+
+
+        <!-- ORANG 5 -->
+        <div class="member-card">
+            <div class="member-photo">
+                <img src="orang5.jpeg" alt="Boeng Agung" onclick="openPhoto(this)">
+            </div>
+            <h3>Boeng Agung</h3>
+            <div class="member-role">Admin 5</div>
+            <p class="member-bio">
+                Membuat dan mengembangkan website kelompok
+                serta ikut dalam berbagai kegiatan dan
+                perjalanan.
+            </p>
+            <div class="member-data">
+                <div><strong>Nama:</strong> Agung Kurniawan</div>
+                <div><strong>Hobi:</strong> Nonton FC Barcelona</div>
+                <div><strong>Game favorit:</strong> Free Fire</div>
+                <div><strong>Sosmed:</strong> -</div>
+            </div>
+            <div class="member-tags">
+                <span class="member-tag">HTML</span>
+                <span class="member-tag">Gamers</span>
+                <span class="member-tag">Python</span>
+            </div>
+            <a class="member-contact" href="#contact">Profil</a>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ========================= LAGU FAVORIT ========================= -->
+<section id="music" class="music-section">
+    <h2>🎵 Lagu Favorit Para Boeng</h2>
+    <p class="music-intro">
+        Lagu favorit masing-masing Boeng. Tekan tombol play untuk mendengarkan langsung di sini.
+    </p>
+
+    <div class="music-grid">
+
+        <article class="music-card" data-member="karina">
+            <div class="music-icon">🎧</div>
+            <h3>Boeng Karina</h3>
+            <div class="spotify-player"></div>
+            <p class="music-status"></p>
+        </article>
+
+        <article class="music-card" data-member="aini">
+            <div class="music-icon">🎶</div>
+            <h3>Boeng Aini</h3>
+            <div class="spotify-player"></div>
+            <p class="music-status"></p>
+        </article>
+
+        <article class="music-card" data-member="fera">
+            <div class="music-icon">🎼</div>
+            <h3>Boeng Fera</h3>
+            <div class="spotify-player"></div>
+            <p class="music-status"></p>
+        </article>
+
+        <article class="music-card" data-member="daffa">
+            <div class="music-icon">🎹</div>
+            <h3>Boeng Daffa</h3>
+            <div class="spotify-player"></div>
+            <p class="music-status"></p>
+        </article>
+
+        <article class="music-card" data-member="agung">
+            <div class="music-icon">🎤</div>
+            <h3>Boeng Agung</h3>
+            <div class="spotify-player"></div>
+            <p class="music-status"></p>
+        </article>
+
+    </div>
+</section>
+
+
+<!-- ========================= SKILL ========================= -->
+<section id="skills" class="reveal">
+    <h2>Skill Kami</h2>
+
+    <div class="skills">
+        <div class="skill">
+            <h3>🎮 BERMAIN GAME</h3>
+            <p>Free Fire dan Mobile Legends.</p>
+        </div>
+        <div class="skill">
+            <h3>🍚 MAKAN BANYAK</h3>
+            <p>Pernah makan 2 piring melebihi porsi kuli.</p>
+        </div>
+        <div class="skill">
+            <h3>😂 CARI BAHAN GOSIPAN</h3>
+            <p>Kalian baru nyebur, kita sudah kering.</p>
+        </div>
+        <div class="skill">
+            <h3>🍳 BISA MASAK</h3>
+            <p>Masak mie dan goreng telur.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========================= PERJALANAN ========================= -->
+<section id="projects" class="reveal">
+    <h2>🗺️ Perjalanan yang Sudah Selesai</h2>
+
+    <div class="projects">
+        <div class="project">
+            <h3>🏔️ PAGAR ALAM</h3>
+            <p>Dikunjungi pada tanggal 29 Juni 2026 dan berjalan lancar.</p>
+        </div>
+        <div class="project">
+            <h3>🏖️ PANTAI AIR LANGKAP</h3>
+            <p>Dikunjungi pada tanggal 19 Juli 2026 dan berjalan lancar.</p>
+        </div>
+        <div class="project">
+            <h3>🌊 PANTAI CERIA</h3>
+            <p>Dikunjungi pada tanggal 13 Juli 2026 dan berjalan lancar.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========================= ALBUM ========================= -->
+<section id="album" class="reveal">
+
+    <div class="album-title">
+        <h2>📸 Album Perjalanan</h2>
+        <p>Dokumentasi perjalanan yang sudah kami selesaikan</p>
+    </div>
+
+    <div class="album-container">
+
+        <!-- PAGAR ALAM -->
+        <div class="album-card">
+            <h3>🏔️ Pagar Alam</h3>
+            <p class="tanggal">📅 29 Juni 2026</p>
+            <div class="album-photos">
+                <img src="pagaralam1.jpeg" alt="Pagar Alam Foto 1" onclick="openPhoto(this)">
+                <img src="pagaralam2.jpeg" alt="Pagar Alam Foto 2" onclick="openPhoto(this)">
+                <img src="pagaralam3.jpeg" alt="Pagar Alam Foto 3" onclick="openPhoto(this)">
+            </div>
+        </div>
+
+        <!-- AIR LANGKAP -->
+        <div class="album-card">
+            <h3>🏖️ Pantai Air Langkap</h3>
+            <p class="tanggal">📅 19 Juli 2026</p>
+            <div class="album-photos">
+                <img src="airlangkap1.jpeg" alt="Pantai Air Langkap Foto 1" onclick="openPhoto(this)">
+                <img src="airlangkap2.jpeg" alt="Pantai Air Langkap Foto 2" onclick="openPhoto(this)">
+                <img src="airlangkap3.jpeg" alt="Pantai Air Langkap Foto 3" onclick="openPhoto(this)">
+            </div>
+        </div>
+
+        <!-- PANTAI CERIA -->
+        <div class="album-card">
+            <h3>🌊 Pantai Ceria</h3>
+            <p class="tanggal">📅 13 Juli 2026</p>
+            <div class="album-photos">
+                <img src="pantaiceria1.jpeg" alt="Pantai Ceria Foto 1" onclick="openPhoto(this)">
+                <img src="pantaiceria2.jpeg" alt="Pantai Ceria Foto 2" onclick="openPhoto(this)">
+                <img src="pantaiceria3.jpeg" alt="Pantai Ceria Foto 3" onclick="openPhoto(this)">
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ========================= RENCANA WISATA ========================= -->
+<section id="future" class="reveal">
+
+    <div class="future-title">
+        <h2>🗺️ Wisata yang Akan Kami Kunjungi</h2>
+        <p>Rencana perjalanan Para Boeng selanjutnya</p>
+    </div>
+
+    <div class="future-container">
+
+        <div class="future-card">
+            <div class="future-icon">⛰️</div>
+            <h3>Bukit Kaba</h3>
+            <p>Nanti di infokan tanggalnya.</p>
+            <span class="status">TARGET UTAMA</span>
+        </div>
+
+        <div class="future-card">
+            <div class="future-icon">🏖️</div>
+            <h3>Belum Ada Rencana</h3>
+            <p>Nanti di infokan.</p>
+            <span class="status">RENCANA</span>
+        </div>
+
+        <div class="future-card">
+            <div class="future-icon">💦</div>
+            <h3>Belum Ada Rencana</h3>
+            <p>Nanti di infokan.</p>
+            <span class="status">RENCANA</span>
+        </div>
+
+        <div class="future-card">
+            <div class="future-icon">🌳</div>
+            <h3>Belum Ada Rencana</h3>
+            <p>Nanti di infokan.</p>
+            <span class="status">RENCANA</span>
+        </div>
+
+        <div class="future-card">
+            <div class="future-icon">⛺</div>
+            <h3>Belum Ada Rencana</h3>
+            <p>Nanti di infokan.</p>
+            <span class="status">RENCANA</span>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ========================= KONTAK ========================= -->
+<section id="contact" class="reveal">
+    <h2>Kontak Kami</h2>
+
+    <div class="contact">
+        <p>📧 Email: Agungkurniawan01111@gmail.com</p>
+        <p>📱 WhatsApp: 085366088451</p>
+        <p>📍 Kaur, Bengkulu, Indonesia</p>
+    </div>
+</section>
+
+
+<!-- ========================= FOOTER ========================= -->
+<footer>
+    <p>© 2026 Tentang kami | Website Portofolio Para Boeng</p>
+</footer>
+
+
+<!-- ========================= POPUP FOTO ========================= -->
+<div class="photo-popup" id="photoPopup" onclick="closePhoto()">
+    <span class="close-popup" onclick="closePhoto()">&times;</span>
+    <img id="popupImage" src="" alt="Foto" onclick="event.stopPropagation()">
+</div>
+
+
+<!-- ========================= JAVASCRIPT ========================= -->
+<script>
+
+/* ========================= POPUP FOTO ========================= */
+
+function openPhoto(image) {
+    const popup = document.getElementById("photoPopup");
+    const popupImage = document.getElementById("popupImage");
+
+    popupImage.src = image.src;
+    popup.style.display = "flex";
+}
+
+function closePhoto() {
+    document.getElementById("photoPopup").style.display = "none";
+}
+
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+        closePhoto();
+    }
+});
+
+
+/* ========================= ANIMASI SAAT SCROLL ========================= */
+
+const revealElements = document.querySelectorAll(".reveal");
+
+function revealOnScroll() {
+    revealElements.forEach(function (element) {
+        const windowHeight = window.innerHeight;
+        const elementTop = element.getBoundingClientRect().top;
+        const revealPoint = 120;
+
+        if (elementTop < windowHeight - revealPoint) {
+            element.classList.add("active");
+        }
+    });
+}
+
+window.addEventListener("scroll", revealOnScroll);
+revealOnScroll();
+
+
+/* ========================= BERITA RESMI (DITULIS LEWAT KODE) ========================= */
+/*
+   TULIS / GANTI BERITA RESMI DI SINI.
+
+   - Satu berita = satu blok { judul, tanggal, isi }
+   - Berita paling ATAS tampil paling atas (taruh berita terbaru di paling atas).
+   - Untuk menambah berita: salin satu blok, tambahkan koma di antaranya.
+   - Untuk menghapus: hapus blok-nya.
+   - Untuk ganti baris di dalam isi, tulis \n
+   - Kalau array dikosongkan ([]), bagian ini tidak menampilkan apa-apa.
+*/
+
+const berita = [
+    {
+        judul: "Kosong",
+        tanggal: "Kosong",
+        isi: "Kosong"
+    },
+    {
+        judul: "Kosong",
+        tanggal: "Kosong",
+        isi: "Kosong"
+    }
+];
+
+
+(function () {
+
+    const container = document.getElementById("newsContainer");
+
+    berita.forEach(function (item) {
+        const card = document.createElement("article");
+        card.className = "news-card";
+
+        const title = document.createElement("h3");
+        title.textContent = item.judul || "Tanpa judul";
+        card.appendChild(title);
+
+        if (item.tanggal) {
+            const date = document.createElement("div");
+            date.className = "news-date";
+            date.textContent = "📅 " + item.tanggal;
+            card.appendChild(date);
         }
 
+        const body = document.createElement("div");
+        body.className = "news-body";
+        body.textContent = item.isi || "";
+        card.appendChild(body);
 
-        function closePhoto() {
+        container.appendChild(card);
+    });
 
-            const popup =
-                document.getElementById("photoPopup");
+})();
 
-            popup.style.display = "none";
+
+/* ========================= BERITA DARI PENGUNJUNG ========================= */
+/*
+   MODE 1 (bawaan): biarkan kosong.
+      Tulisan hanya tersimpan di browser orang yang menulis.
+
+   MODE 2 (tulisan terlihat SEMUA orang): isi dengan data Firebase (gratis).
+      firebaseProjectId = ID proyek Firebase
+      firebaseApiKey    = Web API Key proyek Firebase
+      (cara lengkap ada di penjelasan)
+*/
+
+const pengaturan = {
+    firebaseProjectId: "",
+    firebaseApiKey: ""
+};
+
+
+(function () {
+
+    const useShared = !!(pengaturan.firebaseProjectId && pengaturan.firebaseApiKey);
+
+    const endpoint = useShared
+        ? "https://firestore.googleapis.com/v1/projects/" +
+          encodeURIComponent(pengaturan.firebaseProjectId) +
+          "/databases/(default)/documents/berita"
+        : "";
+
+    const KEY_POSTS = "berita_pengunjung";
+    const KEY_LAST = "berita_terakhir_kirim";
+    const COOLDOWN = 30000; // jeda antar kiriman (30 detik)
+
+    const form = document.getElementById("newsForm");
+    const inputNama = document.getElementById("newsNama");
+    const inputJudul = document.getElementById("newsJudul");
+    const inputIsi = document.getElementById("newsIsi");
+    const counter = document.getElementById("newsCounter");
+    const submitBtn = document.getElementById("newsSubmit");
+    const msg = document.getElementById("newsMsg");
+    const note = document.getElementById("newsNote");
+    const listBox = document.getElementById("userNewsContainer");
+
+    note.textContent = useShared
+        ? "Tulis apa saja. Tulisanmu akan terlihat oleh Boeng boeng saja."
+        : "Silahkan ditulis Ada info apa? : (mabar atau info lainnya).";
+
+    // ---------- Penyimpanan lokal ----------
+    function storageGet(key) {
+        try { return localStorage.getItem(key); } catch (e) { return null; }
+    }
+
+    function storageSet(key, value) {
+        try { localStorage.setItem(key, value); } catch (e) {}
+    }
+
+    function readLocal() {
+        try { return JSON.parse(storageGet(KEY_POSTS) || "[]"); } catch (e) { return []; }
+    }
+
+    // ---------- Ambil / simpan / hapus ----------
+    async function loadPosts() {
+        if (!useShared) return readLocal();
+
+        const res = await fetch(
+            endpoint + "?pageSize=50&orderBy=waktu%20desc&key=" +
+            encodeURIComponent(pengaturan.firebaseApiKey)
+        );
+        if (!res.ok) throw new Error("gagal memuat");
+
+        const data = await res.json();
+
+        return (data.documents || []).map(function (doc) {
+            const f = doc.fields || {};
+            return {
+                id: doc.name.split("/").pop(),
+                nama: f.nama ? f.nama.stringValue : "Anonim",
+                judul: f.judul ? f.judul.stringValue : "Tanpa judul",
+                isi: f.isi ? f.isi.stringValue : "",
+                waktu: f.waktu ? Number(f.waktu.integerValue) : 0
+            };
+        });
+    }
+
+    async function savePost(post) {
+        if (!useShared) {
+            const list = readLocal();
+            post.id = "lokal-" + post.waktu;
+            list.unshift(post);
+            storageSet(KEY_POSTS, JSON.stringify(list.slice(0, 100)));
+            return;
         }
 
-
-        document.addEventListener(
-            "keydown",
-            function(event) {
-
-                if (event.key === "Escape") {
-
-                    closePhoto();
-
-                }
-
+        const res = await fetch(
+            endpoint + "?key=" + encodeURIComponent(pengaturan.firebaseApiKey),
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    fields: {
+                        nama:  { stringValue: post.nama },
+                        judul: { stringValue: post.judul },
+                        isi:   { stringValue: post.isi },
+                        waktu: { integerValue: String(post.waktu) }
+                    }
+                })
             }
         );
+        if (!res.ok) throw new Error("gagal mengirim");
+    }
 
+    function deleteLocal(id) {
+        const list = readLocal().filter(function (p) { return p.id !== id; });
+        storageSet(KEY_POSTS, JSON.stringify(list));
+    }
 
-        /* =========================
-           ANIMASI SAAT SCROLL
-        ========================== */
+    // ---------- Tampilkan ----------
+    function formatDate(ms) {
+        if (!ms) return "";
+        return new Date(ms).toLocaleDateString("id-ID", {
+            day: "numeric", month: "long", year: "numeric"
+        });
+    }
 
-        const revealElements =
-            document.querySelectorAll(".reveal");
+    function showEmpty(text) {
+        listBox.innerHTML = "";
+        const empty = document.createElement("div");
+        empty.className = "news-empty";
+        empty.textContent = text;
+        listBox.appendChild(empty);
+    }
 
-
-        function revealOnScroll() {
-
-            revealElements.forEach(
-                function(element) {
-
-                    const windowHeight =
-                        window.innerHeight;
-
-                    const elementTop =
-                        element.getBoundingClientRect().top;
-
-                    const revealPoint = 120;
-
-
-                    if (
-                        elementTop <
-                        windowHeight - revealPoint
-                    ) {
-
-                        element.classList.add("active");
-
-                    }
-
-                }
-            );
-
+    function render(list) {
+        if (!list.length) {
+            showEmpty("Belum ada tulisan. Jadilah yang pertama!");
+            return;
         }
 
+        listBox.innerHTML = "";
 
-        window.addEventListener(
-            "scroll",
-            revealOnScroll
+        list.forEach(function (post) {
+            const card = document.createElement("article");
+            card.className = "news-card user-post";
+
+            const title = document.createElement("h3");
+            title.textContent = post.judul;
+
+            const author = document.createElement("div");
+            author.className = "news-author";
+            const tgl = formatDate(post.waktu);
+            author.textContent = "✍️ " + post.nama + (tgl ? "  •  📅 " + tgl : "");
+
+            const body = document.createElement("div");
+            body.className = "news-body";
+            body.textContent = post.isi;
+
+            card.appendChild(title);
+            card.appendChild(author);
+            card.appendChild(body);
+
+            // Tombol hapus hanya di mode lokal (tulisan milik sendiri)
+            if (!useShared) {
+                const del = document.createElement("button");
+                del.type = "button";
+                del.className = "news-delete";
+                del.textContent = "🗑 Hapus";
+                del.addEventListener("click", function () {
+                    deleteLocal(post.id);
+                    refresh();
+                });
+                card.appendChild(del);
+            }
+
+            listBox.appendChild(card);
+        });
+    }
+
+    async function refresh() {
+        try {
+            render(await loadPosts());
+        } catch (e) {
+            showEmpty("Tulisan gagal dimuat. Coba lagi nanti.");
+        }
+    }
+
+    // ---------- Penghitung huruf ----------
+    inputIsi.addEventListener("input", function () {
+        counter.textContent = inputIsi.value.length + "/1000";
+    });
+
+    // ---------- Kirim ----------
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const judul = inputJudul.value.trim().slice(0, 80);
+        const isi = inputIsi.value.trim().slice(0, 1000);
+        const nama = (inputNama.value.trim() || "Anonim").slice(0, 30);
+
+        if (!judul || !isi) {
+            msg.textContent = "Judul dan isi berita tidak boleh kosong.";
+            return;
+        }
+
+        const last = Number(storageGet(KEY_LAST) || 0);
+        const wait = COOLDOWN - (Date.now() - last);
+
+        if (wait > 0) {
+            msg.textContent = "Tunggu " + Math.ceil(wait / 1000) + " detik lagi sebelum mengirim.";
+            return;
+        }
+
+        submitBtn.disabled = true;
+        msg.textContent = "Mengirim...";
+
+        try {
+            await savePost({ nama: nama, judul: judul, isi: isi, waktu: Date.now() });
+            storageSet(KEY_LAST, String(Date.now()));
+
+            inputJudul.value = "";
+            inputIsi.value = "";
+            counter.textContent = "0/1000";
+            msg.textContent = "Berhasil dikirim! 🎉";
+
+            await refresh();
+        } catch (err) {
+            msg.textContent = "Gagal mengirim. Coba lagi nanti.";
+        }
+
+        submitBtn.disabled = false;
+    });
+
+    refresh();
+
+})();
+
+
+/* ========================= LAGU FAVORIT PER ANGGOTA ========================= */
+/*
+   ISI DATA LAGU DI SINI.
+
+   Ada 2 cara (pilih salah satu per orang):
+
+   1) file  -> lagu diputar LANGSUNG di web (tanpa buka Spotify).
+               Taruh file mp3 di folder "lagu" (sejajar index.html),
+               lalu tulis namanya, contoh: "lagu/karina.mp3"
+
+   2) spotify -> tempel link Spotify. Tampil sebagai player Spotify
+               (pengunjung yang belum login Spotify hanya dapat cuplikan 30 detik).
+
+   Kalau "file" diisi, yang dipakai adalah file. Kosongkan ("") yang tidak dipakai.
+*/
+
+const lagu = {
+    karina: { judul: "", penyanyi: "", file: "", spotify: "" },
+    aini:   { judul: "", penyanyi: "", file: "", spotify: "" },
+    fera:   { judul: "", penyanyi: "", file: "", spotify: "" },
+    daffa:  { judul: "", penyanyi: "", file: "", spotify: "" },
+    agung:  { judul: "", penyanyi: "", file: "", spotify: "" }
+};
+
+
+(function () {
+
+    // ---------- Util ----------
+    function toEmbedUrl(link) {
+        const match = (link || "").trim().match(
+            /open\.spotify\.com\/(?:intl-[a-z]+\/)?(track|album|playlist|episode|show|artist)\/([A-Za-z0-9]+)/
         );
+        return match ? "https://open.spotify.com/embed/" + match[1] + "/" + match[2] : null;
+    }
 
+    function formatTime(sec) {
+        if (!isFinite(sec)) return "0:00";
+        const m = Math.floor(sec / 60);
+        const s = Math.floor(sec % 60);
+        return m + ":" + (s < 10 ? "0" : "") + s;
+    }
 
-        revealOnScroll();
+    function escapeHtml(text) {
+        const div = document.createElement("div");
+        div.textContent = text || "";
+        return div.innerHTML;
+    }
 
-    </script>
+    const allAudios = [];
 
+    function pauseOthers(current) {
+        allAudios.forEach(function (a) {
+            if (a !== current) a.pause();
+        });
+    }
+
+    // ---------- Pemutar file mp3 ----------
+    function buildAudioPlayer(card, data) {
+        const player = card.querySelector(".spotify-player");
+        const status = card.querySelector(".music-status");
+
+        player.innerHTML =
+            '<div class="audio-title">' + escapeHtml(data.judul || "Tanpa judul") + '</div>' +
+            '<div class="audio-artist">' + escapeHtml(data.penyanyi || "") + '</div>' +
+            '<div class="audio-controls">' +
+                '<button type="button" class="audio-btn" aria-label="Putar">▶</button>' +
+                '<input type="range" class="audio-seek" min="0" max="100" value="0" step="0.1" aria-label="Posisi lagu">' +
+                '<span class="audio-time">0:00</span>' +
+            '</div>' +
+            '<audio preload="none"></audio>';
+
+        const audio = player.querySelector("audio");
+        const btn = player.querySelector(".audio-btn");
+        const seek = player.querySelector(".audio-seek");
+        const time = player.querySelector(".audio-time");
+
+        audio.src = data.file;
+        allAudios.push(audio);
+
+        btn.addEventListener("click", function () {
+            if (audio.paused) {
+                pauseOthers(audio);
+                audio.play().catch(function () {
+                    status.textContent = "Lagu tidak bisa diputar. Cek nama file-nya.";
+                });
+            } else {
+                audio.pause();
+            }
+        });
+
+        audio.addEventListener("play", function () { btn.textContent = "⏸"; });
+        audio.addEventListener("pause", function () { btn.textContent = "▶"; });
+
+        audio.addEventListener("timeupdate", function () {
+            if (audio.duration) {
+                seek.value = (audio.currentTime / audio.duration) * 100;
+            }
+            time.textContent = formatTime(audio.currentTime);
+        });
+
+        audio.addEventListener("ended", function () {
+            btn.textContent = "▶";
+            seek.value = 0;
+            time.textContent = "0:00";
+        });
+
+        audio.addEventListener("error", function () {
+            status.textContent = "File lagu tidak ditemukan: " + data.file;
+        });
+
+        seek.addEventListener("input", function () {
+            if (audio.duration) {
+                audio.currentTime = (seek.value / 100) * audio.duration;
+            }
+        });
+    }
+
+    // ---------- Player Spotify ----------
+    function buildSpotifyPlayer(card, embedUrl) {
+        card.querySelector(".spotify-player").innerHTML =
+            '<iframe src="' + embedUrl + '" ' +
+            'allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" ' +
+            'loading="lazy"></iframe>';
+    }
+
+    // ---------- Jalankan untuk tiap anggota ----------
+    document.querySelectorAll(".music-card[data-member]").forEach(function (card) {
+
+        const data = lagu[card.dataset.member] || {};
+        const status = card.querySelector(".music-status");
+        const embedUrl = toEmbedUrl(data.spotify);
+
+        if (data.file) {
+            buildAudioPlayer(card, data);
+        } else if (embedUrl) {
+            buildSpotifyPlayer(card, embedUrl);
+        } else {
+            status.textContent = data.spotify
+                ? "Link Spotify tidak valid."
+                : "Belum ada lagu dipilih.";
+        }
+
+    });
+
+})();
+
+</script>
 
 </body>
-
 </html>
