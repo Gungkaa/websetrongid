@@ -210,89 +210,88 @@ section h2 {
 .about:hover { transform: translateY(-8px); box-shadow: 0 0 30px #6366f155; }
 .about p { color: #cbd5e1; }
 
-/* ========================= BERITA ========================= */
-.news-container {
-    max-width: 850px;
+/* ========================= CHAT ========================= */
+.chat-box {
+    max-width: 700px;
     margin: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.news-card {
     background: rgba(15,23,42,0.65);
     border: 1px solid rgba(255,255,255,0.12);
-    border-left: 5px solid #38bdf8;
-    border-radius: 18px;
-    padding: 24px 28px;
+    border-radius: 20px;
     backdrop-filter: blur(15px);
     box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-    transition: 0.4s;
+    overflow: hidden;
 }
-.news-card:hover { transform: translateY(-6px); box-shadow: 0 0 30px #6366f155; border-left-color: #a855f7; }
-.news-card.user-post { border-left-color: #ec4899; }
-.news-card h3 { color: white; font-size: 22px; margin-bottom: 6px; overflow-wrap: anywhere; }
-.news-date { color: #38bdf8; font-size: 13px; font-weight: bold; margin-bottom: 14px; }
-.news-author { color: #a5b4fc; font-size: 13px; font-weight: bold; margin-bottom: 14px; overflow-wrap: anywhere; }
-.news-body { color: #cbd5e1; line-height: 1.8; font-size: 16px; white-space: pre-line; overflow-wrap: anywhere; }
-.news-empty { text-align: center; color: #cbd5e1; padding: 30px; }
 
-.news-delete {
-    margin-top: 14px;
-    background: transparent;
-    border: 1px solid #f87171;
-    color: #f87171;
-    border-radius: 16px;
-    padding: 5px 14px;
-    cursor: pointer;
+.chat-note {
+    padding: 10px 16px;
     font-size: 12px;
-    transition: 0.3s;
-}
-.news-delete:hover { background: #f87171; color: #020617; }
-
-.news-subtitle {
     text-align: center;
-    font-size: 24px;
-    color: white;
-    margin: 50px auto 20px;
+    color: #cbd5e1;
+    background: rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.chat-note.warn { background: #f59e0b33; color: #fde68a; }
+
+.chat-list {
+    height: 380px;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.news-form {
-    max-width: 850px;
-    margin: 50px auto 0;
-    background: rgba(255,255,255,0.95);
-    border-radius: 18px;
-    padding: 24px 28px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+.chat-empty { margin: auto; color: #94a3b8; font-size: 14px; text-align: center; }
+
+.chat-msg {
+    max-width: 85%;
+    align-self: flex-start;
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px 16px 16px 16px;
+    padding: 9px 14px;
 }
-.news-form h3 { color: #111827; margin-bottom: 8px; font-size: 22px; }
-.news-form label { display: block; margin: 12px 0 5px; font-size: 13px; font-weight: bold; color: #374151; }
-.news-form input, .news-form textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #cbd5e1;
-    border-radius: 9px;
-    font: inherit;
-    color: #111827;
-    background: white;
+.chat-msg.me {
+    align-self: flex-end;
+    background: linear-gradient(135deg, #06b6d4aa, #6366f1aa);
+    border-radius: 16px 4px 16px 16px;
 }
-.news-form textarea { min-height: 120px; resize: vertical; }
-.news-form-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
-.news-counter { font-size: 12px; color: #64748b; }
-.news-submit {
+.chat-name { font-size: 12px; font-weight: bold; color: #38bdf8; margin-bottom: 2px; overflow-wrap: anywhere; }
+.chat-msg.me .chat-name { color: #e0e7ff; }
+.chat-text { font-size: 15px; line-height: 1.5; color: #f1f5f9; white-space: pre-line; overflow-wrap: anywhere; }
+.chat-time { font-size: 10px; color: #94a3b8; margin-top: 3px; text-align: right; }
+
+.chat-form {
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    background: rgba(2,6,23,0.5);
+}
+.chat-form input {
     border: none;
-    border-radius: 22px;
-    padding: 11px 26px;
+    border-radius: 20px;
+    padding: 11px 15px;
+    font: inherit;
+    font-size: 14px;
+    background: white;
+    color: #111827;
+    min-width: 0;
+}
+.chat-form #chatNama { width: 28%; }
+.chat-form #chatIsi { flex: 1; }
+.chat-form button {
+    border: none;
+    border-radius: 20px;
+    padding: 0 20px;
     background: linear-gradient(90deg, #06b6d4, #6366f1, #a855f7);
     color: white;
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s;
 }
-.news-submit:hover { transform: scale(1.05); }
-.news-submit:disabled { opacity: 0.6; cursor: wait; transform: none; }
-.news-msg { margin-top: 10px; font-size: 13px; min-height: 18px; color: #475569; }
-.news-note { font-size: 12px; color: #64748b; margin-top: 4px; }
+.chat-form button:hover { transform: scale(1.05); }
+.chat-form button:disabled { opacity: 0.6; cursor: wait; transform: none; }
+.chat-msg-info { min-height: 18px; padding: 0 14px 10px; font-size: 12px; color: #fca5a5; background: rgba(2,6,23,0.5); }
 
 /* ========================= MEMBERS ========================= */
 .members {
@@ -739,8 +738,9 @@ footer {
     .album-photos img { height: 110px; }
     .future-card { padding: 20px 10px; }
     .future-icon { font-size: 30px; }
-    .news-form { padding: 20px 18px; }
-    .news-card { padding: 20px 18px; }
+    .chat-list { height: 320px; }
+    .chat-form { flex-wrap: wrap; }
+    .chat-form #chatNama { width: 100%; }
 }
 
 </style>
@@ -755,7 +755,7 @@ footer {
     <ul>
         <li><a href="#home">Home</a></li>
         <li><a href="#about">Tentang</a></li>
-        <li><a href="#news">Berita</a></li>
+        <li><a href="#chat">Chat</a></li>
         <li><a href="#members">Anggota</a></li>
         <li><a href="#music">Lagu</a></li>
         <li><a href="#skills">Skill</a></li>
@@ -799,40 +799,22 @@ footer {
 </section>
 
 
-<!-- ========================= BERITA ========================= -->
-<section id="news" class="reveal">
-    <h2>📰 Berita Para Boeng</h2>
+<!-- ========================= CHAT ========================= -->
+<section id="chat" class="reveal">
+    <h2>💬 Chat Para Boeng</h2>
 
-    <!-- Berita resmi (ditulis lewat kode) -->
-    <div class="news-container" id="newsContainer"></div>
+    <div class="chat-box">
+        <div class="chat-note" id="chatNote"></div>
 
-    <!-- Form tulis berita (bebas untuk siapa saja) -->
-    <div class="news-form">
-        <h3>✍️ Tulis sesuka hatimu</h3>
-        <p class="news-note" id="newsNote"></p>
+        <div class="chat-list" id="chatList"></div>
 
-        <form id="newsForm" autocomplete="off">
-            <label for="newsNama">Nama (boleh nggak di isi )</label>
-            <input id="newsNama" type="text" maxlength="30" placeholder="Anonim">
-
-            <label for="newsJudul">Topiknya apa</label>
-            <input id="newsJudul" type="text" maxlength="80" placeholder="Judul berita" required>
-
-            <label for="newsIsi">Ceritakan apa saja</label>
-            <textarea id="newsIsi" maxlength="1000" placeholder="Tulis apa saja di sini..." required></textarea>
-
-            <div class="news-form-row">
-                <span class="news-counter" id="newsCounter">0/1000</span>
-                <button type="submit" class="news-submit" id="newsSubmit">Kirimkan jika selesai</button>
-            </div>
-
-            <p class="news-msg" id="newsMsg" aria-live="polite"></p>
+        <form class="chat-form" id="chatForm" autocomplete="off">
+            <input id="chatNama" type="text" maxlength="20" placeholder="Nama (opsional)">
+            <input id="chatIsi" type="text" maxlength="300" placeholder="Tulis pesan..." required>
+            <button type="submit" id="chatKirim">Kirim</button>
         </form>
+        <div class="chat-msg-info" id="chatInfo" aria-live="polite"></div>
     </div>
-
-    <!-- Tulisan dari pengunjung -->
-    <h3 class="news-subtitle">💬 Tulisan Para Pembaca</h3>
-    <div class="news-container" id="userNewsContainer"></div>
 </section>
 
 
@@ -1239,126 +1221,83 @@ window.addEventListener("scroll", revealOnScroll);
 revealOnScroll();
 
 
-/* ========================= BERITA RESMI (DITULIS LEWAT KODE) ========================= */
+/* ========================= CHAT (TERLIHAT SEMUA ORANG) ========================= */
 /*
-   TULIS / GANTI BERITA RESMI DI SINI.
+   Chat memakai Firebase Firestore (gratis) supaya pesan terlihat
+   oleh SEMUA pengunjung. Isi 2 data di bawah ini:
 
-   - Satu berita = satu blok { judul, tanggal, isi }
-   - Berita paling ATAS tampil paling atas (taruh berita terbaru di paling atas).
-   - Untuk menambah berita: salin satu blok, tambahkan koma di antaranya.
-   - Untuk menghapus: hapus blok-nya.
-   - Untuk ganti baris di dalam isi, tulis \n
-   - Kalau array dikosongkan ([]), bagian ini tidak menampilkan apa-apa.
-*/
-
-const berita = [
-    {
-        judul: "Kosong",
-        tanggal: "Kosong",
-        isi: "Kosong"
-    },
-    {
-        judul: "Kosong",
-        tanggal: "Kosong",
-        isi: "Kosong"
-    }
-];
-
-
-(function () {
-
-    const container = document.getElementById("newsContainer");
-
-    berita.forEach(function (item) {
-        const card = document.createElement("article");
-        card.className = "news-card";
-
-        const title = document.createElement("h3");
-        title.textContent = item.judul || "Tanpa judul";
-        card.appendChild(title);
-
-        if (item.tanggal) {
-            const date = document.createElement("div");
-            date.className = "news-date";
-            date.textContent = "📅 " + item.tanggal;
-            card.appendChild(date);
-        }
-
-        const body = document.createElement("div");
-        body.className = "news-body";
-        body.textContent = item.isi || "";
-        card.appendChild(body);
-
-        container.appendChild(card);
-    });
-
-})();
-
-
-/* ========================= BERITA DARI PENGUNJUNG ========================= */
-/*
-   MODE 1 (bawaan): biarkan kosong.
-      Tulisan hanya tersimpan di browser orang yang menulis.
-
-   MODE 2 (tulisan terlihat SEMUA orang): isi dengan data Firebase (gratis).
       firebaseProjectId = ID proyek Firebase
       firebaseApiKey    = Web API Key proyek Firebase
-      (cara lengkap ada di penjelasan)
+
+   Kalau masih kosong, chat tetap jalan tapi pesannya hanya
+   terlihat di browser sendiri (mode uji coba).
 */
 
 const pengaturan = {
-    firebaseProjectId: "",
-    firebaseApiKey: ""
+    firebaseProjectId: "data-boeng",
+    firebaseApiKey: "AIzaSyApRQAlGhvkccuXHRE6xEKgZDnNBQpMPxo"
 };
 
 
 (function () {
 
-    const useShared = !!(pengaturan.firebaseProjectId && pengaturan.firebaseApiKey);
+    const shared = !!(pengaturan.firebaseProjectId && pengaturan.firebaseApiKey);
 
-    const endpoint = useShared
+    const endpoint = shared
         ? "https://firestore.googleapis.com/v1/projects/" +
           encodeURIComponent(pengaturan.firebaseProjectId) +
-          "/databases/(default)/documents/berita"
+          "/databases/(default)/documents/chat"
         : "";
 
-    const KEY_POSTS = "berita_pengunjung";
-    const KEY_LAST = "berita_terakhir_kirim";
-    const COOLDOWN = 30000; // jeda antar kiriman (30 detik)
+    const KEY_LOCAL = "chat_lokal";
+    const KEY_NAMA = "chat_nama";
+    const KEY_SAYA = "chat_saya";
+    const REFRESH_MS = 15000;  // cek pesan baru tiap 15 detik (hemat kuota gratis)
+    const COOLDOWN_MS = 3000;  // jeda antar kirim
 
-    const form = document.getElementById("newsForm");
-    const inputNama = document.getElementById("newsNama");
-    const inputJudul = document.getElementById("newsJudul");
-    const inputIsi = document.getElementById("newsIsi");
-    const counter = document.getElementById("newsCounter");
-    const submitBtn = document.getElementById("newsSubmit");
-    const msg = document.getElementById("newsMsg");
-    const note = document.getElementById("newsNote");
-    const listBox = document.getElementById("userNewsContainer");
+    const list = document.getElementById("chatList");
+    const form = document.getElementById("chatForm");
+    const inputNama = document.getElementById("chatNama");
+    const inputIsi = document.getElementById("chatIsi");
+    const btn = document.getElementById("chatKirim");
+    const info = document.getElementById("chatInfo");
+    const note = document.getElementById("chatNote");
 
-    note.textContent = useShared
-        ? "Tulis apa saja. Tulisanmu akan terlihat oleh Boeng boeng saja."
-        : "Silahkan ditulis Ada info apa? : (mabar atau info lainnya).";
+    let lastSend = 0;
+    let lastSignature = "";
 
     // ---------- Penyimpanan lokal ----------
-    function storageGet(key) {
+    function lsGet(key) {
         try { return localStorage.getItem(key); } catch (e) { return null; }
     }
-
-    function storageSet(key, value) {
+    function lsSet(key, value) {
         try { localStorage.setItem(key, value); } catch (e) {}
     }
 
-    function readLocal() {
-        try { return JSON.parse(storageGet(KEY_POSTS) || "[]"); } catch (e) { return []; }
+    // ID unik browser ini (untuk menandai pesan milik sendiri)
+    let saya = lsGet(KEY_SAYA);
+    if (!saya) {
+        saya = "u" + Math.random().toString(36).slice(2, 10);
+        lsSet(KEY_SAYA, saya);
     }
 
-    // ---------- Ambil / simpan / hapus ----------
-    async function loadPosts() {
-        if (!useShared) return readLocal();
+    inputNama.value = lsGet(KEY_NAMA) || "";
+
+    if (shared) {
+        note.textContent = "Pesan terlihat oleh semua orang yang membuka web ini 🌐";
+    } else {
+        note.textContent = "⚠️ Mode uji coba: pesan baru terlihat di browser ini saja (Firebase belum diisi).";
+        note.classList.add("warn");
+    }
+
+    // ---------- Ambil & kirim ----------
+    async function loadMessages() {
+        if (!shared) {
+            try { return JSON.parse(lsGet(KEY_LOCAL) || "[]"); } catch (e) { return []; }
+        }
 
         const res = await fetch(
-            endpoint + "?pageSize=50&orderBy=waktu%20desc&key=" +
+            endpoint + "?pageSize=20&orderBy=waktu%20desc&key=" +
             encodeURIComponent(pengaturan.firebaseApiKey)
         );
         if (!res.ok) throw new Error("gagal memuat");
@@ -1368,21 +1307,20 @@ const pengaturan = {
         return (data.documents || []).map(function (doc) {
             const f = doc.fields || {};
             return {
-                id: doc.name.split("/").pop(),
                 nama: f.nama ? f.nama.stringValue : "Anonim",
-                judul: f.judul ? f.judul.stringValue : "Tanpa judul",
                 isi: f.isi ? f.isi.stringValue : "",
-                waktu: f.waktu ? Number(f.waktu.integerValue) : 0
+                waktu: f.waktu ? Number(f.waktu.integerValue) : 0,
+                uid: f.uid ? f.uid.stringValue : ""
             };
-        });
+        }).reverse(); // terlama di atas, terbaru di bawah
     }
 
-    async function savePost(post) {
-        if (!useShared) {
-            const list = readLocal();
-            post.id = "lokal-" + post.waktu;
-            list.unshift(post);
-            storageSet(KEY_POSTS, JSON.stringify(list.slice(0, 100)));
+    async function sendMessage(msg) {
+        if (!shared) {
+            let arr = [];
+            try { arr = JSON.parse(lsGet(KEY_LOCAL) || "[]"); } catch (e) {}
+            arr.push(msg);
+            lsSet(KEY_LOCAL, JSON.stringify(arr.slice(-60)));
             return;
         }
 
@@ -1393,10 +1331,10 @@ const pengaturan = {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     fields: {
-                        nama:  { stringValue: post.nama },
-                        judul: { stringValue: post.judul },
-                        isi:   { stringValue: post.isi },
-                        waktu: { integerValue: String(post.waktu) }
+                        nama:  { stringValue: msg.nama },
+                        isi:   { stringValue: msg.isi },
+                        waktu: { integerValue: String(msg.waktu) },
+                        uid:   { stringValue: msg.uid }
                     }
                 })
             }
@@ -1404,127 +1342,121 @@ const pengaturan = {
         if (!res.ok) throw new Error("gagal mengirim");
     }
 
-    function deleteLocal(id) {
-        const list = readLocal().filter(function (p) { return p.id !== id; });
-        storageSet(KEY_POSTS, JSON.stringify(list));
-    }
-
-    // ---------- Tampilkan ----------
-    function formatDate(ms) {
+    // ---------- Tampilan ----------
+    function jam(ms) {
         if (!ms) return "";
-        return new Date(ms).toLocaleDateString("id-ID", {
-            day: "numeric", month: "long", year: "numeric"
-        });
+        const d = new Date(ms);
+        const sameDay = d.toDateString() === new Date().toDateString();
+        return sameDay
+            ? d.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })
+            : d.toLocaleDateString("id-ID", { day: "numeric", month: "short" }) + " " +
+              d.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
     }
 
-    function showEmpty(text) {
-        listBox.innerHTML = "";
-        const empty = document.createElement("div");
-        empty.className = "news-empty";
-        empty.textContent = text;
-        listBox.appendChild(empty);
-    }
+    function render(messages, forceScroll) {
+        const signature = messages.length + ":" + (messages.length ? messages[messages.length - 1].waktu : 0);
+        if (signature === lastSignature && !forceScroll) return; // tidak ada yang baru
+        lastSignature = signature;
 
-    function render(list) {
-        if (!list.length) {
-            showEmpty("Belum ada tulisan. Jadilah yang pertama!");
+        const nearBottom = list.scrollHeight - list.scrollTop - list.clientHeight < 80;
+
+        list.innerHTML = "";
+
+        if (!messages.length) {
+            const empty = document.createElement("div");
+            empty.className = "chat-empty";
+            empty.textContent = "Belum ada pesan. Jadilah yang pertama menyapa! 👋";
+            list.appendChild(empty);
             return;
         }
 
-        listBox.innerHTML = "";
+        messages.forEach(function (m) {
+            const bubble = document.createElement("div");
+            bubble.className = "chat-msg" + (m.uid === saya ? " me" : "");
 
-        list.forEach(function (post) {
-            const card = document.createElement("article");
-            card.className = "news-card user-post";
+            const name = document.createElement("div");
+            name.className = "chat-name";
+            name.textContent = m.nama;
 
-            const title = document.createElement("h3");
-            title.textContent = post.judul;
+            const text = document.createElement("div");
+            text.className = "chat-text";
+            text.textContent = m.isi;
 
-            const author = document.createElement("div");
-            author.className = "news-author";
-            const tgl = formatDate(post.waktu);
-            author.textContent = "✍️ " + post.nama + (tgl ? "  •  📅 " + tgl : "");
+            const time = document.createElement("div");
+            time.className = "chat-time";
+            time.textContent = jam(m.waktu);
 
-            const body = document.createElement("div");
-            body.className = "news-body";
-            body.textContent = post.isi;
-
-            card.appendChild(title);
-            card.appendChild(author);
-            card.appendChild(body);
-
-            // Tombol hapus hanya di mode lokal (tulisan milik sendiri)
-            if (!useShared) {
-                const del = document.createElement("button");
-                del.type = "button";
-                del.className = "news-delete";
-                del.textContent = "🗑 Hapus";
-                del.addEventListener("click", function () {
-                    deleteLocal(post.id);
-                    refresh();
-                });
-                card.appendChild(del);
-            }
-
-            listBox.appendChild(card);
+            bubble.appendChild(name);
+            bubble.appendChild(text);
+            bubble.appendChild(time);
+            list.appendChild(bubble);
         });
-    }
 
-    async function refresh() {
-        try {
-            render(await loadPosts());
-        } catch (e) {
-            showEmpty("Tulisan gagal dimuat. Coba lagi nanti.");
+        if (nearBottom || forceScroll) {
+            list.scrollTop = list.scrollHeight;
         }
     }
 
-    // ---------- Penghitung huruf ----------
-    inputIsi.addEventListener("input", function () {
-        counter.textContent = inputIsi.value.length + "/1000";
-    });
+    async function refresh(forceScroll) {
+        try {
+            render(await loadMessages(), forceScroll);
+        } catch (e) {
+            if (!list.children.length) {
+                list.innerHTML = "";
+                const err = document.createElement("div");
+                err.className = "chat-empty";
+                err.textContent = "Chat gagal dimuat. Coba lagi nanti.";
+                list.appendChild(err);
+            }
+        }
+    }
 
-    // ---------- Kirim ----------
+    // ---------- Kirim pesan ----------
     form.addEventListener("submit", async function (e) {
         e.preventDefault();
 
-        const judul = inputJudul.value.trim().slice(0, 80);
-        const isi = inputIsi.value.trim().slice(0, 1000);
-        const nama = (inputNama.value.trim() || "Anonim").slice(0, 30);
+        const isi = inputIsi.value.trim().slice(0, 300);
+        const nama = (inputNama.value.trim() || "Anonim").slice(0, 20);
 
-        if (!judul || !isi) {
-            msg.textContent = "Judul dan isi berita tidak boleh kosong.";
-            return;
-        }
+        if (!isi) return;
 
-        const last = Number(storageGet(KEY_LAST) || 0);
-        const wait = COOLDOWN - (Date.now() - last);
-
+        const wait = COOLDOWN_MS - (Date.now() - lastSend);
         if (wait > 0) {
-            msg.textContent = "Tunggu " + Math.ceil(wait / 1000) + " detik lagi sebelum mengirim.";
+            info.textContent = "Tunggu " + Math.ceil(wait / 1000) + " detik lagi ya.";
             return;
         }
 
-        submitBtn.disabled = true;
-        msg.textContent = "Mengirim...";
+        btn.disabled = true;
+        info.textContent = "";
 
         try {
-            await savePost({ nama: nama, judul: judul, isi: isi, waktu: Date.now() });
-            storageSet(KEY_LAST, String(Date.now()));
-
-            inputJudul.value = "";
+            await sendMessage({ nama: nama, isi: isi, waktu: Date.now(), uid: saya });
+            lastSend = Date.now();
+            lsSet(KEY_NAMA, inputNama.value.trim());
             inputIsi.value = "";
-            counter.textContent = "0/1000";
-            msg.textContent = "Berhasil dikirim! 🎉";
-
-            await refresh();
+            await refresh(true);
         } catch (err) {
-            msg.textContent = "Gagal mengirim. Coba lagi nanti.";
+            info.textContent = "Gagal mengirim. Coba lagi.";
         }
 
-        submitBtn.disabled = false;
+        btn.disabled = false;
+        inputIsi.focus();
     });
 
-    refresh();
+    // ---------- Jalankan + auto refresh ----------
+    refresh(true);
+
+    // Hanya cek pesan baru kalau tab terbuka DAN bagian chat sedang terlihat di layar
+    const chatSection = document.getElementById("chat");
+
+    function chatInView() {
+        const r = chatSection.getBoundingClientRect();
+        return r.bottom > 0 && r.top < window.innerHeight;
+    }
+
+    setInterval(function () {
+        if (!document.hidden && chatInView()) refresh(false);
+    }, REFRESH_MS);
 
 })();
 
