@@ -212,7 +212,7 @@ section h2 {
 
 /* ========================= CHAT ========================= */
 .chat-box {
-    max-width: 700px;
+    max-width: 560px;
     margin: auto;
     background: rgba(15,23,42,0.65);
     border: 1px solid rgba(255,255,255,0.12);
@@ -233,7 +233,7 @@ section h2 {
 .chat-note.warn { background: #f59e0b33; color: #fde68a; }
 
 .chat-list {
-    height: 380px;
+    height: 220px;
     overflow-y: auto;
     padding: 16px;
     display: flex;
@@ -708,8 +708,8 @@ footer {
 .close-popup:hover { color: #38bdf8; transform: rotate(90deg); }
 
 /* ========================= SCROLL ANIMATION ========================= */
-.reveal { opacity: 0; transform: translateY(50px); transition: 1s ease; }
-.reveal.active { opacity: 1; transform: translateY(0); }
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.active { opacity: 1; transform: none; }
 
 /* ========================= TABLET ========================= */
 @media (max-width: 1100px) {
@@ -738,7 +738,7 @@ footer {
     .album-photos img { height: 110px; }
     .future-card { padding: 20px 10px; }
     .future-icon { font-size: 30px; }
-    .chat-list { height: 320px; }
+    .chat-list { height: 190px; }
     .chat-form { flex-wrap: wrap; }
     .chat-form #chatNama { width: 100%; }
 }
@@ -961,6 +961,41 @@ body:not(.terkunci) #kunci { display: none; }
 }
 .kunci-box .kunci-field button:hover { background: #e2e8f0; transform: translateY(-50%); box-shadow: none; }
 
+
+/* ========================= MODE RINGAN (HP / LAYAR SENTUH) ========================= */
+@media (max-width: 900px), (pointer: coarse) {
+    /* latar tidak ikut "fixed" saat scroll, bola cahaya blur besar dimatikan */
+    body { background-attachment: scroll; }
+    body::before, body::after { display: none; }
+    .hero::before { display: none; }
+
+    /* blur kaca (backdrop-filter) sangat berat di HP */
+    nav, .about, .chat-box, .future-card, .contact, .music-section, .kunci-box {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+    nav { background: rgba(2, 6, 23, 0.94); }
+
+    /* animasi tanpa henti yang memaksa gambar ulang layar */
+    .member-card, .member-card::before, section h2, .hero h1,
+    .status, .future-icon { animation: none; }
+    .profile { animation: profileFloat 4s infinite ease-in-out; }
+}
+
+@media (max-width: 600px) {
+    .reveal { transform: translateY(20px); transition-duration: 0.45s; }
+}
+
+/* pengguna yang mematikan animasi di pengaturan HP/PC */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    .reveal { opacity: 1; transform: none; }
+}
+
 </style>
 </head>
 
@@ -1042,29 +1077,29 @@ body:not(.terkunci) #kunci { display: none; }
 -->
 <section id="berita" class="reveal">
     <h2>📰 Berita Boeng</h2>
-    <p class="berita-intro">Kabar terbaru dari Para Boeng</p>
+    <p class="berita-intro">Telah di update</p>
 
     <div class="berita-list">
 
         <article class="berita-card">
             <span class="berita-tag update">Update fitur</span>
-            <h3>Privasi di tingkatkan</h3>
-            <p class="berita-Tanggal di update">📅 11 Oktober 2026</p>
-            <p class="berita-isi">Lebih aman karena web sini sekarang pake sandi.</p>
+            <h3>Privasi ditingkatkan</h3>
+            <p class="berita-tanggal di update">📅 11 Oktober 2026</p>
+            <p class="berita-isi">Lebih aman karena web ini sekarang pake sandi</p>
         </article>
 
         <article class="berita-card">
             <span class="berita-tag update">Update fitur</span>
             <h3>Dilengkapi fitur chat</h3>
             <p class="berita-tanggal di update">📅 11 Oktober 2026</p>
-            <p class="berita-isi">Web ini sudah Memiliki fitur chat itulah Alasan dilengkapi dengan sandi damn brr.</p>
+            <p class="berita-isi">Web ini sudah memiliki fitur chat itulah alasan kenapa di kasih sandi damn brr.</p>
         </article>
 
         <article class="berita-card">
             <span class="berita-tag penting">Update fitur</span>
-            <h3>Web ini di lengkapi fitur music favorit</h3>
-            <p class="berita-tanggal Update">📅 11 Oktober 2026</p>
-            <p class="berita-isi">Silahkan list lagu favoritnya di chat web yaa.. enjoy the web.</p>
+            <h3>Dilengkapi dengan fitur musik favorit masing masing</h3>
+            <p class="berita-tanggal di update">📅 11 oktober 2026</p>
+            <p class="berita-isi">Silahkan list lagu pav nya di chat yaa.. enjoy the web.</p>
         </article>
 
     </div>
@@ -1073,7 +1108,7 @@ body:not(.terkunci) #kunci { display: none; }
 
 <!-- ========================= CHAT ========================= -->
 <section id="chat" class="reveal">
-    <h2>💬 Chat Para Boeng</h2>
+    <h2>💬 Tempat chat</h2>
 
     <div class="chat-backdrop" id="chatBackdrop" hidden></div>
 
@@ -1112,7 +1147,7 @@ body:not(.terkunci) #kunci { display: none; }
         <!-- ORANG 1 -->
         <div class="member-card">
             <div class="member-photo">
-                <img src="orang1.jpeg" alt="Boeng Karina" onclick="openPhoto(this)">
+                <img src="orang1.jpeg" alt="Boeng Karina" loading="lazy" decoding="async" onclick="openPhoto(this)">
             </div>
             <h3>Boeng Karina</h3>
             <div class="member-role">Admin 1</div>
@@ -1139,7 +1174,7 @@ body:not(.terkunci) #kunci { display: none; }
         <!-- ORANG 2 -->
         <div class="member-card">
             <div class="member-photo">
-                <img src="orang2.jpeg" alt="Boeng Aini" onclick="openPhoto(this)">
+                <img src="orang2.jpeg" alt="Boeng Aini" loading="lazy" decoding="async" onclick="openPhoto(this)">
             </div>
             <h3>Boeng Aini</h3>
             <div class="member-role">Admin 2</div>
@@ -1166,7 +1201,7 @@ body:not(.terkunci) #kunci { display: none; }
         <!-- ORANG 3 -->
         <div class="member-card">
             <div class="member-photo">
-                <img src="orang3.jpeg" alt="Boeng Fera" onclick="openPhoto(this)">
+                <img src="orang3.jpeg" alt="Boeng Fera" loading="lazy" decoding="async" onclick="openPhoto(this)">
             </div>
             <h3>Boeng Fera</h3>
             <div class="member-role">Admin 3</div>
@@ -1193,7 +1228,7 @@ body:not(.terkunci) #kunci { display: none; }
         <!-- ORANG 4 -->
         <div class="member-card">
             <div class="member-photo">
-                <img src="orang4.jpeg" alt="Boeng Daffa" onclick="openPhoto(this)">
+                <img src="orang4.jpeg" alt="Boeng Daffa" loading="lazy" decoding="async" onclick="openPhoto(this)">
             </div>
             <h3>Boeng Daffa</h3>
             <div class="member-role">Admin 4</div>
@@ -1220,7 +1255,7 @@ body:not(.terkunci) #kunci { display: none; }
         <!-- ORANG 5 -->
         <div class="member-card">
             <div class="member-photo">
-                <img src="orang5.jpeg" alt="Boeng Agung" onclick="openPhoto(this)">
+                <img src="orang5.jpeg" alt="Boeng Agung" loading="lazy" decoding="async" onclick="openPhoto(this)">
             </div>
             <h3>Boeng Agung</h3>
             <div class="member-role">Admin 5</div>
@@ -1356,9 +1391,9 @@ body:not(.terkunci) #kunci { display: none; }
             <h3>🏔️ Pagar Alam</h3>
             <p class="tanggal">📅 29 Juni 2026</p>
             <div class="album-photos">
-                <img src="pagaralam1.jpeg" alt="Pagar Alam Foto 1" onclick="openPhoto(this)">
-                <img src="pagaralam2.jpeg" alt="Pagar Alam Foto 2" onclick="openPhoto(this)">
-                <img src="pagaralam3.jpeg" alt="Pagar Alam Foto 3" onclick="openPhoto(this)">
+                <img src="pagaralam1.jpeg" alt="Pagar Alam Foto 1" loading="lazy" decoding="async" onclick="openPhoto(this)">
+                <img src="pagaralam2.jpeg" alt="Pagar Alam Foto 2" loading="lazy" decoding="async" onclick="openPhoto(this)">
+                <img src="pagaralam3.jpeg" alt="Pagar Alam Foto 3" loading="lazy" decoding="async" onclick="openPhoto(this)">
             </div>
         </div>
 
@@ -1367,9 +1402,9 @@ body:not(.terkunci) #kunci { display: none; }
             <h3>🏖️ Pantai Air Langkap</h3>
             <p class="tanggal">📅 19 Juli 2026</p>
             <div class="album-photos">
-                <img src="airlangkap1.jpeg" alt="Pantai Air Langkap Foto 1" onclick="openPhoto(this)">
-                <img src="airlangkap2.jpeg" alt="Pantai Air Langkap Foto 2" onclick="openPhoto(this)">
-                <img src="airlangkap3.jpeg" alt="Pantai Air Langkap Foto 3" onclick="openPhoto(this)">
+                <img src="airlangkap1.jpeg" alt="Pantai Air Langkap Foto 1" loading="lazy" decoding="async" onclick="openPhoto(this)">
+                <img src="airlangkap2.jpeg" alt="Pantai Air Langkap Foto 2" loading="lazy" decoding="async" onclick="openPhoto(this)">
+                <img src="airlangkap3.jpeg" alt="Pantai Air Langkap Foto 3" loading="lazy" decoding="async" onclick="openPhoto(this)">
             </div>
         </div>
 
@@ -1378,9 +1413,9 @@ body:not(.terkunci) #kunci { display: none; }
             <h3>🌊 Pantai Ceria</h3>
             <p class="tanggal">📅 13 Juli 2026</p>
             <div class="album-photos">
-                <img src="pantaiceria1.jpeg" alt="Pantai Ceria Foto 1" onclick="openPhoto(this)">
-                <img src="pantaiceria2.jpeg" alt="Pantai Ceria Foto 2" onclick="openPhoto(this)">
-                <img src="pantaiceria3.jpeg" alt="Pantai Ceria Foto 3" onclick="openPhoto(this)">
+                <img src="pantaiceria1.jpeg" alt="Pantai Ceria Foto 1" loading="lazy" decoding="async" onclick="openPhoto(this)">
+                <img src="pantaiceria2.jpeg" alt="Pantai Ceria Foto 2" loading="lazy" decoding="async" onclick="openPhoto(this)">
+                <img src="pantaiceria3.jpeg" alt="Pantai Ceria Foto 3" loading="lazy" decoding="async" onclick="openPhoto(this)">
             </div>
         </div>
 
@@ -1490,20 +1525,21 @@ document.addEventListener("keydown", function (event) {
 
 const revealElements = document.querySelectorAll(".reveal");
 
-function revealOnScroll() {
-    revealElements.forEach(function (element) {
-        const windowHeight = window.innerHeight;
-        const elementTop = element.getBoundingClientRect().top;
-        const revealPoint = 120;
+// IntersectionObserver: browser yang memantau, tidak menghitung posisi di setiap gerakan scroll
+if ("IntersectionObserver" in window) {
+    const pengamat = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("active");
+                pengamat.unobserve(entry.target);
+            }
+        });
+    }, { rootMargin: "0px 0px -80px 0px", threshold: 0 });
 
-        if (elementTop < windowHeight - revealPoint) {
-            element.classList.add("active");
-        }
-    });
+    revealElements.forEach(function (el) { pengamat.observe(el); });
+} else {
+    revealElements.forEach(function (el) { el.classList.add("active"); });
 }
-
-window.addEventListener("scroll", revealOnScroll);
-revealOnScroll();
 
 
 /* ========================= CHAT (TERLIHAT SEMUA ORANG) ========================= */
@@ -1832,7 +1868,7 @@ const lagu = {
     aini:   { judul: "", penyanyi: "", file: "", spotify: "" },
     fera:   { judul: "", penyanyi: "", file: "", spotify: "" },
     daffa:  { judul: "", penyanyi: "", file: "", spotify: "" },
-    agung:  { judul: "What if I call", penyanyi: "ALEX CHRICHTON", file: "What If I Call (Merry Christmas, i miss you).mp3", spotify: "" }
+    agung:  { judul: "What If I call", penyanyi: "Alex Crichton", file: "What If I Call (Merry Christmas, i miss you).mp3", spotify: "" }
 };
 
 
