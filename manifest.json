@@ -1,0 +1,17 @@
+{
+  "name": "Aplikasi Para Boeng",
+  "short_name": "Para Boeng",
+  "description": "Aplikasi khusus Para Boeng: chat, rencana, dan anggota.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#080d1c",
+  "theme_color": "#080d1c",
+  "lang": "id",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
