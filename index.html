@@ -743,11 +743,162 @@ footer {
     .chat-form #chatNama { width: 100%; }
 }
 
+
+/* ========================= LAYAR SANDI ========================= */
+body.terkunci { overflow: hidden; }
+body.terkunci > *:not(#kunci) { display: none !important; }
+body:not(.terkunci) #kunci { display: none; }
+
+#kunci {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.kunci-box {
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+    background: rgba(15,23,42,0.75);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 22px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4), 0 0 30px #6366f155;
+    padding: 36px 28px;
+}
+.kunci-icon { font-size: 46px; margin-bottom: 10px; }
+.kunci-box h1 { font-size: 24px; margin-bottom: 8px; text-shadow: 0 0 12px #38bdf8; }
+.kunci-box p { color: #cbd5e1; font-size: 14px; margin-bottom: 22px; line-height: 1.6; }
+.kunci-box input {
+    width: 100%;
+    border: none;
+    border-radius: 24px;
+    padding: 13px 18px;
+    font: inherit;
+    font-size: 15px;
+    text-align: center;
+    background: white;
+    color: #111827;
+    margin-bottom: 12px;
+}
+.kunci-box button {
+    width: 100%;
+    border: none;
+    border-radius: 24px;
+    padding: 13px;
+    background: linear-gradient(90deg, #06b6d4, #6366f1, #a855f7);
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.kunci-box button:hover { transform: scale(1.04); box-shadow: 0 0 20px #a855f7aa; }
+#kunciPesan { min-height: 20px; margin: 12px 0 0; font-size: 13px; color: #fca5a5; }
+.kunci-goyang { animation: goyang 0.4s; }
+@keyframes goyang {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+
+/* ========================= BERITA ========================= */
+.berita-intro { text-align: center; color: #cbd5e1; margin: -25px auto 35px; }
+
+.berita-list {
+    max-width: 1100px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+}
+
+.berita-card {
+    background: rgba(255,255,255,0.95);
+    padding: 26px;
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    transition: 0.4s;
+    position: relative;
+    overflow: hidden;
+}
+.berita-card::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(90deg, #06b6d4, #6366f1, #ec4899);
+}
+.berita-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 0 30px #6366f155; }
+
+.berita-tag {
+    display: inline-block;
+    background: #e0f2fe;
+    color: #0369a1;
+    border: 1px solid #bae6fd;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+.berita-tag.penting { background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
+.berita-tag.update { background: #ede9fe; color: #6d28d9; border-color: #ddd6fe; }
+
+.berita-card h3 { color: #111827; margin-bottom: 6px; font-size: 19px; }
+.berita-tanggal { color: #64748b; font-size: 13px; margin-bottom: 12px; }
+.berita-card p.berita-isi { color: #475569; line-height: 1.6; font-size: 14px; }
+
+/* ========================= NAMA CHAT TERKUNCI ========================= */
+.chat-namabar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: #cbd5e1;
+    background: rgba(255,255,255,0.05);
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+.chat-namabar[hidden] { display: none; }
+.chat-namabar b { color: #38bdf8; overflow-wrap: anywhere; }
+.chat-namabar button {
+    border: none;
+    background: none;
+    color: #a5b4fc;
+    font: inherit;
+    font-size: 12px;
+    text-decoration: underline;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+.chat-namabar button:hover { color: white; }
+
 </style>
 </head>
 
 
-<body>
+<body class="terkunci">
+
+<!-- ========================= LAYAR SANDI ========================= -->
+<div id="kunci">
+    <form class="kunci-box" id="kunciForm" autocomplete="off">
+        <div class="kunci-icon">🔒</div>
+        <h1>WEB PARA BOENG</h1>
+        <p>Web ini khusus untuk Para Boeng.<br>Masukkan sandi untuk masuk.</p>
+        <input id="kunciInput" type="password" placeholder="Masukkan sandi" autofocus required>
+        <button type="submit">Masuk</button>
+        <div id="kunciPesan" aria-live="polite"></div>
+    </form>
+</div>
+
 
 <!-- ========================= NAVBAR ========================= -->
 <nav>
@@ -755,6 +906,7 @@ footer {
     <ul>
         <li><a href="#home">Home</a></li>
         <li><a href="#about">Tentang</a></li>
+        <li><a href="#berita">Berita</a></li>
         <li><a href="#chat">Chat</a></li>
         <li><a href="#members">Anggota</a></li>
         <li><a href="#music">Lagu</a></li>
@@ -799,17 +951,60 @@ footer {
 </section>
 
 
+<!-- ========================= BERITA ========================= -->
+<!--
+   CARA TAMBAH BERITA: salin satu blok <article class="berita-card">...</article>
+   lalu tempel PALING ATAS (berita terbaru di depan), ubah isinya.
+   Tag: "penting" (merah), "update" (ungu), kosong (biru).
+-->
+<section id="berita" class="reveal">
+    <h2>📰 Berita para Boeng</h2>
+    <p class="berita-intro">Update terbaru web ini adalah</p>
+
+    <div class="berita-list">
+
+        <article class="berita-card">
+            <span class="berita-tag update">UPDATE WEB</span>
+            <h3>web sekarang pake sandi</h3>
+            <p class="berita-tanggal">📅 11 Oktober 2026</p>
+            <p class="berita-isi">web ini lebih ada privasinya hhhh damn brr.</p>
+        </article>
+
+        <article class="berita-card">
+            <span class="berita-tag update">UPDATE WEB</span>
+            <h3>Fitur terbaru yaitu ada tempat chat dan tempat lagu favorit masing masing</h3>
+            <p class="berita-tanggal">📅 11 Oktober 2026</p>
+            <p class="berita-isi">Sekarang bisa chatan di web ini sambil dengerin lagu favorit masing-masing (btw silahkan list lagu fav nya di chat
+                yaa tulis juga nama artisnya).</p>
+        </article>
+
+        <article class="berita-card">
+            <span class="berita-tag penting">enjoyy to web</span>
+            <h3>Berita terbaru akan di update disini</h3>
+            <p class="berita-tanggal">📅 11 oktober 2026</p>
+            <p class="berita-isi">Thanks enjoy the web.</p>
+        </article>
+
+    </div>
+</section>
+
+
 <!-- ========================= CHAT ========================= -->
 <section id="chat" class="reveal">
-    <h2>💬 Chat Para Boeng</h2>
+    <h2>💬 Chat Web strong</h2>
 
     <div class="chat-box">
         <div class="chat-note" id="chatNote"></div>
 
         <div class="chat-list" id="chatList"></div>
 
+        <div class="chat-namabar" id="chatNamaBar" hidden>
+            <span>Chat sebagai <b id="chatNamaTampil"></b> 🔒</span>
+            <button type="button" id="chatGantiNama">ganti nama</button>
+        </div>
+
         <form class="chat-form" id="chatForm" autocomplete="off">
-            <input id="chatNama" type="text" maxlength="20" placeholder="Nama (opsional)">
+            <input id="chatNama" type="text" maxlength="20" placeholder="Nama kamu (cukup sekali)" required>
             <input id="chatIsi" type="text" maxlength="300" placeholder="Tulis pesan..." required>
             <button type="submit" id="chatKirim">Kirim</button>
         </form>
@@ -820,7 +1015,7 @@ footer {
 
 <!-- ========================= ANGGOTA ========================= -->
 <section id="members" class="reveal">
-    <h2>Anggota Kelompok</h2>
+    <h2>Anggota Grup ini</h2>
 
     <div class="members">
 
@@ -1281,7 +1476,31 @@ const pengaturan = {
         lsSet(KEY_SAYA, saya);
     }
 
-    inputNama.value = lsGet(KEY_NAMA) || "";
+    // ---------- Nama terkunci ----------
+    const namaBar = document.getElementById("chatNamaBar");
+    const namaTampil = document.getElementById("chatNamaTampil");
+    const gantiNama = document.getElementById("chatGantiNama");
+
+    function kunciNama(nama) {
+        inputNama.value = nama;
+        inputNama.hidden = true;
+        inputNama.required = false;
+        namaTampil.textContent = nama;
+        namaBar.hidden = false;
+    }
+
+    function bukaNama() {
+        inputNama.hidden = false;
+        inputNama.required = true;
+        namaBar.hidden = true;
+        inputNama.focus();
+        inputNama.select();
+    }
+
+    gantiNama.addEventListener("click", bukaNama);
+
+    const namaTersimpan = (lsGet(KEY_NAMA) || "").trim();
+    if (namaTersimpan) kunciNama(namaTersimpan);
 
     if (shared) {
         note.textContent = "Pesan terlihat oleh semua orang yang membuka web ini 🌐";
@@ -1420,6 +1639,13 @@ const pengaturan = {
 
         if (!isi) return;
 
+        if (!inputNama.value.trim()) {
+            info.textContent = "Isi nama kamu dulu ya.";
+            inputNama.hidden = false;
+            inputNama.focus();
+            return;
+        }
+
         const wait = COOLDOWN_MS - (Date.now() - lastSend);
         if (wait > 0) {
             info.textContent = "Tunggu " + Math.ceil(wait / 1000) + " detik lagi ya.";
@@ -1432,7 +1658,8 @@ const pengaturan = {
         try {
             await sendMessage({ nama: nama, isi: isi, waktu: Date.now(), uid: saya });
             lastSend = Date.now();
-            lsSet(KEY_NAMA, inputNama.value.trim());
+            lsSet(KEY_NAMA, nama);
+            kunciNama(nama);
             inputIsi.value = "";
             await refresh(true);
         } catch (err) {
@@ -1482,7 +1709,8 @@ const lagu = {
     aini:   { judul: "", penyanyi: "", file: "", spotify: "" },
     fera:   { judul: "", penyanyi: "", file: "", spotify: "" },
     daffa:  { judul: "", penyanyi: "", file: "", spotify: "" },
-    agung:  { judul: "", penyanyi: "", file: "", spotify: "" }
+    agung:  { judul: "What if i call", penyanyi: "Alex crichton", file: "What If I Call (Merry Christmas, i miss you).mp3"
+    }
 };
 
 
@@ -1607,6 +1835,103 @@ const lagu = {
 
 })();
 
+</script>
+
+
+<!-- ========================= SANDI MASUK ========================= -->
+<script>
+/*
+   CARA GANTI SANDI:
+   1) Buka https://emn178.github.io/online-tools/sha256.html
+   2) Ketik sandi baru, salin hasil hash-nya
+   3) Tempel di HASH_SANDI di bawah ini
+*/
+(function () {
+
+    const HASH_SANDI = "7ec96ea767828ac5f1c3c8f8e2e75af08c2c0e504a72ea0b4d2c417ec5df7d6b";
+    const KEY_MASUK = "boeng_masuk";
+
+    const form = document.getElementById("kunciForm");
+    const input = document.getElementById("kunciInput");
+    const pesan = document.getElementById("kunciPesan");
+
+    // SHA-256 murni JavaScript (jalan di http maupun https)
+    function sha256(teks) {
+        const K = [
+            0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+            0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+            0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+            0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+            0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+            0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+            0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+            0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
+        ];
+        const H = [0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+        const bytes = Array.from(new TextEncoder().encode(teks));
+        const bitLen = bytes.length * 8;
+        bytes.push(0x80);
+        while (bytes.length % 64 !== 56) bytes.push(0);
+        for (let i = 7; i >= 0; i--) bytes.push(i >= 4 ? 0 : (bitLen >>> (i * 8)) & 0xff);
+        const rotr = function (x, n) { return (x >>> n) | (x << (32 - n)); };
+
+        for (let o = 0; o < bytes.length; o += 64) {
+            const w = new Array(64);
+            for (let i = 0; i < 16; i++) {
+                w[i] = (bytes[o+i*4] << 24) | (bytes[o+i*4+1] << 16) | (bytes[o+i*4+2] << 8) | bytes[o+i*4+3];
+            }
+            for (let i = 16; i < 64; i++) {
+                const s0 = rotr(w[i-15], 7) ^ rotr(w[i-15], 18) ^ (w[i-15] >>> 3);
+                const s1 = rotr(w[i-2], 17) ^ rotr(w[i-2], 19) ^ (w[i-2] >>> 10);
+                w[i] = (w[i-16] + s0 + w[i-7] + s1) | 0;
+            }
+            let [a,b,c,d,e,f,g,h] = H;
+            for (let i = 0; i < 64; i++) {
+                const S1 = rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25);
+                const ch = (e & f) ^ (~e & g);
+                const t1 = (h + S1 + ch + K[i] + w[i]) | 0;
+                const S0 = rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22);
+                const maj = (a & b) ^ (a & c) ^ (b & c);
+                const t2 = (S0 + maj) | 0;
+                h = g; g = f; f = e; e = (d + t1) | 0;
+                d = c; c = b; b = a; a = (t1 + t2) | 0;
+            }
+            H[0] = (H[0]+a)|0; H[1] = (H[1]+b)|0; H[2] = (H[2]+c)|0; H[3] = (H[3]+d)|0;
+            H[4] = (H[4]+e)|0; H[5] = (H[5]+f)|0; H[6] = (H[6]+g)|0; H[7] = (H[7]+h)|0;
+        }
+        return H.map(function (x) { return (x >>> 0).toString(16).padStart(8, "0"); }).join("");
+    }
+
+    function buka() {
+        document.body.classList.remove("terkunci");
+        window.scrollTo(0, 0);
+        window.dispatchEvent(new Event("scroll"));
+    }
+
+    try {
+        if (sessionStorage.getItem(KEY_MASUK) === HASH_SANDI) buka();
+    } catch (e) {}
+
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const hash = sha256(input.value.trim());
+
+        if (hash === HASH_SANDI) {
+            try { sessionStorage.setItem(KEY_MASUK, HASH_SANDI); } catch (err) {}
+            pesan.textContent = "";
+            buka();
+        } else {
+            pesan.textContent = "Sandi salah, coba lagi.";
+            input.value = "";
+            form.classList.remove("kunci-goyang");
+            void form.offsetWidth;
+            form.classList.add("kunci-goyang");
+            input.focus();
+        }
+    });
+
+})();
 </script>
 
 </body>
