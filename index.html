@@ -881,6 +881,86 @@ body:not(.terkunci) #kunci { display: none; }
 }
 .chat-namabar button:hover { color: white; }
 
+
+/* ========================= CHAT BISA DIBESARKAN ========================= */
+.chat-hint {
+    padding: 6px 16px;
+    font-size: 12px;
+    text-align: center;
+    color: #94a3b8;
+    background: rgba(255,255,255,0.03);
+}
+.chat-head { display: none; }
+.chat-backdrop { position: fixed; inset: 0; z-index: 2999; background: rgba(0,0,0,0.75); }
+
+.chat-box:not(.besar) .chat-list { cursor: zoom-in; }
+
+/* section pakai transform (animasi scroll) -> harus dimatikan agar fixed menempel ke layar */
+#chat.chat-expanded { transform: none !important; transition: none !important; }
+
+.chat-box.besar {
+    position: fixed;
+    top: 0;
+    bottom: auto;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 900px;
+    height: 100vh;
+    height: 100dvh;
+    margin: 0 auto;
+    z-index: 3000;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    background: rgba(2,6,23,0.98);
+}
+.chat-box.besar .chat-hint { display: none; }
+.chat-box.besar .chat-list { flex: 1; height: auto; min-height: 0; }
+.chat-box.besar .chat-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    font-weight: bold;
+    background: rgba(255,255,255,0.07);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.chat-head button {
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.chat-head button:hover { background: #6366f1; transform: rotate(90deg); }
+
+
+/* ========================= LIHAT / TUTUP SANDI ========================= */
+.kunci-field { position: relative; margin-bottom: 12px; }
+.kunci-box .kunci-field input { margin-bottom: 0; padding: 13px 48px; }
+.kunci-box .kunci-field button {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    background: none;
+    box-shadow: none;
+    font-size: 19px;
+    line-height: 1;
+    color: #111827;
+    cursor: pointer;
+}
+.kunci-box .kunci-field button:hover { background: #e2e8f0; transform: translateY(-50%); box-shadow: none; }
+
 </style>
 </head>
 
@@ -893,7 +973,10 @@ body:not(.terkunci) #kunci { display: none; }
         <div class="kunci-icon">🔒</div>
         <h1>WEB PARA BOENG</h1>
         <p>Web ini khusus untuk Para Boeng.<br>Masukkan sandi untuk masuk.</p>
-        <input id="kunciInput" type="password" placeholder="Masukkan sandi" autofocus required>
+        <div class="kunci-field">
+            <input id="kunciInput" type="password" placeholder="Masukkan sandi" autofocus required>
+            <button type="button" id="kunciMata" aria-label="Lihat sandi" title="Lihat sandi">👁️</button>
+        </div>
         <button type="submit">Masuk</button>
         <div id="kunciPesan" aria-live="polite"></div>
     </form>
@@ -958,31 +1041,30 @@ body:not(.terkunci) #kunci { display: none; }
    Tag: "penting" (merah), "update" (ungu), kosong (biru).
 -->
 <section id="berita" class="reveal">
-    <h2>📰 Berita para Boeng</h2>
-    <p class="berita-intro">Update terbaru web ini adalah</p>
+    <h2>📰 Berita Boeng</h2>
+    <p class="berita-intro">Kabar terbaru dari Para Boeng</p>
 
     <div class="berita-list">
 
         <article class="berita-card">
-            <span class="berita-tag update">UPDATE WEB</span>
-            <h3>web sekarang pake sandi</h3>
-            <p class="berita-tanggal">📅 11 Oktober 2026</p>
-            <p class="berita-isi">web ini lebih ada privasinya hhhh damn brr.</p>
+            <span class="berita-tag update">Update fitur</span>
+            <h3>Privasi di tingkatkan</h3>
+            <p class="berita-Tanggal di update">📅 11 Oktober 2026</p>
+            <p class="berita-isi">Lebih aman karena web sini sekarang pake sandi.</p>
         </article>
 
         <article class="berita-card">
-            <span class="berita-tag update">UPDATE WEB</span>
-            <h3>Fitur terbaru yaitu ada tempat chat dan tempat lagu favorit masing masing</h3>
-            <p class="berita-tanggal">📅 11 Oktober 2026</p>
-            <p class="berita-isi">Sekarang bisa chatan di web ini sambil dengerin lagu favorit masing-masing (btw silahkan list lagu fav nya di chat
-                yaa tulis juga nama artisnya).</p>
+            <span class="berita-tag update">Update fitur</span>
+            <h3>Dilengkapi fitur chat</h3>
+            <p class="berita-tanggal di update">📅 11 Oktober 2026</p>
+            <p class="berita-isi">Web ini sudah Memiliki fitur chat itulah Alasan dilengkapi dengan sandi damn brr.</p>
         </article>
 
         <article class="berita-card">
-            <span class="berita-tag penting">enjoyy to web</span>
-            <h3>Berita terbaru akan di update disini</h3>
-            <p class="berita-tanggal">📅 11 oktober 2026</p>
-            <p class="berita-isi">Thanks enjoy the web.</p>
+            <span class="berita-tag penting">Update fitur</span>
+            <h3>Web ini di lengkapi fitur music favorit</h3>
+            <p class="berita-tanggal Update">📅 11 Oktober 2026</p>
+            <p class="berita-isi">Silahkan list lagu favoritnya di chat web yaa.. enjoy the web.</p>
         </article>
 
     </div>
@@ -991,10 +1073,18 @@ body:not(.terkunci) #kunci { display: none; }
 
 <!-- ========================= CHAT ========================= -->
 <section id="chat" class="reveal">
-    <h2>💬 Chat Web strong</h2>
+    <h2>💬 Chat Para Boeng</h2>
 
-    <div class="chat-box">
+    <div class="chat-backdrop" id="chatBackdrop" hidden></div>
+
+    <div class="chat-box" id="chatBox">
+        <div class="chat-head">
+            <span>💬 Chat Para Boeng</span>
+            <button type="button" id="chatTutup" aria-label="Perkecil chat">✕</button>
+        </div>
+
         <div class="chat-note" id="chatNote"></div>
+        <div class="chat-hint">🔍 Klik chat untuk memperbesar</div>
 
         <div class="chat-list" id="chatList"></div>
 
@@ -1015,7 +1105,7 @@ body:not(.terkunci) #kunci { display: none; }
 
 <!-- ========================= ANGGOTA ========================= -->
 <section id="members" class="reveal">
-    <h2>Anggota Grup ini</h2>
+    <h2>Anggota Grup Strong</h2>
 
     <div class="members">
 
@@ -1670,6 +1760,39 @@ const pengaturan = {
         inputIsi.focus();
     });
 
+    // ---------- Chat bisa dibesarkan ----------
+    const chatBox = document.getElementById("chatBox");
+    const chatSec = document.getElementById("chat");
+    const chatBackdrop = document.getElementById("chatBackdrop");
+    const chatTutup = document.getElementById("chatTutup");
+
+    function besarkanChat() {
+        if (chatBox.classList.contains("besar")) return;
+        chatSec.classList.add("chat-expanded");
+        chatBox.classList.add("besar");
+        chatBackdrop.hidden = false;
+        document.body.style.overflow = "hidden";
+        list.scrollTop = list.scrollHeight;
+    }
+
+    function kecilkanChat() {
+        if (!chatBox.classList.contains("besar")) return;
+        chatBox.classList.remove("besar");
+        chatSec.classList.remove("chat-expanded");
+        chatBackdrop.hidden = true;
+        document.body.style.overflow = "";
+    }
+
+    chatBox.addEventListener("click", besarkanChat);
+    chatBackdrop.addEventListener("click", kecilkanChat);
+    chatTutup.addEventListener("click", function (e) {
+        e.stopPropagation();
+        kecilkanChat();
+    });
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") kecilkanChat();
+    });
+
     // ---------- Jalankan + auto refresh ----------
     refresh(true);
 
@@ -1709,8 +1832,7 @@ const lagu = {
     aini:   { judul: "", penyanyi: "", file: "", spotify: "" },
     fera:   { judul: "", penyanyi: "", file: "", spotify: "" },
     daffa:  { judul: "", penyanyi: "", file: "", spotify: "" },
-    agung:  { judul: "What if i call", penyanyi: "Alex crichton", file: "What If I Call (Merry Christmas, i miss you).mp3"
-    }
+    agung:  { judul: "What if I call", penyanyi: "ALEX CHRICHTON", file: "What If I Call (Merry Christmas, i miss you).mp3", spotify: "" }
 };
 
 
@@ -1854,6 +1976,21 @@ const lagu = {
     const form = document.getElementById("kunciForm");
     const input = document.getElementById("kunciInput");
     const pesan = document.getElementById("kunciPesan");
+    const mata = document.getElementById("kunciMata");
+
+    function tampilSandi(lihat) {
+        input.type = lihat ? "text" : "password";
+        mata.textContent = lihat ? "🙈" : "👁️";
+        mata.setAttribute("aria-label", lihat ? "Tutup sandi" : "Lihat sandi");
+        mata.title = lihat ? "Tutup sandi" : "Lihat sandi";
+    }
+
+    // mousedown dicegah supaya kursor tetap di kolom sandi
+    mata.addEventListener("mousedown", function (e) { e.preventDefault(); });
+    mata.addEventListener("click", function () {
+        tampilSandi(input.type === "password");
+        input.focus();
+    });
 
     // SHA-256 murni JavaScript (jalan di http maupun https)
     function sha256(teks) {
@@ -1920,6 +2057,8 @@ const lagu = {
         if (hash === HASH_SANDI) {
             try { sessionStorage.setItem(KEY_MASUK, HASH_SANDI); } catch (err) {}
             pesan.textContent = "";
+            tampilSandi(false);
+            input.value = "";
             buka();
         } else {
             pesan.textContent = "Sandi salah, coba lagi.";
