@@ -996,6 +996,47 @@ body:not(.terkunci) #kunci { display: none; }
     .reveal { opacity: 1; transform: none; }
 }
 
+
+/* ========================= ANIMASI PESAN TERKIRIM ========================= */
+.chat-form button { min-width: 70px; }
+.chat-form button.terkirim {
+    background: #22c55e;
+    animation: tombolPop 0.45s ease;
+}
+@keyframes tombolPop {
+    0%   { transform: scale(0.8); }
+    60%  { transform: scale(1.18); }
+    100% { transform: scale(1); }
+}
+
+.chat-msg.baru { animation: pesanMasuk 0.45s cubic-bezier(.2,1.2,.4,1); }
+@keyframes pesanMasuk {
+    from { opacity: 0; transform: translateY(18px) scale(0.8); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.centang {
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    margin-left: 4px;
+    vertical-align: -2px;
+}
+.centang path {
+    fill: none;
+    stroke: #bbf7d0;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 24;
+    stroke-dashoffset: 0;
+}
+.chat-msg.baru .centang path { animation: gambarCentang 0.5s 0.2s ease-out both; }
+@keyframes gambarCentang {
+    from { stroke-dashoffset: 24; }
+    to   { stroke-dashoffset: 0; }
+}
+
 </style>
 </head>
 
@@ -1076,30 +1117,30 @@ body:not(.terkunci) #kunci { display: none; }
    Tag: "penting" (merah), "update" (ungu), kosong (biru).
 -->
 <section id="berita" class="reveal">
-    <h2>📰 Berita Boeng</h2>
-    <p class="berita-intro">Telah di update</p>
+    <h2>📰 Info boeng</h2>
+    <p class="berita-intro">Kabar terbaru dari Para Boeng</p>
 
     <div class="berita-list">
 
         <article class="berita-card">
             <span class="berita-tag update">Update fitur</span>
             <h3>Privasi ditingkatkan</h3>
-            <p class="berita-tanggal di update">📅 11 Oktober 2026</p>
-            <p class="berita-isi">Lebih aman karena web ini sekarang pake sandi</p>
+            <p class="berita-tanggal update">📅 11 Oktober 2026</p>
+            <p class="berita-isi">Web sekarang memiliki kata sandi.</p>
         </article>
 
         <article class="berita-card">
             <span class="berita-tag update">Update fitur</span>
             <h3>Dilengkapi fitur chat</h3>
-            <p class="berita-tanggal di update">📅 11 Oktober 2026</p>
-            <p class="berita-isi">Web ini sudah memiliki fitur chat itulah alasan kenapa di kasih sandi damn brr.</p>
+            <p class="berita-tanggal update">📅 11 Oktober 2026</p>
+            <p class="berita-isi">web ini sekarang memiliki fitur chat.</p>
         </article>
 
         <article class="berita-card">
-            <span class="berita-tag penting">Update fitur</span>
-            <h3>Dilengkapi dengan fitur musik favorit masing masing</h3>
-            <p class="berita-tanggal di update">📅 11 oktober 2026</p>
-            <p class="berita-isi">Silahkan list lagu pav nya di chat yaa.. enjoy the web.</p>
+            <span class="berita-tag penting">update fitur</span>
+            <h3>Dilengkapi fitur musik favorit</h3>
+            <p class="berita-tanggal update">📅 11 oktober 2026</p>
+            <p class="berita-isi">Untuk lagu favoritnya list di chat yaa... enjoy the web (damnn brrr nada hansen).</p>
         </article>
 
     </div>
@@ -1108,7 +1149,7 @@ body:not(.terkunci) #kunci { display: none; }
 
 <!-- ========================= CHAT ========================= -->
 <section id="chat" class="reveal">
-    <h2>💬 Tempat chat</h2>
+    <h2>💬 Chat Para Boeng</h2>
 
     <div class="chat-backdrop" id="chatBackdrop" hidden></div>
 
@@ -1140,7 +1181,7 @@ body:not(.terkunci) #kunci { display: none; }
 
 <!-- ========================= ANGGOTA ========================= -->
 <section id="members" class="reveal">
-    <h2>Anggota Grup Strong</h2>
+    <h2>Anggota Grup strong</h2>
 
     <div class="members">
 
@@ -1586,6 +1627,8 @@ const pengaturan = {
 
     let lastSend = 0;
     let lastSignature = "";
+    let pesanBaruWaktu = 0;   // penanda pesan yang baru saja dikirim
+    const SVG_CENTANG = '<svg class="centang" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>';
 
     // ---------- Penyimpanan lokal ----------
     function lsGet(key) {
@@ -1715,9 +1758,14 @@ const pengaturan = {
             return;
         }
 
+        const baruWaktu = pesanBaruWaktu;
+        pesanBaruWaktu = 0; // supaya animasi tidak diulang saat auto refresh
+
         messages.forEach(function (m) {
+            const milikku = m.uid === saya;
             const bubble = document.createElement("div");
-            bubble.className = "chat-msg" + (m.uid === saya ? " me" : "");
+            bubble.className = "chat-msg" + (milikku ? " me" : "") +
+                (milikku && baruWaktu && m.waktu === baruWaktu ? " baru" : "");
 
             const name = document.createElement("div");
             name.className = "chat-name";
@@ -1730,6 +1778,7 @@ const pengaturan = {
             const time = document.createElement("div");
             time.className = "chat-time";
             time.textContent = jam(m.waktu);
+            if (milikku) time.insertAdjacentHTML("beforeend", SVG_CENTANG);
 
             bubble.appendChild(name);
             bubble.appendChild(text);
@@ -1782,11 +1831,22 @@ const pengaturan = {
         info.textContent = "";
 
         try {
-            await sendMessage({ nama: nama, isi: isi, waktu: Date.now(), uid: saya });
+            const waktuKirim = Date.now();
+            await sendMessage({ nama: nama, isi: isi, waktu: waktuKirim, uid: saya });
             lastSend = Date.now();
             lsSet(KEY_NAMA, nama);
             kunciNama(nama);
             inputIsi.value = "";
+
+            // animasi tombol centang
+            btn.textContent = "✓";
+            btn.classList.add("terkirim");
+            setTimeout(function () {
+                btn.textContent = "Kirim";
+                btn.classList.remove("terkirim");
+            }, 1200);
+
+            pesanBaruWaktu = waktuKirim;
             await refresh(true);
         } catch (err) {
             info.textContent = "Gagal mengirim. Coba lagi.";
@@ -2003,11 +2063,13 @@ const lagu = {
    1) Buka https://emn178.github.io/online-tools/sha256.html
    2) Ketik sandi baru, salin hasil hash-nya
    3) Tempel di HASH_SANDI di bawah ini
+
+   Sandi TIDAK disimpan di sesi: setiap keluar dari web
+   (tutup tab, refresh, pindah halaman) sandi diminta lagi.
 */
 (function () {
 
     const HASH_SANDI = "7ec96ea767828ac5f1c3c8f8e2e75af08c2c0e504a72ea0b4d2c417ec5df7d6b";
-    const KEY_MASUK = "boeng_masuk";
 
     const form = document.getElementById("kunciForm");
     const input = document.getElementById("kunciInput");
@@ -2081,9 +2143,25 @@ const lagu = {
         window.dispatchEvent(new Event("scroll"));
     }
 
-    try {
-        if (sessionStorage.getItem(KEY_MASUK) === HASH_SANDI) buka();
-    } catch (e) {}
+    // bersihkan sisa sesi versi lama
+    try { sessionStorage.removeItem("boeng_masuk"); } catch (e) {}
+
+    function kunciLagi() {
+        document.body.classList.add("terkunci");
+        document.getElementById("photoPopup").style.display = "none";
+        input.value = "";
+        pesan.textContent = "";
+        tampilSandi(false);
+    }
+
+    // Terkunci saat pengunjung menutup tab, refresh, pindah halaman, atau keluar dari browser di HP
+    window.addEventListener("pagehide", kunciLagi);
+
+    // Ubah ke true kalau mau terkunci juga saat pindah tab / pindah aplikasi
+    const KUNCI_SAAT_PINDAH_TAB = false;
+    document.addEventListener("visibilitychange", function () {
+        if (KUNCI_SAAT_PINDAH_TAB && document.hidden) kunciLagi();
+    });
 
     form.addEventListener("submit", async function (e) {
         e.preventDefault();
@@ -2091,7 +2169,6 @@ const lagu = {
         const hash = sha256(input.value.trim());
 
         if (hash === HASH_SANDI) {
-            try { sessionStorage.setItem(KEY_MASUK, HASH_SANDI); } catch (err) {}
             pesan.textContent = "";
             tampilSandi(false);
             input.value = "";
