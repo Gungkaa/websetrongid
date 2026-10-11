@@ -987,7 +987,7 @@ const animEnter = () => Date.now() - enterTs < 900;
 function tampilRute() {
   const h = parseHash(); rute = h.r; ruteParam = h.p;
   const info = ROUTES[rute];
-  if (rute === "chat" && ruteParam && me && ruteParam === me.uid) { location.replace("#/chat"); return; }
+  if (rute === "chat" && ruteParam && me && ruteParam === me.uid) { history.replaceState(history.state, "", "#/chat"); tampilRute(); return; }
   const inRoom = rute === "chat" && !!ruteParam;
   const pid = rute === "chat" ? (inRoom ? "p-chat" : "p-chats") : "p-" + rute;
   enterTs = Date.now();
@@ -1009,9 +1009,60 @@ function tampilRute() {
     window.scrollTo(0, 0);
   }
 }
-window.addEventListener("hashchange", () => { if (started) tampilRute(); });
-$("btnBack").addEventListener("click", () => { location.hash = "#/" + (ROUTES[rute].parent || "home"); });
-$("chBack").addEventListener("click", () => { location.hash = "#/chat"; });
+$("btnBack").addEventListener("click", () => go("#/" + (ROUTES[rute].parent || "home")));
+$("chBack").addEventListener("click", () => go("#/chat"));
+
+/* ========================= TOMBOL KEMBALI HP ========================= */
+/* Navigasi di dalam aplikasi memakai replaceState (tidak menumpuk riwayat), dengan satu "penjaga"
+   di bawahnya. Tombol/gestur Kembali di HP jatuh ke penjaga itu, lalu aplikasi memutuskan
+   tujuannya: tutup pop-up -> halaman induk -> Beranda -> (tekan 2x) keluar. */
+let guardSet = false, lastBackHome = 0;
+const curHash = () => "#/" + rute + (ruteParam ? "/" + ruteParam : "");
+function go(h) {
+  if (!h.startsWith("#")) h = "#/" + h;
+  if (h === location.hash) return;
+  history.replaceState(history.state, "", h);
+  tampilRute();
+}
+function pasangGuard() {
+  if (guardSet) return;
+  guardSet = true;
+  history.replaceState({ pbGuard: true }, "", location.href);
+  history.pushState({ pbApp: true }, "", location.href);
+}
+function tutupLapisan() {
+  if ($("photoPopup").classList.contains("on")) { tutupFoto(); return true; }
+  if ($("sheet").classList.contains("on")) { tutupSheet(); return true; }
+  if ($("planModal").classList.contains("on")) { tutupPlan(); return true; }
+  if ($("prevModal").classList.contains("on")) { $("pvBatal").click(); return true; }
+  if ($("emojiPanel").classList.contains("on")) { tutupPanel(); return true; }
+  if ($("attachMenu").classList.contains("on")) { tutupMenu(); return true; }
+  if (rute === "chat" && curRoom && (replyTo || editing)) { batalBalasEdit(); return true; }
+  return false;
+}
+function tujuanKembali() {
+  if (rute === "chat" && ruteParam) return "#/chat";
+  if (ROUTES[rute].parent) return "#/" + ROUTES[rute].parent;
+  if (rute !== "home") return "#/home";
+  return null;
+}
+window.addEventListener("popstate", e => {
+  if (!started) return;
+  if (e.state && e.state.pbGuard) {
+    if (tutupLapisan()) { history.pushState({ pbApp: true }, "", curHash()); return; }
+    const t = tujuanKembali();
+    if (t) { history.pushState({ pbApp: true }, "", t); tampilRute(); return; }
+    if (Date.now() - lastBackHome < 2000) { history.back(); return; }
+    lastBackHome = Date.now();
+    toast("Tekan sekali lagi untuk keluar");
+    history.pushState({ pbApp: true }, "", "#/home");
+  } else tampilRute();
+});
+document.addEventListener("click", e => {
+  const a = e.target.closest('a[href^="#/"]');
+  if (!a || !started) return;
+  e.preventDefault(); go(a.getAttribute("href"));
+});
 
 /* ========================= KERANGKA STATIS ========================= */
 $("tabbar").innerHTML = '<span class="tab-ind"></span>' + TABS.map(([r, l, i]) =>
@@ -1187,7 +1238,7 @@ function masuk() {
   subUsers(); subGroup(); subDm(); subRencana();
   ping(true); timerPing = setInterval(() => { if (!document.hidden) ping(true); }, 40000);
   timerUsers = setInterval(tick, 1000);
-  daftarSW(); iniPush();
+  daftarSW(); iniPush(); pasangGuard();
   tampilRute();
 }
 
@@ -1203,7 +1254,7 @@ function keluar() {
   unread = 0; updateBadges();
   document.body.classList.add("locked");
   $("aSandi").value = ""; $("aKode").value = ""; $("aPesan").textContent = "";
-  location.hash = "";
+  history.replaceState(history.state, "", location.pathname + location.search);
 }
 
 /* Presensi: online / terakhir dilihat */
@@ -1222,7 +1273,7 @@ window.addEventListener("pagehide", () => { if (started) ping(false); });
 function daftarSW() {
   if (!("serviceWorker" in navigator)) return;
   navigator.serviceWorker.register("sw.js").catch(() => {});
-  navigator.serviceWorker.addEventListener("message", e => { if (e.data && e.data.go) location.hash = "#/" + e.data.go; });
+  navigator.serviceWorker.addEventListener("message", e => { if (e.data && e.data.go) go("#/" + e.data.go); });
 }
 let promptPasang = null;
 window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); promptPasang = e; $("rowInstall").hidden = false; });
@@ -1303,7 +1354,7 @@ function renderUsers(force) {
     if (!mine) {
       const b = el("button", "icon-btn dm-btn"); b.type = "button"; b.title = "Chat pribadi"; b.setAttribute("aria-label", "Chat pribadi dengan " + (u.nama || ""));
       b.innerHTML = ic("chat");
-      b.addEventListener("click", () => { location.hash = "#/chat/" + u.id; });
+      b.addEventListener("click", () => go("#/chat/" + u.id));
       row.appendChild(b);
     }
     box.appendChild(row);
@@ -1411,7 +1462,7 @@ function notifRoom(key, m) {
   if (viewing) { markRead(key); return; }
   unreadBy[key] = (unreadBy[key] || 0) + 1; recount(); renderChatList();
   if (document.hidden) tampilNotif(m, key);
-  else toast(`${m.nama}: ${ringkasan(m)}`, { onClick: () => { location.hash = hashRoom(key); } });
+  else toast(`${m.nama}: ${ringkasan(m)}`, { onClick: () => go(hashRoom(key)) });
   buzz([80, 40, 80]);
 }
 function subGroup() {
