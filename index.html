@@ -217,7 +217,19 @@ body:not(.r-rencana) .fab{display:none}
 .p-img{display:block;width:100%;max-height:520px;object-fit:cover;border-radius:14px;margin-top:10px;cursor:zoom-in;background:#0004;min-height:120px}
 .p-body .vid-ph{width:100%;aspect-ratio:16/9;margin-top:10px}
 .p-body .b-video{width:100%;margin-top:10px}
-.p-act{display:flex;align-items:center;gap:6px;margin-top:10px;padding-top:6px;border-top:1px solid var(--line)}
+.p-act{display:flex;align-items:center;gap:6px;margin-top:10px;padding-top:6px;border-top:1px solid var(--line);flex-wrap:wrap}
+.p-comments{margin-top:10px;border-top:1px solid var(--line);padding-top:10px}
+.p-comment-list{display:grid;gap:9px;margin:8px 0}
+.p-comment{font-size:13px;background:rgba(255,255,255,.045);border-radius:12px;padding:9px 11px;overflow-wrap:anywhere}
+.p-comment b{display:block;color:#a5b4fc;margin-bottom:2px}
+.p-comment-form{display:flex;gap:7px}
+.p-comment-form input{min-width:0;flex:1;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:10px}
+.call-modal{position:fixed;inset:0;z-index:8000;background:#020617f5;display:none;flex-direction:column;align-items:center;justify-content:center;padding:18px;gap:14px}
+.call-modal.on{display:flex}
+.call-videos{width:min(100%,800px);display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.call-videos video{width:100%;max-height:55dvh;aspect-ratio:4/3;object-fit:cover;background:#111827;border-radius:16px}
+@media(max-width:520px){.call-videos{grid-template-columns:1fr}.call-videos video{max-height:34dvh}}
+
 .like{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border-radius:18px;font-weight:700;font-size:13px;color:var(--mut);transition:.2s}
 .like:active{transform:scale(.9)}
 .like.on{color:#f472b6}
@@ -755,6 +767,7 @@ body:not(.r-rencana) .fab{display:none}
           <div class="set-row"><div><b>Suara pesan masuk</b><small>Bunyi pendek saat ada chat baru</small></div><label class="sw"><input type="checkbox" id="swSuara"><i></i></label></div>
           <div class="set-row" id="rowInstall" hidden><div><b>Pasang aplikasi</b><small>Tambahkan ke layar utama HP</small></div><button class="btn-sm" id="btnInstall">Pasang</button></div>
           <div class="set-row"><div><b id="setNama">Akun</b><small>Keluar dari akun ini</small></div><button class="btn-sm btn-danger" id="btnKeluar">Keluar</button></div>
+          <div class="set-row"><div><b>Hapus akun</b><small>Hapus akun login dan data profil/postinganmu</small></div><button class="btn-sm btn-danger" id="btnHapusAkun" type="button">Hapus akun</button></div>
         </div>
         <p class="muted" style="font-size:12px;margin:14px 4px;line-height:1.6">iPhone: buka lewat Safari → tombol Bagikan → <b>Tambah ke Layar Utama</b> agar notifikasi bisa aktif.</p>
         <p class="muted" style="text-align:center;font-size:12px;margin-top:20px">© 2026 Para Boeng</p>
@@ -853,12 +866,21 @@ body:not(.r-rencana) .fab{display:none}
 </div></div>
 
 <div class="photo-popup" id="photoPopup"><button class="x" id="photoX" aria-label="Tutup"><svg class="i"><use href="#i-x"/></svg></button><img id="popupImage" src="" alt="Foto"></div>
+<div class="call-modal" id="callModal">
+  <h2 id="callTitle">Panggilan</h2><p id="callStatus" class="muted">Menghubungkan…</p>
+  <div class="call-videos"><video id="remoteVideo" autoplay playsinline></video><video id="localVideo" autoplay muted playsinline></video></div>
+  <div class="pv-act" style="width:min(100%,420px)">
+    <button class="btn-ghost" id="callMute" type="button">🎙️ Mikrofon</button>
+    <button class="btn-ghost" id="callCam" type="button">📷 Kamera</button>
+    <button class="btn-sm btn-danger" id="callEnd" type="button">☎️ Akhiri</button>
+  </div>
+</div>
 
 
 <!-- ========================= JAVASCRIPT ========================= -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut }
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut, deleteUser, EmailAuthProvider, reauthenticateWithCredential }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { initializeFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteDoc, deleteField, onSnapshot, query, orderBy, limit, where, getDocs, writeBatch, arrayUnion, arrayRemove }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -1383,6 +1405,48 @@ $("btnKeluar").addEventListener("click", async () => {
   signOut(auth);
 });
 
+$("btnHapusAkun").addEventListener("click", async () => {
+  if (!me || !auth.currentUser) return;
+  const ok = confirm("PERINGATAN: akun dan profil akan dihapus. Postingan dan komentar milikmu juga akan dihapus. Tindakan ini tidak bisa dibatalkan. Lanjutkan?");
+  if (!ok) return;
+  const sandi = prompt("Untuk keamanan, masukkan sandi akunmu. Jika muncul error login ulang, masuk kembali lalu coba lagi.");
+  if (!sandi) return;
+  const user = auth.currentUser;
+  try {
+    const email = user.email;
+    if (!email) throw new Error("Email akun tidak ditemukan.");
+    await reauthenticateWithCredential(user, EmailAuthProvider.credential(email, sandi));
+    // Hapus komentar milik akun di seluruh postingan yang dapat dibaca.
+    const posts = await getDocs(collection(db, "posts"));
+    for (const post of posts.docs) {
+      const comments = await getDocs(collection(db, "posts", post.id, "comments"));
+      const mineComments = comments.docs.filter(c => c.data().uid === me.uid);
+      for (let i = 0; i < mineComments.length; i += 400) {
+        const batch = writeBatch(db);
+        mineComments.slice(i, i + 400).forEach(c => batch.delete(c.ref));
+        await batch.commit();
+      }
+      if (post.data().uid === me.uid) {
+        const parts = await getDocs(collection(db, "posts", post.id, "part"));
+        for (let i = 0; i < parts.docs.length; i += 400) {
+          const batch = writeBatch(db);
+          parts.docs.slice(i, i + 400).forEach(d => batch.delete(d.ref));
+          await batch.commit();
+        }
+        await deleteDoc(post.ref);
+      }
+    }
+    await deleteDoc(doc(db, "users", me.uid));
+    await ping(false); await hapusToken();
+    await deleteUser(user);
+    toast("Akun berhasil dihapus.");
+  } catch (err) {
+    console.error(err);
+    toast(err.code === "auth/wrong-password" || err.code === "auth/invalid-credential"
+      ? "Sandi salah." : "Gagal menghapus akun. Periksa koneksi, Rules, atau coba login ulang.", {ms:5000});
+  }
+});
+
 /* ========================= MASUK / KELUAR ========================= */
 let unsubUsers, unsubPlan, unsubFeed = null, unsubProf = null, timerPing, timerUsers, myFotoSig = -1;
 
@@ -1408,6 +1472,7 @@ function masuk() {
   $("swNotif").checked = notifAktif();
   cekBannerNotif();
   subUsers(); subGroup(); subDm(); subRencana(); subFeed();
+  pantauPanggilanMasuk();
   ping(true); timerPing = setInterval(() => { if (!document.hidden) ping(true); }, 40000);
   timerUsers = setInterval(tick, 1000);
   daftarSW(); iniPush(); pasangGuard();
@@ -1416,7 +1481,7 @@ function masuk() {
 
 function keluar() {
   started = false;
-  [unsubRoom, unsubUsers, unsubPlan, unsubGroup, unsubDm, unsubFeed, unsubProf].forEach(u => u && u());
+  [unsubRoom, unsubUsers, unsubPlan, unsubGroup, unsubDm, unsubFeed, unsubProf, incomingUnsub].forEach(u => u && u()); incomingUnsub = null;
   unsubRoom = unsubGroup = unsubDm = unsubFeed = unsubProf = null;
   clearInterval(timerPing); clearInterval(timerUsers);
   curRoom = null; users = []; dmMeta = {}; groupLast = null; unreadBy = {}; fcmToken = null;
@@ -2558,6 +2623,69 @@ function postGambar(p) {
   im.addEventListener("click", () => { if (im.src) bukaFoto(im.src); });
   return im;
 }
+
+const commentUnsubs = new Map();
+function komentarBox(p) {
+  const wrap = el("div", "p-comments");
+  const list = el("div", "p-comment-list");
+  list.appendChild(el("small", "muted", "Buka komentar untuk memuat percakapan."));
+  const form = el("form", "p-comment-form");
+  const input = el("input"); input.maxLength = 500; input.placeholder = "Tulis komentar…"; input.required = true;
+  const send = el("button", "btn-sm", "Kirim"); send.type = "submit";
+  form.append(input, send); wrap.append(list, form);
+  let loaded = false;
+  const toggle = el("button", "like", "💬 Komentar");
+  toggle.type = "button";
+  toggle.addEventListener("click", () => {
+    const hidden = wrap.hidden;
+    wrap.hidden = !hidden;
+    if (hidden && !loaded) {
+      loaded = true;
+      list.innerHTML = "";
+      const q = query(collection(db, "posts", p.id, "comments"), orderBy("waktu", "asc"), limit(100));
+      const unsub = onSnapshot(q, snap => {
+        list.innerHTML = "";
+        if (snap.empty) list.appendChild(el("small", "muted", "Belum ada komentar."));
+        snap.forEach(d => {
+          const c = d.data(), item = el("div", "p-comment");
+          item.appendChild(el("b", null, c.nama || "Anonim"));
+          item.appendChild(el("span", null, c.isi || ""));
+          if (c.uid === me.uid) {
+            const del = el("button", "btn-sm btn-danger", "Hapus");
+            del.type = "button"; del.style.marginLeft = "8px";
+            del.addEventListener("click", async () => {
+              if (confirm("Hapus komentar ini?")) try { await deleteDoc(d.ref); } catch { toast("Gagal menghapus komentar."); }
+            });
+            item.appendChild(del);
+          }
+          list.appendChild(item);
+        });
+      }, () => { list.textContent = "Komentar gagal dimuat. Periksa Firestore Rules."; });
+      commentUnsubs.set(p.id, unsub);
+    }
+  });
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    const isi = input.value.trim(); if (!isi) return;
+    send.disabled = true;
+    try {
+      await addDoc(collection(db, "posts", p.id, "comments"), {
+        uid: me.uid, nama: me.nama, isi: isi.slice(0, 500), waktu: Date.now()
+      });
+      input.value = "";
+    } catch (err) { toast("Komentar gagal dikirim. Periksa Firestore Rules."); }
+    send.disabled = false;
+  });
+  wrap.hidden = true;
+  return { toggle, wrap };
+}
+function tampilkanPenyuka(p, button) {
+  const likes = p.likes || {}, ids = Object.keys(likes);
+  if (!ids.length) { toast("Belum ada yang menyukai postingan ini."); return; }
+  const names = ids.map(uid => (userById(uid) || {}).nama || likes[uid]?.nama || uid);
+  alert("Disukai oleh:\n\n" + names.join("\n"));
+}
+
 function buildPost(p) {
   const mine = me && p.uid === me.uid;
   const u = userById(p.uid) || { nama: p.nama };
@@ -2596,8 +2724,13 @@ function buildPost(p) {
   const lb = el("button", "like" + (sudah ? " on" : "")); lb.type = "button";
   lb.innerHTML = ic("heart"); lb.append(document.createTextNode(ids.length ? String(ids.length) : "Suka"));
   lb.addEventListener("click", () => { buzz(10); toggleLike(p); });
-  act.appendChild(lb);
+  const whoLikes = el("button", "like", "👥 Disukai oleh");
+  whoLikes.type = "button"; whoLikes.addEventListener("click", () => tampilkanPenyuka(p, whoLikes));
+  act.append(lb, whoLikes);
+  const comments = komentarBox(p);
+  act.appendChild(comments.toggle);
   card.appendChild(act);
+  card.appendChild(comments.wrap);
   return card;
 }
 /* menyusun daftar postingan secara bertahap (hanya node yang berubah yang dibangun ulang) */
@@ -2852,6 +2985,116 @@ $("peSimpan").addEventListener("click", async () => {
   } catch (er) { toast("Gagal menyimpan profil."); }
   $("peSimpan").disabled = false;
 });
+
+
+/* ========================= PANGGILAN SUARA / VIDEO WEBRTC =========================
+   Perlu Firestore Rules untuk koleksi calls. Panggilan memerlukan HTTPS/localhost
+   serta izin mikrofon/kamera dari browser. */
+let callPc = null, callStream = null, callUnsub = null, incomingUnsub = null, activeCallId = null, callIsCaller = false;
+const rtcConfig = { iceServers: [{ urls: "stun:stun.l.google.com:19302" }] };
+function ensureCallButtons() {
+  const head = document.querySelector(".chat-head");
+  if (!head || document.getElementById("callVoiceBtn")) return;
+  const voice = document.createElement("button"); voice.id = "callVoiceBtn"; voice.className = "icon-btn";
+  voice.type = "button"; voice.title = "Panggilan suara"; voice.textContent = "📞";
+  const video = document.createElement("button"); video.id = "callVideoBtn"; video.className = "icon-btn";
+  video.type = "button"; video.title = "Video call"; video.textContent = "📹";
+  voice.addEventListener("click", () => mulaiPanggilan(false));
+  video.addEventListener("click", () => mulaiPanggilan(true));
+  const bell = document.getElementById("chBell"); head.insertBefore(voice, bell); head.insertBefore(video, bell);
+}
+const callButtonsObserver = new MutationObserver(() => {
+  if (curRoom?.type === "dm") ensureCallButtons();
+  else { document.getElementById("callVoiceBtn")?.remove(); document.getElementById("callVideoBtn")?.remove(); }
+});
+callButtonsObserver.observe(document.body, {subtree:true, childList:true});
+async function mulaiPanggilan(videoOn) {
+  if (!curRoom || curRoom.type !== "dm" || !curRoom.peerUid) { toast("Buka chat pribadi dulu untuk menelepon."); return; }
+  if (activeCallId) { toast("Panggilan sedang berlangsung."); return; }
+  try {
+    callStream = await navigator.mediaDevices.getUserMedia({audio:true, video:!!videoOn});
+    $("localVideo").srcObject = callStream; $("remoteVideo").srcObject = null;
+    $("callTitle").textContent = videoOn ? "Video call" : "Panggilan suara";
+    $("callStatus").textContent = "Memanggil…";
+    $("callModal").classList.add("on");
+    callPc = new RTCPeerConnection(rtcConfig);
+    callStream.getTracks().forEach(t => callPc.addTrack(t, callStream));
+    callPc.ontrack = e => { $("remoteVideo").srcObject = e.streams[0]; };
+    callPc.onicecandidate = async e => {
+      if (e.candidate && activeCallId) try {
+        await updateDoc(doc(db,"calls",activeCallId), { callerCandidates: arrayUnion(e.candidate.toJSON()) });
+      } catch {}
+    };
+    const offer = await callPc.createOffer(); await callPc.setLocalDescription(offer);
+    const ref = await addDoc(collection(db,"calls"), {
+      from:me.uid, fromName:me.nama, to:curRoom.peerUid, video:!!videoOn,
+      offer:{type:offer.type,sdp:offer.sdp}, status:"ringing", createdAt:Date.now(), callerCandidates:[]
+    });
+    activeCallId = ref.id; callIsCaller = true;
+    callUnsub = onSnapshot(ref, async snap => {
+      const d = snap.data(); if (!d || !callPc) return;
+      if (d.answer && !callPc.currentRemoteDescription) {
+        await callPc.setRemoteDescription(new RTCSessionDescription(d.answer));
+        $("callStatus").textContent = "Terhubung";
+      }
+      for (const c of (d.calleeCandidates || [])) {
+        const key = JSON.stringify(c);
+        if (!callPc._seenCallee) callPc._seenCallee = new Set();
+        if (!callPc._seenCallee.has(key)) { callPc._seenCallee.add(key); try { await callPc.addIceCandidate(new RTCIceCandidate(c)); } catch {} }
+      }
+      if (d.status === "ended") akhiriPanggilan(false);
+    });
+  } catch (err) {
+    console.error(err); toast("Panggilan gagal. Pastikan HTTPS, izin mikrofon/kamera, dan Rules Firestore sudah benar.", {ms:5000});
+    await akhiriPanggilan();
+  }
+}
+async function jawabPanggilan(id, data) {
+  if (activeCallId) { toast("Kamu sedang melakukan panggilan lain."); return; }
+  try {
+    callStream = await navigator.mediaDevices.getUserMedia({audio:true,video:!!data.video});
+    $("localVideo").srcObject = callStream; $("remoteVideo").srcObject = null;
+    $("callTitle").textContent = data.video ? "Video call masuk" : "Panggilan suara masuk";
+    $("callStatus").textContent = "Terhubung"; $("callModal").classList.add("on");
+    activeCallId = id; callIsCaller = false;
+    callPc = new RTCPeerConnection(rtcConfig);
+    callStream.getTracks().forEach(t => callPc.addTrack(t,callStream));
+    callPc.ontrack = e => { $("remoteVideo").srcObject = e.streams[0]; };
+    callPc.onicecandidate = async e => { if (e.candidate) try { await updateDoc(doc(db,"calls",id),{calleeCandidates:arrayUnion(e.candidate.toJSON())}); } catch {} };
+    await callPc.setRemoteDescription(new RTCSessionDescription(data.offer));
+    const answer = await callPc.createAnswer(); await callPc.setLocalDescription(answer);
+    await updateDoc(doc(db,"calls",id),{answer:{type:answer.type,sdp:answer.sdp},status:"active"});
+    callUnsub = onSnapshot(doc(db,"calls",id), async snap => {
+      const d=snap.data(); if(!d||!callPc)return;
+      for(const c of (d.callerCandidates||[])){const key=JSON.stringify(c);if(!callPc._seenCaller)callPc._seenCaller=new Set();if(!callPc._seenCaller.has(key)){callPc._seenCaller.add(key);try{await callPc.addIceCandidate(new RTCIceCandidate(c));}catch{}}}
+      if(d.status==="ended")akhiriPanggilan(false);
+    });
+  } catch(err) { console.error(err); toast("Tidak bisa menjawab panggilan."); await akhiriPanggilan(); }
+}
+function pantauPanggilanMasuk() {
+  if (incomingUnsub) incomingUnsub();
+  if (!me) return;
+  incomingUnsub = onSnapshot(query(collection(db,"calls"),where("to","==",me.uid),where("status","==","ringing")), snap => {
+    snap.docChanges().forEach(change => {
+      if (change.type !== "added" || change.doc.data().from === me?.uid || activeCallId) return;
+      const d=change.doc.data();
+      if (confirm(`${d.fromName || "Anggota"} menelepon${d.video ? " lewat video" : ""}. Jawab?`)) jawabPanggilan(change.doc.id,d);
+      else updateDoc(change.doc.ref,{status:"ended"}).catch(()=>{});
+    });
+  }, err => console.warn("Pemantauan panggilan:",err));
+}
+async function akhiriPanggilan(markEnded=true) {
+  const id=activeCallId; activeCallId=null;
+  if(callUnsub){callUnsub();callUnsub=null;}
+  if(markEnded&&id)try{await updateDoc(doc(db,"calls",id),{status:"ended"});}catch{}
+  if(callPc){callPc.close();callPc=null;}
+  if(callStream){callStream.getTracks().forEach(t=>t.stop());callStream=null;}
+  $("localVideo").srcObject=null; $("remoteVideo").srcObject=null; $("callModal").classList.remove("on");
+}
+$("callEnd").addEventListener("click",()=>akhiriPanggilan());
+$("callMute").addEventListener("click",()=>{if(callStream){const t=callStream.getAudioTracks()[0];if(t){t.enabled=!t.enabled;$("callMute").textContent=t.enabled?"🎙️ Mikrofon":"🔇 Mikrofon mati";}}});
+$("callCam").addEventListener("click",()=>{if(callStream){const t=callStream.getVideoTracks()[0];if(t){t.enabled=!t.enabled;$("callCam").textContent=t.enabled?"📷 Kamera":"🚫 Kamera mati";}}});
+
 
 /* ========================= TOMBOL ESC ========================= */
 document.addEventListener("keydown", e => {
