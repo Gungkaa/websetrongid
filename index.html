@@ -110,8 +110,10 @@ body.on-chat .main{padding-bottom:0}
 #sideNav a.on{background:var(--grad);color:#fff;box-shadow:0 8px 20px #6366f144}
 #sideNav .badge{position:static;margin-left:auto}
 .side-sep{height:1px;background:var(--line);margin:10px 8px}
-.side-me{margin-top:auto;display:flex;align-items:center;gap:10px;padding:12px;border-radius:16px;background:var(--card)}
+.side-me{margin-top:auto;display:flex;align-items:center;gap:10px;padding:12px;border-radius:16px;background:var(--card);cursor:pointer;transition:.2s}
+.side-me:hover{background:var(--card2)}
 .side-me b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px}
+#topAv{cursor:pointer}
 
 /* ========================= BERANDA ========================= */
 .hero{position:relative;border-radius:26px;overflow:hidden;padding:26px 20px;border:1px solid var(--line)}
@@ -124,13 +126,13 @@ body.on-chat .main{padding-bottom:0}
 .hero-sub{font-size:14px;color:#cbd5e1}
 .banner{display:flex;align-items:center;gap:12px;margin-top:14px;padding:12px 14px;border-radius:16px;background:linear-gradient(120deg,#6366f133,#ec489922);border:1px solid var(--line);font-size:14px;animation:rise .5s backwards}
 .banner span{flex:1}
-.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
-.tile{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px;border-radius:20px;background:var(--card);border:1px solid var(--line);text-decoration:none;font-weight:600;font-size:13px;transition:transform .2s,background .2s}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+.tile{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 4px;border-radius:20px;background:var(--card);border:1px solid var(--line);text-decoration:none;font-weight:600;font-size:12.5px;transition:transform .2s,background .2s}
 .tile:hover{transform:translateY(-3px);background:var(--card2)}
 .tile:active{transform:scale(.94)}
 .tile-ic{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-size:23px;background:var(--c,#6366f1)}
-.tile .dotn{position:absolute;top:10px;right:14px;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:var(--pink);font-size:11px;display:grid;place-items:center;animation:badgePop .4s cubic-bezier(.3,1.6,.5,1)}
-@media(min-width:700px){.tiles{grid-template-columns:repeat(6,1fr)}}
+.tile .dotn{position:absolute;top:8px;right:10px;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:var(--pink);font-size:11px;display:grid;place-items:center;animation:badgePop .4s cubic-bezier(.3,1.6,.5,1)}
+@media(min-width:700px){.tiles{grid-template-columns:repeat(8,1fr)}}
 .goal{display:flex;align-items:center;gap:16px;background:linear-gradient(120deg,#0e749044,#4f46e544);border:1px solid var(--line);border-radius:22px;padding:18px}
 .goal-ic{font-size:40px;animation:floaty 4s ease-in-out infinite}
 .goal b{font-size:18px;display:block}
@@ -158,7 +160,8 @@ body.on-chat .main{padding-bottom:0}
 .mdata strong{font-weight:800}
 .mtags{margin-top:12px}
 .mtag{display:inline-block;font-size:11px;font-weight:700;padding:4px 10px;margin:3px;border-radius:20px;background:#38bdf822;color:#7dd3fc;border:1px solid #38bdf844}
-.urow{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;background:var(--card);border:1px solid var(--line)}
+.urow{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;background:var(--card);border:1px solid var(--line);cursor:pointer;transition:background .2s}
+.urow:hover{background:var(--card2)}
 .urow .un{flex:1;min-width:0}
 .urow b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .urow small{color:var(--mut);font-size:12px}
@@ -167,11 +170,21 @@ body.on-chat .main{padding-bottom:0}
 .on-dot.on{background:var(--ok);box-shadow:0 0 10px var(--ok)}
 .dm-btn{width:40px;height:40px;background:var(--card2)}
 
+
 /* ========================= RENCANA ========================= */
 .plan{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;display:grid;gap:10px}
 .plan h3{font-size:17px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:5px 11px;border-radius:20px;background:rgba(255,255,255,.08);color:#cbd5e1}
+button.chip{cursor:pointer;border:1px solid var(--line)}
+button.chip:active{transform:scale(.93)}
+button.chip.on{background:var(--grad);color:#fff;border-color:transparent}
+.my-status{display:flex;align-items:center;gap:12px;cursor:pointer;margin-bottom:6px}
+.my-status .ms-t{flex:1;min-width:0}
+.my-status b{display:block;font-size:14px}
+.my-status span{display:block;font-size:13px;color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.my-status span.on{color:#7dd3fc}
+.u-status{display:block;font-size:12.5px;color:#7dd3fc;margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .plan p{color:#cbd5e1;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
 .plan-foot{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--mut)}
 .plan-act{display:flex;gap:8px;margin-left:auto}
@@ -182,6 +195,54 @@ body.on-chat .main{padding-bottom:0}
 .fab:active{transform:scale(.9) rotate(90deg)}
 @media(min-width:900px){.fab{bottom:28px;right:34px}}
 body:not(.r-rencana) .fab{display:none}
+
+/* ========================= FEED & PROFIL ========================= */
+.compose{padding:14px}
+.compose-top{display:flex;align-items:center;gap:12px}
+.compose-in{flex:1;min-width:0;text-align:left;padding:12px 16px;border-radius:24px;background:rgba(255,255,255,.08);border:1px solid var(--line);color:var(--mut);font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.compose-acts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.compose-acts button{padding:10px 6px;border-radius:14px;background:var(--card2);font-weight:600;font-size:13px;transition:.2s}
+.compose-acts button:active{transform:scale(.95)}
+.post{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px 14px 10px;animation:rise .4s backwards}
+.p-head{display:flex;align-items:center;gap:12px}
+.p-av{display:grid;text-decoration:none;flex-shrink:0}
+.p-who{flex:1;min-width:0}
+.p-name{display:block;font-weight:700;text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.p-who small{color:var(--mut);font-size:12px}
+.p-body{margin-top:10px}
+.p-text{white-space:pre-wrap;overflow-wrap:anywhere;font-size:15px;color:#e2e8f0}
+.p-text a{color:#7dd3fc;text-decoration:underline}
+.p-note{border-left:4px solid var(--brand);background:rgba(99,102,241,.12);border-radius:12px;padding:12px 14px}
+.p-note h4{font-size:16px;margin-bottom:6px}
+.p-img{display:block;width:100%;max-height:520px;object-fit:cover;border-radius:14px;margin-top:10px;cursor:zoom-in;background:#0004;min-height:120px}
+.p-body .vid-ph{width:100%;aspect-ratio:16/9;margin-top:10px}
+.p-body .b-video{width:100%;margin-top:10px}
+.p-act{display:flex;align-items:center;gap:6px;margin-top:10px;padding-top:6px;border-top:1px solid var(--line)}
+.like{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border-radius:18px;font-weight:700;font-size:13px;color:var(--mut);transition:.2s}
+.like:active{transform:scale(.9)}
+.like.on{color:#f472b6}
+.like.on .i{fill:#ec4899;stroke:#ec4899;animation:badgePop .35s cubic-bezier(.3,1.6,.5,1)}
+.more-wrap{text-align:center;margin-top:14px}
+.pf-card{padding:0;overflow:hidden}
+.pf-cover{height:96px;background:var(--grad)}
+.pf-body{padding:0 18px 18px}
+.pf-row{display:flex;align-items:flex-end;gap:14px;margin-top:-44px}
+.pf-av{border:4px solid var(--bg2);box-shadow:0 0 24px #6366f155}
+.pf-info{min-width:0;padding-bottom:4px}
+.pf-info h2{font-size:21px;line-height:1.2;overflow-wrap:anywhere}
+.pf-sub{font-size:13px;color:var(--mut)}
+.pf-sub.onl{color:#4ade80}
+.pf-status{margin-top:12px;display:inline-block;padding:6px 12px;border-radius:16px;background:#38bdf822;color:#7dd3fc;font-size:13px}
+.pf-chips{margin-top:12px}
+.pf-bio{margin:12px 0 0;color:#cbd5e1;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
+.pf-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.pf-stats div{background:rgba(0,0,0,.22);border-radius:14px;padding:10px 6px;text-align:center}
+.pf-stats b{display:block;font-size:17px}
+.pf-stats span{font-size:11px;color:var(--mut)}
+.pf-act{display:flex;gap:8px;flex-wrap:wrap}
+.pf-act .btn-sm{padding:10px 16px}
+.pe-av{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.pe-btns{display:grid;gap:8px}
 
 /* ========================= MENU LAINNYA ========================= */
 .menu-list{display:grid;gap:10px}
@@ -239,7 +300,7 @@ body:not(.r-rencana) .fab{display:none}
 .chat-head{display:flex;align-items:center;gap:12px;padding:calc(10px + var(--st)) 14px 10px;background:rgba(12,18,40,.97);border-bottom:1px solid var(--line);flex-shrink:0}
 .chat-head .ch-info{flex:1;min-width:0}
 .chat-head b{display:block;font-size:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.chat-head small{color:var(--mut);font-size:12px;display:block}
+.chat-head small{color:var(--mut);font-size:12px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .chat-head small.ty{color:#67e8f9;display:flex;align-items:center;gap:6px;font-weight:600}
 .chat-head small.onl{color:#4ade80}
 .ch-logo{width:42px;height:42px;border-radius:14px;background:var(--grad);display:grid;place-items:center;font-size:20px;flex-shrink:0}
@@ -267,6 +328,9 @@ body:not(.r-rencana) .fab{display:none}
 .msg.me .b-text a{color:#e0f2fe}
 .b-meta{display:flex;align-items:center;justify-content:flex-end;gap:4px;font-size:10.5px;color:#ffffffa6;margin-top:2px}
 .b-meta .i{width:13px;height:13px;stroke-width:2.6}
+.b-meta .tk{display:inline-flex;align-items:center;transition:color .3s}
+.b-meta .tk.read{color:#fde047}
+.b-meta .tk .i.dbl{width:17px}
 .quote{background:rgba(0,0,0,.24);border-left:3px solid var(--q,#38bdf8);border-radius:8px;padding:5px 9px;margin-bottom:5px;cursor:pointer;min-width:140px}
 .quote b{display:block;font-size:12px;color:var(--q,#38bdf8)}
 .quote span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:13px;color:#ffffffcc}
@@ -301,6 +365,7 @@ body:not(.r-rencana) .fab{display:none}
 .msgs-wrap{position:relative;flex:1;min-height:0;display:flex;flex-direction:column}
 .send-stat{padding:6px 14px;font-size:12px;color:#a5b4fc;background:rgba(99,102,241,.14);display:none}
 .send-stat.on{display:block}
+
 
 /* indikator mengetik */
 .typing{display:flex;align-items:center;gap:8px;padding:0 14px;max-height:0;opacity:0;overflow:hidden;font-size:12px;color:var(--mut);transition:max-height .3s ease,opacity .3s ease,padding .3s ease;flex-shrink:0}
@@ -383,8 +448,8 @@ body:not(.r-rencana) .fab{display:none}
 
 /* ========================= NAVIGASI HP (melayang) ========================= */
 .tabbar{left:10px;right:10px;bottom:calc(8px + var(--sb));height:64px;padding:6px;border:1px solid var(--line);border-radius:24px;background:rgba(14,20,42,.9);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 14px 40px #000b;--i:0}
-.tab-ind{position:absolute;top:6px;bottom:6px;left:6px;width:calc((100% - 12px)/5);border-radius:18px;background:linear-gradient(135deg,#6366f155,#06b6d433);border:1px solid #8f91ff44;transform:translateX(calc(var(--i)*100%));transition:transform .45s cubic-bezier(.34,1.45,.5,1);pointer-events:none}
-.tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px;font-weight:600;color:var(--mut);text-decoration:none;position:relative;z-index:1;min-height:52px;border-radius:18px;touch-action:manipulation;transition:transform .15s,color .25s}
+.tab-ind{position:absolute;top:6px;bottom:6px;left:6px;width:calc((100% - 12px)/6);border-radius:18px;background:linear-gradient(135deg,#6366f155,#06b6d433);border:1px solid #8f91ff44;transform:translateX(calc(var(--i)*100%));transition:transform .45s cubic-bezier(.34,1.45,.5,1);pointer-events:none}
+.tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10.5px;font-weight:600;color:var(--mut);text-decoration:none;position:relative;z-index:1;min-height:52px;border-radius:18px;touch-action:manipulation;transition:transform .15s,color .25s}
 .tabbar a:active{transform:scale(.86)}
 .tabbar a.on{color:#fff}
 .tabbar a.on .i{stroke:#a5a7ff;animation:tabPop .5s cubic-bezier(.3,1.5,.5,1) forwards}
@@ -432,6 +497,8 @@ body:not(.r-rencana) .fab{display:none}
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></symbol>
 <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 21l2.1-5.4A8.5 8.5 0 1 1 21 11.5z"/></symbol>
+<symbol id="i-feed" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 8h10M7 12h10M7 16h6"/></symbol>
+<symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></symbol>
 <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></symbol>
 <symbol id="i-users" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9.5" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></symbol>
 <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
@@ -452,6 +519,7 @@ body:not(.r-rencana) .fab{display:none}
 <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></symbol>
 <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
 <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+<symbol id="i-checks" viewBox="0 0 24 24"><path d="M18 6L7 17l-5-5"/><path d="M22 10l-7.5 7.5L13 16"/></symbol>
 <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
 <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z" fill="currentColor" stroke="none"/></symbol>
 <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" rx="1" fill="currentColor" stroke="none"/><rect x="14" y="4" width="4" height="16" rx="1" fill="currentColor" stroke="none"/></symbol>
@@ -501,7 +569,7 @@ body:not(.r-rencana) .fab{display:none}
   <aside class="side">
     <div class="side-brand"><img src="foto1.jpg" alt=""><b>Para Boeng</b></div>
     <nav id="sideNav"></nav>
-    <div class="side-me" id="sideMe"></div>
+    <div class="side-me" id="sideMe" title="Buka profilku"></div>
   </aside>
 
   <div class="main">
@@ -510,7 +578,7 @@ body:not(.r-rencana) .fab{display:none}
       <h1 id="topTitle">Beranda</h1>
       <div class="top-r">
         <button class="icon-btn" id="btnBell" aria-label="Notifikasi"><svg class="i"><use href="#i-bell"/></svg><i class="dotn" id="bellDot" hidden></i></button>
-        <div id="topAv"></div>
+        <div id="topAv" title="Buka profilku"></div>
       </div>
     </header>
 
@@ -536,6 +604,8 @@ body:not(.r-rencana) .fab{display:none}
         </div>
 
         <div class="tiles stagger">
+          <a class="tile" href="#/feed"><span class="tile-ic" style="--c:#e11d48">📝</span>Feed</a>
+          <a class="tile" href="#/profil"><span class="tile-ic" style="--c:#0d9488">🙋</span>Profilku</a>
           <a class="tile" href="#/chat"><span class="tile-ic" style="--c:#0891b2">💬</span>Chat<i class="dotn" id="tileUnread" hidden></i></a>
           <a class="tile" href="#/rencana"><span class="tile-ic" style="--c:#7c3aed">🗺️</span>Rencana</a>
           <a class="tile" href="#/anggota"><span class="tile-ic" style="--c:#db2777">👥</span>Anggota</a>
@@ -558,6 +628,31 @@ body:not(.r-rencana) .fab{display:none}
           <p>Halo! Kami adalah Boeng Karina, Boeng Aini, Boeng Fera, Boeng Daffa, dan Boeng Agung. Kami kelompok Pemuda Anti Wacana yang suka menjelajah alam dan wisata. Tujuan selanjutnya adalah <b>BUKIT KABA</b>.</p>
           <p style="margin-top:10px">Aplikasi ini akan terus diupdate, jadi pantau terus untuk keseruannya.</p>
         </div>
+      </section>
+
+      <!-- ===== FEED ===== -->
+      <section class="page" id="p-feed">
+        <div class="card compose" id="composeCard">
+          <div class="compose-top">
+            <div id="cmpAv"></div>
+            <button class="compose-in" id="cmpOpen" type="button">Apa yang kamu pikirkan?</button>
+          </div>
+          <div class="compose-acts">
+            <button type="button" data-post="gambar">📷 Foto</button>
+            <button type="button" data-post="video">🎬 Video</button>
+            <button type="button" data-post="catatan">📝 Catatan</button>
+          </div>
+        </div>
+        <h3 class="sec" style="margin-top:20px">Postingan terbaru</h3>
+        <div class="stack" id="feedList"><div class="chat-empty">Memuat postingan…</div></div>
+        <div class="more-wrap" id="feedMoreW" hidden><button class="more-btn" id="feedMore" type="button" style="align-self:auto">Muat lebih banyak</button></div>
+      </section>
+
+      <!-- ===== PROFIL ===== -->
+      <section class="page" id="p-profil">
+        <div class="card pf-card" id="profHead"><div class="chat-empty">Memuat profil…</div></div>
+        <h3 class="sec">Postingan <span class="muted" id="profCount" style="font-size:13px"></span></h3>
+        <div class="stack" id="profPosts"></div>
       </section>
 
       <!-- ===== DAFTAR CHAT ===== -->
@@ -639,12 +734,17 @@ body:not(.r-rencana) .fab{display:none}
 
       <!-- ===== ANGGOTA ===== -->
       <section class="page" id="p-anggota">
+        <div class="card my-status" id="myStatus" role="button" tabindex="0">
+          <div class="ms-t"><b>Statusmu</b><span id="myStatusTxt">Ketuk untuk mengatur status</span></div>
+          <svg class="i"><use href="#i-edit"/></svg>
+        </div>
         <h3 class="sec" style="margin-top:4px">Akun terdaftar <span class="muted" id="userCount" style="font-size:13px"></span></h3>
+        <p class="muted" style="font-size:12px;margin:-4px 2px 10px">Ketuk akun mana saja untuk melihat profilnya.</p>
         <div class="stack" id="userList"><div class="chat-empty">Memuat…</div></div>
         <h3 class="sec">Profil Para Boeng</h3>
         <div class="members stagger" id="members"></div>
       </section>
-
+      
       <!-- ===== LAINNYA ===== -->
       <section class="page" id="p-lainnya">
         <div class="menu-list stagger" id="menuList"></div>
@@ -709,6 +809,49 @@ body:not(.r-rencana) .fab{display:none}
   </form>
 </div></div>
 
+<div class="modal" id="statusModal"><div class="modal-box">
+  <h3>Status kamu</h3>
+  <div class="chips" id="stPreset"></div>
+  <label class="fld" style="margin-top:14px"><span>Atau tulis sendiri</span>
+    <input id="stIsi" maxlength="60" placeholder="Lagi ngapain?"></label>
+  <p class="muted" style="font-size:12px;margin-bottom:12px">Status otomatis hilang setelah 24 jam.</p>
+  <div class="pv-act"><button class="btn-ghost" id="stHapus" type="button">Hapus</button><button class="btn-main" id="stSimpan" type="button">Simpan</button></div>
+</div></div>
+
+<!-- Buat postingan -->
+<div class="modal" id="postModal"><div class="modal-box">
+  <h3>Buat postingan</h3>
+  <div class="chips" id="pfTipe" style="margin-bottom:14px">
+    <button class="chip on" type="button" data-t="teks">💭 Status</button>
+    <button class="chip" type="button" data-t="gambar">📷 Foto</button>
+    <button class="chip" type="button" data-t="video">🎬 Video</button>
+    <button class="chip" type="button" data-t="catatan">📝 Catatan</button>
+  </div>
+  <label class="fld" id="pfJudulW" hidden><span>Judul catatan</span><input id="pfJudul" maxlength="80" placeholder="Contoh: Bawaan ke Bukit Kaba"></label>
+  <div id="pfMediaW" hidden style="margin-bottom:12px">
+    <div class="pv-body" id="pfPrev" hidden></div>
+    <button class="btn-ghost" id="pfPilih" type="button" style="width:100%">Pilih foto</button>
+  </div>
+  <input type="file" id="pfFile" hidden>
+  <label class="fld"><span id="pfIsiL">Apa yang kamu pikirkan?</span><textarea id="pfIsi" maxlength="1000" placeholder="Tulis di sini…"></textarea></label>
+  <div class="pv-act"><button class="btn-ghost" id="pfBatal" type="button">Batal</button><button class="btn-main" id="pfKirim" type="button">Kirim</button></div>
+</div></div>
+
+<!-- Edit profil -->
+<div class="modal" id="profModal"><div class="modal-box">
+  <h3>Edit profil</h3>
+  <div class="pe-av">
+    <div id="peAv"></div>
+    <div class="pe-btns">
+      <button class="btn-sm" id="peGanti" type="button">Ganti foto</button>
+      <button class="btn-sm line" id="peHapusFoto" type="button">Hapus foto</button>
+    </div>
+  </div>
+  <input type="file" id="peFile" accept="image/*" hidden>
+  <label class="fld"><span>Bio</span><textarea id="peBio" maxlength="150" placeholder="Ceritakan sedikit tentang dirimu"></textarea></label>
+  <div class="pv-act"><button class="btn-ghost" id="peBatal" type="button">Batal</button><button class="btn-main" id="peSimpan" type="button">Simpan</button></div>
+</div></div>
+
 <div class="photo-popup" id="photoPopup"><button class="x" id="photoX" aria-label="Tutup"><svg class="i"><use href="#i-x"/></svg></button><img id="popupImage" src="" alt="Foto"></div>
 
 
@@ -726,7 +869,7 @@ const FB = {
   authDomain: "data-boeng.firebaseapp.com",
   projectId: "data-boeng",
   // Untuk notifikasi push saat aplikasi ditutup, isi dua baris ini dari
-  // Firebase Console > Project settings > General > Your apps (lihat SETUP-NOTIFIKASI.md)
+  // Firebase Console > Project settings > General > Your apps
   messagingSenderId: "",
   appId: ""
 };
@@ -741,6 +884,8 @@ const db = initializeFirestore(fbApp, { experimentalAutoDetectLongPolling: true 
 
 /* ========================= DATA KONTEN ========================= */
 const BERITA = [
+  { tag:"Update fitur", kelas:"penting", judul:"Feed postingan dan profil akun", tgl:"11 Oktober 2026", isi:"Sekarang tiap Boeng bisa memposting status, foto, video, dan catatan di halaman Feed. Setiap akun punya halaman profil (foto, bio, status, dan postingan) yang bisa dibuka oleh semua akun. Ketuk nama atau foto siapa saja untuk melihat profilnya." },
+  { tag:"Update fitur", kelas:"penting", judul:"Status, centang pesan, dan notifikasi HP", tgl:"11 Oktober 2026", isi:"Sekarang bisa memasang status (hilang otomatis setelah 24 jam). Pesan punya centang: satu untuk terkirim, dua kalau penerima online, dan berwarna kalau sudah dibaca. Notifikasi chat juga bisa muncul di HP." },
   { tag:"Update fitur", kelas:"penting", judul:"Chat pribadi, status online, dan animasi baru", tgl:"11 Oktober 2026", isi:"Sekarang bisa chat pribadi dengan tiap Boeng (ketuk nama di daftar chat atau halaman Anggota). Ada animasi saat seseorang mengetik, tulisan 'terakhir dilihat', tombol navigasi baru yang pas di HP, notifikasi ke HP, dan animasi yang lebih halus." },
   { tag:"Update fitur", kelas:"", judul:"Aplikasi versi baru", tgl:"11 Oktober 2026", isi:"Sekarang tiap Boeng punya akun sendiri. Ada chat realtime (foto, video, suara, emoji, balas), halaman rencana bersama, dan notifikasi." },
   { tag:"Update fitur", kelas:"", judul:"Privasi ditingkatkan", tgl:"11 Oktober 2026", isi:"Web sekarang memiliki kata sandi." },
@@ -785,16 +930,19 @@ const lagu = {
   agung:  { judul:"What If I call", penyanyi:"Alex Crichton", file:"What If I Call (Merry Christmas, i miss you).mp3", spotify:"" }
 };
 
+
 const ROUTES = {
-  home:{t:"Beranda",tab:"home"}, chat:{t:"Chat",tab:"chat"}, rencana:{t:"Rencana",tab:"rencana"},
+  home:{t:"Beranda",tab:"home"}, feed:{t:"Feed Boeng",tab:"feed"}, chat:{t:"Chat",tab:"chat"}, rencana:{t:"Rencana",tab:"rencana"},
   anggota:{t:"Anggota",tab:"anggota"}, lainnya:{t:"Lainnya",tab:"lainnya"},
+  profil:{t:"Profil",tab:"anggota",parent:"anggota"},
   berita:{t:"Info Boeng",tab:"lainnya",parent:"lainnya"}, lagu:{t:"Lagu Favorit",tab:"lainnya",parent:"lainnya"},
   skill:{t:"Skill Kami",tab:"lainnya",parent:"lainnya"}, perjalanan:{t:"Perjalanan",tab:"lainnya",parent:"lainnya"},
   album:{t:"Album",tab:"lainnya",parent:"lainnya"}, tentang:{t:"Tentang Kami",tab:"lainnya",parent:"lainnya"},
   kontak:{t:"Kontak",tab:"lainnya",parent:"lainnya"}
 };
-const TABS = [["home","Beranda","home"],["chat","Chat","chat"],["rencana","Rencana","map"],["anggota","Anggota","users"],["lainnya","Lainnya","grid"]];
+const TABS = [["home","Beranda","home"],["feed","Feed","feed"],["chat","Chat","chat"],["rencana","Rencana","map"],["anggota","Anggota","users"],["lainnya","Lainnya","grid"]];
 const SIDE_EXTRA = [["berita","Info Boeng","📰"],["lagu","Lagu Favorit","🎵"],["skill","Skill Kami","⭐"],["perjalanan","Perjalanan","🧭"],["album","Album","📸"],["tentang","Tentang Kami","ℹ️"],["kontak","Kontak","☎️"]];
+
 
 const EMOJI = {
   "😀":"😀 😃 😄 😁 😆 😅 😂 🤣 🥲 😊 😇 🙂 🙃 😉 😌 😍 🥰 😘 😗 😙 😚 😋 😛 😝 😜 🤪 🤨 🧐 🤓 😎 🥳 😏 😒 😞 😔 😟 😕 🙁 😣 😖 😫 😩 🥺 😢 😭 😤 😠 😡 🤬 🤯 😳 🥵 🥶 😱 😨 😰 😥 😓 🤗 🤔 🤭 🤫 🤥 😶 😐 😑 😬 🙄 😯 😦 😧 😮 😲 🥱 😴 🤤 😪 😵 🤐 🥴 🤢 🤮 🤧 😷 🤒 🤕 🤑 🤠 😈 👿 👹 👺 🤡 💩 👻 💀 👽 🤖",
@@ -825,14 +973,21 @@ function toast(msg, opt = {}) {
 
 function hue(s) { let h = 0; for (const c of s) h = (h * 31 + c.charCodeAt(0)) >>> 0; return h % 360; }
 const warna = n => `hsl(${hue((n || "").toLowerCase())} 75% 68%)`;
-function avatar(nama, size = 36) {
+/* Prioritas gambar: foto profil yang diunggah akun > foto bawaan anggota > huruf inisial */
+function avatar(nama, size = 36, foto) {
   const d = el("div", "av"); d.style.width = d.style.height = size + "px"; d.style.fontSize = Math.round(size * .42) + "px";
   const ini = (nama || "?").replace(/^boeng\s+/i, "").trim().charAt(0).toUpperCase() || "?";
   d.style.background = `hsl(${hue((nama || "").toLowerCase())} 70% 72%)`;
   d.textContent = ini;
   const k = Object.keys(FOTO).find(k => (nama || "").toLowerCase().includes(k));
-  if (k) { const im = new Image(); im.alt = ""; im.onload = () => { d.textContent = ""; d.appendChild(im); }; im.src = FOTO[k]; }
+  const src = foto || (k ? FOTO[k] : "");
+  if (src) { const im = new Image(); im.alt = ""; im.onload = () => { d.textContent = ""; d.appendChild(im); }; im.src = src; }
   return d;
+}
+const avatarU = (u, size) => avatar((u && u.nama) || "", size, u && u.foto);
+function memberOf(nama) {
+  const i = Object.keys(FOTO).findIndex(k => (nama || "").toLowerCase().includes(k));
+  return i >= 0 ? MEMBERS[i] : null;
 }
 
 function pad2(n) { return n < 10 ? "0" + n : "" + n; }
@@ -936,6 +1091,7 @@ async function mintaNotif() {
   return false;
 }
 async function tampilNotif(m, key) {
+  if (fcmToken) return; // push dari server yang menangani
   if (!notifAktif()) return;
   const h = key ? hashRoom(key) : "#/chat";
   const title = key === "group" ? (m.nama || "Para Boeng") + " · Grup" : (m.nama || "Para Boeng");
@@ -977,7 +1133,7 @@ function updateBadges() {
 }
 
 /* ========================= ROUTER ========================= */
-let rute = "home", ruteParam = "", started = false, enterTs = 0;
+let rute = "home", ruteParam = "", started = false, enterTs = 0, lastMainHash = "";
 function parseHash() {
   const parts = location.hash.replace(/^#\/?/, "").split("/");
   const r = parts[0] || "home";
@@ -988,6 +1144,8 @@ function tampilRute() {
   const h = parseHash(); rute = h.r; ruteParam = h.p;
   const info = ROUTES[rute];
   if (rute === "chat" && ruteParam && me && ruteParam === me.uid) { history.replaceState(history.state, "", "#/chat"); tampilRute(); return; }
+  if (rute === "profil" && !ruteParam && me) { history.replaceState(history.state, "", "#/profil/" + me.uid); tampilRute(); return; }
+  if (rute !== "profil") lastMainHash = "#/" + rute + (ruteParam ? "/" + ruteParam : "");
   const inRoom = rute === "chat" && !!ruteParam;
   const pid = rute === "chat" ? (inRoom ? "p-chat" : "p-chats") : "p-" + rute;
   enterTs = Date.now();
@@ -1001,21 +1159,21 @@ function tampilRute() {
   $("tabbar").style.setProperty("--i", Math.max(0, ti));
   document.querySelectorAll("#tabbar a").forEach(a => a.classList.toggle("on", a.dataset.r === info.tab));
   document.querySelectorAll("#sideNav a").forEach(a => a.classList.toggle("on", a.dataset.r === rute));
-  if (inRoom) openRoom(ruteParam);
+  if (inRoom) { tutupProfil(); openRoom(ruteParam); }
   else {
     if (curRoom) closeRoom();
+    if (rute === "profil") bukaProfil(ruteParam); else tutupProfil();
     if (rute === "chat") { listAnim = true; renderChatList(true); setTimeout(() => { listAnim = false; }, 900); }
     if (rute === "anggota") renderUsers(true);
+    if (rute === "feed") renderFeed();
     window.scrollTo(0, 0);
   }
 }
-$("btnBack").addEventListener("click", () => go("#/" + (ROUTES[rute].parent || "home")));
+const kembaliHash = () => rute === "profil" ? (lastMainHash || "#/anggota") : "#/" + (ROUTES[rute].parent || "home");
+$("btnBack").addEventListener("click", () => go(kembaliHash()));
 $("chBack").addEventListener("click", () => go("#/chat"));
 
 /* ========================= TOMBOL KEMBALI HP ========================= */
-/* Navigasi di dalam aplikasi memakai replaceState (tidak menumpuk riwayat), dengan satu "penjaga"
-   di bawahnya. Tombol/gestur Kembali di HP jatuh ke penjaga itu, lalu aplikasi memutuskan
-   tujuannya: tutup pop-up -> halaman induk -> Beranda -> (tekan 2x) keluar. */
 let guardSet = false, lastBackHome = 0;
 const curHash = () => "#/" + rute + (ruteParam ? "/" + ruteParam : "");
 function go(h) {
@@ -1033,7 +1191,10 @@ function pasangGuard() {
 function tutupLapisan() {
   if ($("photoPopup").classList.contains("on")) { tutupFoto(); return true; }
   if ($("sheet").classList.contains("on")) { tutupSheet(); return true; }
+  if ($("postModal").classList.contains("on")) { tutupPost(); return true; }
+  if ($("profModal").classList.contains("on")) { tutupProfEdit(); return true; }
   if ($("planModal").classList.contains("on")) { tutupPlan(); return true; }
+  if ($("statusModal").classList.contains("on")) { tutupStatus(); return true; }
   if ($("prevModal").classList.contains("on")) { $("pvBatal").click(); return true; }
   if ($("emojiPanel").classList.contains("on")) { tutupPanel(); return true; }
   if ($("attachMenu").classList.contains("on")) { tutupMenu(); return true; }
@@ -1042,6 +1203,7 @@ function tutupLapisan() {
 }
 function tujuanKembali() {
   if (rute === "chat" && ruteParam) return "#/chat";
+  if (rute === "profil") return lastMainHash || "#/anggota";
   if (ROUTES[rute].parent) return "#/" + ROUTES[rute].parent;
   if (rute !== "home") return "#/home";
   return null;
@@ -1069,7 +1231,7 @@ $("tabbar").innerHTML = '<span class="tab-ind"></span>' + TABS.map(([r, l, i]) =
   `<a href="#/${r}" data-r="${r}">${ic(i)}<span>${l}</span>${r === "chat" ? '<i class="badge" data-badge="chat" hidden></i>' : ""}</a>`).join("");
 $("tabbar").addEventListener("click", e => { if (e.target.closest("a")) buzz(8); });
 $("sideNav").innerHTML =
-  TABS.slice(0, 4).map(([r, l, i]) => `<a href="#/${r}" data-r="${r}">${ic(i)}<span>${l}</span>${r === "chat" ? '<i class="badge" data-badge="chat" hidden></i>' : ""}</a>`).join("") +
+  TABS.slice(0, 5).map(([r, l, i]) => `<a href="#/${r}" data-r="${r}">${ic(i)}<span>${l}</span>${r === "chat" ? '<i class="badge" data-badge="chat" hidden></i>' : ""}</a>`).join("") +
   '<div class="side-sep"></div>' +
   SIDE_EXTRA.map(([r, l, e]) => `<a href="#/${r}" data-r="${r}"><span style="width:22px;text-align:center">${e}</span><span>${l}</span></a>`).join("") +
   '<div class="side-sep"></div>' +
@@ -1222,7 +1384,17 @@ $("btnKeluar").addEventListener("click", async () => {
 });
 
 /* ========================= MASUK / KELUAR ========================= */
-let unsubUsers, unsubPlan, timerPing, timerUsers;
+let unsubUsers, unsubPlan, unsubFeed = null, unsubProf = null, timerPing, timerUsers, myFotoSig = -1;
+
+function pasangAvatarSaya() {
+  if (!me) return;
+  const u = userById(me.uid) || { nama: me.nama };
+  $("sideMe").innerHTML = ""; $("sideMe").append(avatarU(u, 36), el("b", null, me.nama));
+  $("topAv").innerHTML = ""; $("topAv").appendChild(avatarU(u, 36));
+  $("cmpAv").innerHTML = ""; $("cmpAv").appendChild(avatarU(u, 42));
+}
+$("sideMe").addEventListener("click", () => { if (me) go("#/profil/" + me.uid); });
+$("topAv").addEventListener("click", () => { if (me) go("#/profil/" + me.uid); });
 
 function masuk() {
   if (started) return;
@@ -1230,12 +1402,12 @@ function masuk() {
   document.body.classList.remove("locked");
   $("heroHi").textContent = "Halo, " + me.nama + " 👋";
   $("setNama").textContent = me.nama;
-  $("sideMe").innerHTML = ""; const sa = avatar(me.nama, 36); $("sideMe").append(sa, el("b", null, me.nama));
-  $("topAv").innerHTML = ""; $("topAv").appendChild(avatar(me.nama, 36));
+  myFotoSig = -1;
+  pasangAvatarSaya();
   $("swSuara").checked = lsGet("pb_suara") !== "0";
   $("swNotif").checked = notifAktif();
   cekBannerNotif();
-  subUsers(); subGroup(); subDm(); subRencana();
+  subUsers(); subGroup(); subDm(); subRencana(); subFeed();
   ping(true); timerPing = setInterval(() => { if (!document.hidden) ping(true); }, 40000);
   timerUsers = setInterval(tick, 1000);
   daftarSW(); iniPush(); pasangGuard();
@@ -1244,12 +1416,16 @@ function masuk() {
 
 function keluar() {
   started = false;
-  [unsubRoom, unsubUsers, unsubPlan, unsubGroup, unsubDm].forEach(u => u && u());
-  unsubRoom = unsubGroup = unsubDm = null;
+  [unsubRoom, unsubUsers, unsubPlan, unsubGroup, unsubDm, unsubFeed, unsubProf].forEach(u => u && u());
+  unsubRoom = unsubGroup = unsubDm = unsubFeed = unsubProf = null;
   clearInterval(timerPing); clearInterval(timerUsers);
   curRoom = null; users = []; dmMeta = {}; groupLast = null; unreadBy = {}; fcmToken = null;
   Object.keys(seen).forEach(k => delete seen[k]);
   renderedNodes.clear(); $("msgs").innerHTML = ""; knownIds = new Set(); newestWaktu = 0; firstRender = true;
+  lastMsgs = [];
+  feedPosts = []; feedCache.clear(); feedLimit = 20; feedMore = false;
+  $("feedList").innerHTML = '<div class="chat-empty">Memuat postingan…</div>';
+  profUid = ""; profPosts = []; profCache.clear(); profSig = "";
   usersSig = ""; chatListSig = "";
   unread = 0; updateBadges();
   document.body.classList.add("locked");
@@ -1308,6 +1484,8 @@ let unsubRoom = null, unsubGroup = null, unsubDm = null, listAnim = false;
 let usersSig = "", chatListSig = "", hdrSig = "";
 const seen = {};
 
+const userById = id => users.find(u => u.id === id);
+const fotoLen = u => (u && u.foto) ? u.foto.length : 0;
 const isOnline = u => !!u && u.online !== false && Date.now() - (u.lastSeen || 0) < 100000;
 function lastSeenText(u) {
   if (isOnline(u)) return "online";
@@ -1324,20 +1502,27 @@ const hashRoom = key => key === "group" ? "#/chat/group" : "#/chat/" + key.split
 const colFor = room => room.type === "group" ? collection(db, "chat") : collection(db, "dm", room.key, "msgs");
 const roomCol = () => colFor(curRoom);
 
-function tick() { renderUsers(); renderChatList(); updateRoomHeader(); updateTypingBar(); }
+function tick() {
+  renderUsers(); renderChatList(); updateRoomHeader(); updateTypingBar(); renderMyStatus(); refreshTicks();
+  if (rute === "profil") renderProfil();
+  if (rute === "feed" || rute === "profil") refreshPostTimes();
+}
 
 /* ---- daftar akun ---- */
 function subUsers() {
   unsubUsers = onSnapshot(collection(db, "users"), snap => {
     users = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    const sigFoto = fotoLen(userById(me.uid));
+    if (sigFoto !== myFotoSig) { myFotoSig = sigFoto; pasangAvatarSaya(); }
     tick();
+    if (feedPosts.length) renderFeed();
   }, () => { $("userList").innerHTML = '<div class="chat-empty">Daftar akun belum bisa dimuat.</div>'; });
 }
 function renderUsers(force) {
   const list = [...users].sort((a, b) => ((isOnline(b) ? 1 : 0) - (isOnline(a) ? 1 : 0)) || (a.nama || "").localeCompare(b.nama || ""));
   const jml = list.filter(isOnline).length;
   $("userCount").textContent = list.length ? `· ${jml} online` : "";
-  const sig = list.map(u => [u.id, u.nama, lastSeenText(u)].join("|")).join(";");
+  const sig = list.map(u => [u.id, u.nama, lastSeenText(u), statusAktif(u), fotoLen(u)].join("|")).join(";");
   if (!force && sig === usersSig) return;
   usersSig = sig;
   const box = $("userList"); box.innerHTML = "";
@@ -1346,15 +1531,18 @@ function renderUsers(force) {
   list.forEach((u, i) => {
     const mine = me && u.id === me.uid;
     const row = el("div", "urow" + (anim ? " enter" : "")); row.style.setProperty("--n", i);
+    row.title = "Lihat profil";
+    row.addEventListener("click", () => go("#/profil/" + u.id));
     const un = el("div", "un");
     const sm = el("small", isOnline(u) ? "onl" : "", lastSeenText(u));
     un.append(el("b", null, (u.nama || "Anonim") + (mine ? " (kamu)" : "")), sm);
-    const av = el("div", "avw"); av.append(avatar(u.nama, 44), el("i", "on-dot" + (isOnline(u) ? " on" : "")));
+    const st = statusAktif(u); if (st) un.appendChild(el("span", "u-status", st));
+    const av = el("div", "avw"); av.append(avatarU(u, 44), el("i", "on-dot" + (isOnline(u) ? " on" : "")));
     row.append(av, un);
     if (!mine) {
       const b = el("button", "icon-btn dm-btn"); b.type = "button"; b.title = "Chat pribadi"; b.setAttribute("aria-label", "Chat pribadi dengan " + (u.nama || ""));
       b.innerHTML = ic("chat");
-      b.addEventListener("click", () => go("#/chat/" + u.id));
+      b.addEventListener("click", e => { e.stopPropagation(); go("#/chat/" + u.id); });
       row.appendChild(b);
     }
     box.appendChild(row);
@@ -1372,7 +1560,7 @@ function renderChatList(force) {
   dms.sort((a, b) => ((b.last ? b.last.waktu : 0) - (a.last ? a.last.waktu : 0)) || ((isOnline(b.u) ? 1 : 0) - (isOnline(a.u) ? 1 : 0)) || a.nama.localeCompare(b.nama));
   rows.push(...dms);
   const sig = rows.map(r => [r.key, r.nama, r.last ? r.last.waktu + "~" + (r.last.isi || "") + (r.last.tipe || "") : "", unreadBy[r.key] || 0,
-    r.u ? (isOnline(r.u) ? 1 : 0) : "", typers(r.key).map(t => t.id).join(","), r.u ? lastSeenText(r.u) : ""].join("|")).join(";");
+    r.u ? (isOnline(r.u) ? 1 : 0) : "", typers(r.key).map(t => t.id).join(","), r.u ? lastSeenText(r.u) : "", fotoLen(r.u)].join("|")).join(";");
   if (!force && sig === chatListSig) return;
   chatListSig = sig;
   box.innerHTML = "";
@@ -1380,7 +1568,7 @@ function renderChatList(force) {
     const a = el("a", "cl-row" + (listAnim ? " enter" : "")); a.href = r.hash; a.style.setProperty("--n", i);
     const av = el("div", "avw");
     if (r.group) av.appendChild(el("div", "ch-logo", "💬"));
-    else av.append(avatar(r.nama, 48), el("i", "on-dot" + (isOnline(r.u) ? " on" : "")));
+    else av.append(avatarU(r.u, 48), el("i", "on-dot" + (isOnline(r.u) ? " on" : "")));
     const mid = el("div", "cl-mid");
     const n = unreadBy[r.key] || 0;
     const top = el("div", "cl-top" + (n ? " hasun" : ""));
@@ -1436,23 +1624,30 @@ function updateRoomHeader() {
     p = users.find(u => u.id === curRoom.peerUid);
     nama = p ? (p.nama || "Anonim") : "Pengguna";
     if (tp.length) { txt = "mengetik"; mode = "ty"; }
-    else { txt = p ? lastSeenText(p) : "Memuat…"; mode = isOnline(p) ? "onl" : ""; }
+    else { txt = p ? lastSeenText(p) + (statusAktif(p) ? " · " + statusAktif(p) : "") : "Memuat…"; mode = isOnline(p) ? "onl" : ""; }
   }
-  const sig = nama + "|" + txt + "|" + mode;
+  const sig = nama + "|" + txt + "|" + mode + "|" + fotoLen(p);
   if (sig === hdrSig) return;
   hdrSig = sig;
   $("chName").textContent = nama;
   const s = $("chatSub"); s.className = mode; s.textContent = txt;
   if (mode === "ty") { const d = document.createElement("span"); d.className = "tdots mini"; d.innerHTML = "<i></i><i></i><i></i>"; s.appendChild(d); }
   const av = $("chAv");
+  const avKey = nama + "|" + fotoLen(p);
   if (curRoom.type === "group") { if (av.dataset.n !== "__g") { av.className = "ch-logo"; av.textContent = "💬"; av.dataset.n = "__g"; } }
-  else if (av.dataset.n !== nama) { av.className = ""; av.textContent = ""; av.appendChild(avatar(nama, 42)); av.dataset.n = nama; }
+  else if (av.dataset.n !== avKey) { av.className = ""; av.textContent = ""; av.appendChild(avatarU(p || { nama }, 42)); av.dataset.n = avKey; }
 }
+/* ketuk foto/nama di header chat pribadi untuk membuka profil lawan bicara */
+["chAv", "chName"].forEach(id => {
+  $(id).style.cursor = "pointer";
+  $(id).addEventListener("click", () => { if (curRoom && curRoom.type === "dm") go("#/profil/" + curRoom.peerUid); });
+});
 
 /* ---- belum dibaca & notifikasi ---- */
 function recount() { unread = Object.values(unreadBy).reduce((a, b) => a + b, 0); updateBadges(); }
 function markRead(key) {
   lsSet("pb_read_" + key, String(Date.now()));
+  tulisBaca(key);
   if (unreadBy[key]) { unreadBy[key] = 0; recount(); }
   renderChatList();
 }
@@ -1531,6 +1726,7 @@ function openRoom(param) {
   if (curRoom && curRoom.key === r.key) { markRead(r.key); updateRoomHeader(); return; }
   if (curRoom) closeRoom();
   curRoom = r; limitN = 40; firstRender = true; knownIds = new Set(); newestWaktu = 0; pillCount = 0; stick = true; loadingOlder = false;
+  lastMsgs = [];
   renderedNodes.clear(); listEl.innerHTML = '<div class="chat-empty">Memuat pesan…</div>';
   replyTo = null; editing = null; $("replyBar").hidden = true; ta.value = ""; delete ta.dataset.edit; autosize(); modeKirim(); updatePill();
   hdrSig = ""; $("chAv").dataset.n = "";
@@ -1604,6 +1800,7 @@ function renderChat(msgs) {
   Array.from(listEl.children).forEach(c => { if (!prevNodeSet(c)) c.remove(); });
 
   const last = msgs[msgs.length - 1];
+  lastMsgs = msgs;
   const barus = msgs.filter(m => m.waktu > newestWaktu && m.uid !== me.uid && !knownIds.has(m.id));
   const punyaBaru = last && !knownIds.has(last.id) && last.waktu >= newestWaktu;
   const terakhirSaya = last && last.uid === me.uid && punyaBaru;
@@ -1666,11 +1863,12 @@ function linkCard(u) {
 }
 
 /* ---------- media ---------- */
-async function ambilMediaUrl(m) {
+/* col = koleksi Firestore tempat pesan/postingan berada (default: ruang chat yang sedang dibuka) */
+async function ambilMediaUrl(m, col) {
   if (mediaCache.has(m.id)) return mediaCache.get(m.id);
   let data = m.media;
   if (!data && m.bagian) {
-    const snap = await getDocs(query(collection(doc(roomCol(), m.id), "part"), orderBy("i")));
+    const snap = await getDocs(query(collection(doc(col || roomCol(), m.id), "part"), orderBy("i")));
     data = snap.docs.map(d => d.data().d).join("");
   }
   if (!data) throw new Error("kosong");
@@ -1685,7 +1883,7 @@ function mediaGambar(m) {
   im.addEventListener("click", e => { e.stopPropagation(); bukaFoto(im.src); });
   return im;
 }
-function mediaVideo(m) {
+function mediaVideo(m, col) {
   const w = el("div", "vid-ph");
   w.innerHTML = `${ic("play", "big")}<span>Putar video · ${fmtUkuran(m.ukuran)}</span>`;
   w.addEventListener("click", async e => {
@@ -1693,7 +1891,7 @@ function mediaVideo(m) {
     if (w.classList.contains("load")) return;
     w.classList.add("load"); w.querySelector("span").textContent = "Memuat…";
     try {
-      const u = await ambilMediaUrl(m);
+      const u = await ambilMediaUrl(m, col);
       const v = document.createElement("video"); v.src = u; v.controls = true; v.autoplay = true; v.playsInline = true; v.className = "b-video";
       w.replaceWith(v);
     } catch (er) { w.classList.remove("load"); w.querySelector("span").textContent = "Gagal memuat. Ketuk lagi."; }
@@ -1760,10 +1958,18 @@ function buildMsg(m, first) {
   const grup = curRoom && curRoom.type === "group";
   const row = el("div", "msg" + (mine ? " me" : "") + (first ? " first" : ""));
   row.dataset.id = m.id;
-  if (!mine && grup) { const av = avatar(m.nama, 30); av.classList.add("msg-av"); if (!first) av.style.visibility = "hidden"; row.appendChild(av); }
+  if (!mine && grup) {
+    const av = avatarU(userById(m.uid) || { nama: m.nama }, 30); av.classList.add("msg-av"); if (!first) av.style.visibility = "hidden";
+    av.style.cursor = "pointer"; av.addEventListener("click", e => { e.stopPropagation(); go("#/profil/" + m.uid); });
+    row.appendChild(av);
+  }
 
   const b = el("div", "bubble");
-  if (!mine && first && grup) { const n = el("div", "b-name", m.nama || "Anonim"); n.style.color = warna(m.nama); b.appendChild(n); }
+  if (!mine && first && grup) {
+    const n = el("div", "b-name", m.nama || "Anonim"); n.style.color = warna(m.nama);
+    n.style.cursor = "pointer"; n.addEventListener("click", e => { e.stopPropagation(); go("#/profil/" + m.uid); });
+    b.appendChild(n);
+  }
 
   if (m.reply) {
     const q = el("div", "quote"); q.style.setProperty("--q", warna(m.reply.nama));
@@ -1786,7 +1992,7 @@ function buildMsg(m, first) {
 
   const meta = el("div", "b-meta");
   meta.append(document.createTextNode((m.diedit ? "diedit · " : "") + fmtJam(m.waktu)));
-  if (mine) meta.insertAdjacentHTML("beforeend", ic(m.pending ? "clock" : "check"));
+  if (mine) meta.appendChild(buatTick(m));
   b.appendChild(meta);
   row.appendChild(b);
 
@@ -2016,7 +2222,7 @@ async function muatGambar(file) {
   try { return await createImageBitmap(file, { imageOrientation: "from-image" }); } catch (e) {}
   return new Promise((res, rej) => { const im = new Image(); const u = URL.createObjectURL(file); im.onload = () => { URL.revokeObjectURL(u); res(im); }; im.onerror = rej; im.src = u; });
 }
-async function kompresGambar(file) {
+async function kompresGambar(file, maxChars = 380000) {
   const src = await muatGambar(file);
   const w0 = src.width || src.naturalWidth, h0 = src.height || src.naturalHeight;
   let maxS = 1280, q = .72, out = "";
@@ -2025,11 +2231,21 @@ async function kompresGambar(file) {
     const c = document.createElement("canvas"); c.width = Math.max(1, Math.round(w0 * sc)); c.height = Math.max(1, Math.round(h0 * sc));
     const g = c.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0, 0, c.width, c.height); g.drawImage(src, 0, 0, c.width, c.height);
     out = c.toDataURL("image/jpeg", q);
-    if (out.length <= 380000) break;
+    if (out.length <= maxChars) break;
     if (q > .5) q -= .1; else maxS *= .8;
   }
   if (src.close) try { src.close(); } catch (e) {}
   return out;
+}
+/* foto profil: dipotong persegi dari tengah, kecil supaya ringan */
+async function kompresAvatar(file) {
+  const src = await muatGambar(file);
+  const w0 = src.width || src.naturalWidth, h0 = src.height || src.naturalHeight, s = Math.min(w0, h0);
+  const c = document.createElement("canvas"); c.width = c.height = 192;
+  const g = c.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0, 0, 192, 192);
+  g.drawImage(src, (w0 - s) / 2, (h0 - s) / 2, s, s, 0, 0, 192, 192);
+  if (src.close) try { src.close(); } catch (e) {}
+  return c.toDataURL("image/jpeg", .78);
 }
 
 const statEl = $("sendStat");
@@ -2159,6 +2375,80 @@ function selesaiRekam(kirim) {
 $("recBatal").addEventListener("click", () => selesaiRekam(false));
 $("recKirim").addEventListener("click", () => selesaiRekam(true));
 
+/* ========================= CENTANG PESAN ========================= */
+/* ✓ = terkirim (penerima offline) · ✓✓ = penerima online/sudah menerima · ✓✓ kuning = sudah dibaca */
+let lastMsgs = [];
+const bacaTimer = {};
+function tulisBaca(key) {
+  if (!me || document.hidden) return;
+  clearTimeout(bacaTimer[key]);
+  bacaTimer[key] = setTimeout(() => {
+    if (me) setDoc(doc(db, "users", me.uid), { reads: { [key]: Date.now() } }, { merge: true }).catch(() => {});
+  }, 300);
+}
+function statusCentang(m) {
+  if (m.pending) return "pending";
+  if (!curRoom || !me) return "sent";
+  const key = curRoom.key, baca = u => (u.reads && u.reads[key]) || 0;
+  const lain = curRoom.type === "dm" ? users.filter(u => u.id === curRoom.peerUid) : users.filter(u => u.id !== me.uid);
+  if (!lain.length) return "sent";
+  if (lain.every(u => baca(u) >= m.waktu)) return "read";
+  if (lain.some(u => isOnline(u) || (u.lastSeen || 0) >= m.waktu || baca(u) >= m.waktu)) return "delivered";
+  return "sent";
+}
+function isiTick(t, s) {
+  t.dataset.s = s; t.className = "tk " + s;
+  t.innerHTML = ic(s === "pending" ? "clock" : s === "sent" ? "check" : "checks", s === "sent" || s === "pending" ? "" : "dbl");
+}
+function buatTick(m) { const t = el("span", "tk"); isiTick(t, statusCentang(m)); return t; }
+function refreshTicks() {
+  if (!curRoom || !me) return;
+  lastMsgs.forEach(m => {
+    if (m.uid !== me.uid) return;
+    const rec = renderedNodes.get(m.id), t = rec && rec.node.querySelector(".tk");
+    if (!t) return;
+    const s = statusCentang(m);
+    if (t.dataset.s !== s) isiTick(t, s);
+  });
+}
+
+/* ========================= STATUS ========================= */
+const STATUS_TTL = 24 * 3600 * 1000;
+const PRESET = ["🎮 Lagi gaming","🏍️ Lagi touring","🍜 Lagi makan","😴 Lagi tidur","📚 Lagi sibuk","🎬 Lagi nonton","⛰️ Siap naik Bukit Kaba"];
+const statusAktif = u => (u && u.status && u.status.teks && Date.now() - (u.status.t || 0) < STATUS_TTL) ? u.status.teks : "";
+
+function renderMyStatus() {
+  if (!me) return;
+  const s = statusAktif(users.find(u => u.id === me.uid));
+  const t = $("myStatusTxt");
+  t.textContent = s || "Ketuk untuk mengatur status";
+  t.className = s ? "on" : "";
+}
+function bukaStatus() {
+  const s = statusAktif(users.find(u => u.id === me.uid));
+  $("stIsi").value = s;
+  $("stPreset").innerHTML = "";
+  PRESET.forEach(p => {
+    const b = el("button", "chip", p); b.type = "button";
+    b.addEventListener("click", () => { $("stIsi").value = p; });
+    $("stPreset").appendChild(b);
+  });
+  $("statusModal").classList.add("on");
+}
+function tutupStatus() { $("statusModal").classList.remove("on"); }
+async function simpanStatus(teks) {
+  try {
+    await setDoc(doc(db, "users", me.uid), { status: teks ? { teks, t: Date.now() } : { teks: "", t: 0 } }, { merge: true });
+    toast(teks ? "Status diperbarui ✨" : "Status dihapus");
+    tutupStatus();
+  } catch (e) { toast("Gagal menyimpan status."); }
+}
+$("myStatus").addEventListener("click", bukaStatus);
+$("myStatus").addEventListener("keydown", e => { if (e.key === "Enter") bukaStatus(); });
+$("stSimpan").addEventListener("click", () => simpanStatus($("stIsi").value.trim().slice(0, 60)));
+$("stHapus").addEventListener("click", () => simpanStatus(""));
+$("statusModal").addEventListener("click", e => { if (e.target === $("statusModal")) tutupStatus(); });
+
 /* ========================= RENCANA ========================= */
 let plans = [], editPlanId = null;
 function subRencana() {
@@ -2233,10 +2523,340 @@ $("planForm").addEventListener("submit", async e => {
   $("plSimpan").disabled = false;
 });
 
+/* ========================= FEED POSTINGAN ========================= */
+/* Koleksi Firestore "posts": { uid, nama, waktu, tipe: teks|gambar|video|catatan, isi, judul, media | bagian, likes:{uid:true} } */
+let feedPosts = [], feedLimit = 20, feedMore = false;
+const feedCache = new Map();
+const postsCol = () => collection(db, "posts");
+
+function subFeed() {
+  if (unsubFeed) unsubFeed();
+  const q = query(postsCol(), orderBy("waktu", "desc"), limit(feedLimit));
+  unsubFeed = onSnapshot(q, snap => {
+    feedPosts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    feedMore = snap.size >= feedLimit;
+    renderFeed();
+  }, err => {
+    feedPosts = []; feedCache.clear();
+    const box = $("feedList"); box.innerHTML = "";
+    box.appendChild(el("div", "chat-empty", err && err.code === "permission-denied"
+      ? "Akses ditolak. Tambahkan aturan (Rules) Firestore untuk koleksi 'posts'."
+      : "Postingan gagal dimuat. Coba lagi nanti."));
+    $("feedMoreW").hidden = true;
+  });
+}
+function renderFeed() {
+  renderPosts($("feedList"), feedPosts, feedCache, "Belum ada postingan. Jadilah yang pertama! ✨");
+  $("feedMoreW").hidden = !feedMore;
+}
+$("feedMore").addEventListener("click", () => { feedLimit += 20; subFeed(); });
+
+function postGambar(p) {
+  const im = new Image(); im.className = "p-img"; im.alt = "Foto"; im.decoding = "async"; im.loading = "lazy";
+  if (p.media) im.src = p.media;
+  else ambilMediaUrl(p, postsCol()).then(u => { im.src = u; }).catch(() => {});
+  im.addEventListener("click", () => { if (im.src) bukaFoto(im.src); });
+  return im;
+}
+function buildPost(p) {
+  const mine = me && p.uid === me.uid;
+  const u = userById(p.uid) || { nama: p.nama };
+  const card = el("article", "post");
+
+  const head = el("div", "p-head");
+  const avA = el("a", "p-av"); avA.href = "#/profil/" + p.uid; avA.appendChild(avatarU(u, 42));
+  const who = el("div", "p-who");
+  const nm = el("a", "p-name", p.nama || "Anonim"); nm.href = "#/profil/" + p.uid;
+  const tm = el("small", "p-time", lalu(p.waktu || Date.now())); tm.dataset.w = p.waktu || 0;
+  who.append(nm, tm);
+  head.append(avA, who);
+  if (mine) {
+    const d = el("button", "icon-btn"); d.type = "button"; d.setAttribute("aria-label", "Hapus postingan"); d.innerHTML = ic("trash");
+    d.addEventListener("click", () => hapusPost(p));
+    head.appendChild(d);
+  }
+  card.appendChild(head);
+
+  const body = el("div", "p-body");
+  const tipe = p.tipe || "teks";
+  if (tipe === "catatan") {
+    const n = el("div", "p-note");
+    n.appendChild(el("h4", null, "📝 " + (p.judul || "Catatan")));
+    const t = el("div", "p-text"); linkify(p.isi || "", t); n.appendChild(t);
+    body.appendChild(n);
+  } else {
+    if (p.isi) { const t = el("div", "p-text"); linkify(p.isi, t); body.appendChild(t); }
+    if (tipe === "gambar") body.appendChild(postGambar(p));
+    else if (tipe === "video") body.appendChild(mediaVideo(p, postsCol()));
+  }
+  card.appendChild(body);
+
+  const likes = p.likes || {}, ids = Object.keys(likes), sudah = !!likes[me.uid];
+  const act = el("div", "p-act");
+  const lb = el("button", "like" + (sudah ? " on" : "")); lb.type = "button";
+  lb.innerHTML = ic("heart"); lb.append(document.createTextNode(ids.length ? String(ids.length) : "Suka"));
+  lb.addEventListener("click", () => { buzz(10); toggleLike(p); });
+  act.appendChild(lb);
+  card.appendChild(act);
+  return card;
+}
+/* menyusun daftar postingan secara bertahap (hanya node yang berubah yang dibangun ulang) */
+function renderPosts(box, list, cache, emptyTxt) {
+  if (!list.length) {
+    const only = box.children.length === 1 ? box.firstChild : null;
+    if (only && only.classList.contains("chat-empty") && only.textContent === emptyTxt) return;
+    box.innerHTML = ""; cache.clear();
+    box.appendChild(el("div", "chat-empty", emptyTxt));
+    return;
+  }
+  box.querySelectorAll(".chat-empty").forEach(n => n.remove());
+  const keep = new Set(); let prev = null;
+  list.forEach(p => {
+    keep.add(p.id);
+    const sig = [p.isi, p.judul, p.tipe, p.nama, Object.keys(p.likes || {}).sort().join(","), fotoLen(userById(p.uid)), p.media ? 1 : 0].join("|");
+    let rec = cache.get(p.id);
+    if (!rec || rec.sig !== sig) {
+      const node = buildPost(p);
+      if (rec && rec.node.parentNode) rec.node.replaceWith(node);
+      rec = { node, sig };
+      cache.set(p.id, rec);
+    }
+    const expected = prev ? prev.nextSibling : box.firstChild;
+    if (rec.node !== expected) box.insertBefore(rec.node, expected);
+    prev = rec.node;
+  });
+  for (const [k, rec] of cache) if (!keep.has(k)) { rec.node.remove(); cache.delete(k); }
+}
+function refreshPostTimes() {
+  document.querySelectorAll(".p-time").forEach(t => { const w = +t.dataset.w; if (w) t.textContent = lalu(w); });
+}
+function toggleLike(p) {
+  const sudah = !!(p.likes && p.likes[me.uid]);
+  updateDoc(doc(db, "posts", p.id), { ["likes." + me.uid]: sudah ? deleteField() : true }).catch(() => toast("Gagal memperbarui suka."));
+}
+async function hapusPost(p) {
+  if (!confirm("Hapus postingan ini?")) return;
+  try {
+    if (p.bagian) {
+      const snap = await getDocs(collection(doc(db, "posts", p.id), "part"));
+      const b = writeBatch(db); snap.docs.forEach(d => b.delete(d.ref)); await b.commit();
+    }
+    await deleteDoc(doc(db, "posts", p.id));
+    toast("Postingan dihapus");
+  } catch (e) { toast("Gagal menghapus postingan."); }
+}
+
+/* ---- buat postingan ---- */
+let postTipe = "", postFile = null, postUrl = "", postBusy = false;
+function resetPostFile() {
+  if (postUrl) URL.revokeObjectURL(postUrl);
+  postUrl = ""; postFile = null;
+  $("pfPrev").innerHTML = ""; $("pfPrev").hidden = true;
+}
+function setPostTipe(t) {
+  if (t !== postTipe) resetPostFile();
+  postTipe = t;
+  document.querySelectorAll("#pfTipe .chip").forEach(b => b.classList.toggle("on", b.dataset.t === t));
+  const media = t === "gambar" || t === "video";
+  $("pfJudulW").hidden = t !== "catatan";
+  $("pfMediaW").hidden = !media;
+  $("pfIsiL").textContent = t === "catatan" ? "Isi catatan" : media ? "Keterangan (opsional)" : "Apa yang kamu pikirkan?";
+  $("pfFile").accept = t === "gambar" ? "image/*" : "video/*";
+  $("pfPilih").textContent = (postFile ? "Ganti " : "Pilih ") + (t === "gambar" ? "foto" : "video");
+}
+function bukaPost(t) {
+  if (postBusy) return;
+  resetPostFile(); postTipe = "";
+  $("pfIsi").value = ""; $("pfJudul").value = "";
+  setPostTipe(t || "teks");
+  $("postModal").classList.add("on");
+  if (t === "gambar" || t === "video") $("pfFile").click();
+  else setTimeout(() => $("pfIsi").focus(), 60);
+}
+function tutupPost() { if (postBusy) return; $("postModal").classList.remove("on"); resetPostFile(); }
+$("cmpOpen").addEventListener("click", () => bukaPost("teks"));
+document.querySelectorAll("[data-post]").forEach(b => b.addEventListener("click", () => bukaPost(b.dataset.post)));
+$("pfTipe").addEventListener("click", e => { const b = e.target.closest("[data-t]"); if (b) setPostTipe(b.dataset.t); });
+$("pfPilih").addEventListener("click", () => $("pfFile").click());
+$("pfBatal").addEventListener("click", tutupPost);
+$("postModal").addEventListener("click", e => { if (e.target === $("postModal")) tutupPost(); });
+$("pfFile").addEventListener("change", e => {
+  const f = e.target.files[0]; e.target.value = ""; if (!f) return;
+  if (postTipe === "gambar" && !f.type.startsWith("image/")) { toast("Pilih file gambar."); return; }
+  if (postTipe === "video" && !f.type.startsWith("video/")) { toast("Pilih file video."); return; }
+  if (postTipe === "video" && f.size > VIDEO_MAX) { toast(`Video terlalu besar (maks ${fmtUkuran(VIDEO_MAX)}). Tulis tautan YouTube/Drive di status.`, { ms: 5000 }); return; }
+  resetPostFile(); postFile = f; postUrl = URL.createObjectURL(f);
+  const body = $("pfPrev"); body.innerHTML = ""; body.hidden = false;
+  if (postTipe === "gambar") { const im = new Image(); im.src = postUrl; body.appendChild(im); }
+  else { const v = document.createElement("video"); v.src = postUrl; v.controls = true; v.muted = true; v.playsInline = true; body.appendChild(v); }
+  $("pfPilih").textContent = "Ganti " + (postTipe === "gambar" ? "foto" : "video");
+});
+$("pfKirim").addEventListener("click", async () => {
+  if (postBusy) return;
+  const isi = $("pfIsi").value.trim(), judul = $("pfJudul").value.trim();
+  const media = postTipe === "gambar" || postTipe === "video";
+  if (media && !postFile) { toast("Pilih " + (postTipe === "gambar" ? "foto" : "video") + " dulu."); return; }
+  if (!media && !isi) { toast("Tulis sesuatu dulu ya."); return; }
+  if (postTipe === "catatan" && !judul) { toast("Beri judul catatan dulu."); return; }
+  postBusy = true; $("pfKirim").disabled = true; $("pfKirim").textContent = "Mengirim…";
+  try {
+    await kirimPost({ tipe: postTipe, isi, judul, file: postFile });
+    postBusy = false; tutupPost();
+    toast("Postingan terkirim ✨"); bunyiKirim();
+  } catch (e) { toast("Gagal mengirim postingan. Cek koneksi atau aturan Firestore.", { ms: 5000 }); }
+  postBusy = false; $("pfKirim").disabled = false; $("pfKirim").textContent = "Kirim";
+});
+async function kirimPost({ tipe, isi, judul, file }) {
+  const ref = doc(postsCol());
+  const payload = { uid: me.uid, nama: me.nama, waktu: Date.now(), tipe, likes: {} };
+  if (isi) payload.isi = isi.slice(0, 1000);
+  if (tipe === "catatan" && judul) payload.judul = judul.slice(0, 80);
+  if (file) {
+    $("pfKirim").textContent = "Menyiapkan…";
+    const dataUrl = tipe === "gambar" ? await kompresGambar(file, 300000) : await bacaDataUrl(file);
+    payload.ukuran = file.size; payload.mime = file.type;
+    if (dataUrl.length <= INLINE_MAX) payload.media = dataUrl;
+    else {
+      const n = Math.ceil(dataUrl.length / CHUNK);
+      for (let s = 0; s < n; s += 3) {
+        const batch = writeBatch(db);
+        for (let i = s; i < Math.min(n, s + 3); i++)
+          batch.set(doc(ref, "part", String(i).padStart(4, "0")), { i, d: dataUrl.slice(i * CHUNK, (i + 1) * CHUNK) });
+        await batch.commit();
+        $("pfKirim").textContent = `Mengirim… ${Math.round(Math.min(1, (s + 3) / n) * 100)}%`;
+      }
+      payload.bagian = n;
+    }
+  }
+  await setDoc(ref, payload);
+}
+
+/* ========================= PROFIL AKUN ========================= */
+let profUid = "", profPosts = [], profSig = "";
+const profCache = new Map();
+
+function bukaProfil(uid) {
+  if (!uid) return;
+  if (profUid !== uid) {
+    tutupProfil();
+    profUid = uid; profPosts = []; profSig = ""; profCache.clear();
+    $("profPosts").innerHTML = '<div class="chat-empty">Memuat…</div>';
+    unsubProf = onSnapshot(query(postsCol(), where("uid", "==", uid)), snap => {
+      profPosts = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.waktu || 0) - (a.waktu || 0));
+      profSig = "";
+      renderProfil();
+    }, () => {
+      $("profPosts").innerHTML = "";
+      $("profPosts").appendChild(el("div", "chat-empty", "Postingan gagal dimuat. Cek aturan (Rules) Firestore untuk 'posts'."));
+    });
+  }
+  renderProfil();
+}
+function tutupProfil() { if (unsubProf) { unsubProf(); unsubProf = null; } profUid = ""; }
+
+function renderProfil() {
+  if (!profUid || !me) return;
+  const u = userById(profUid);
+  const box = $("profHead");
+  if (!u) {
+    if (users.length) { box.innerHTML = ""; box.appendChild(el("div", "chat-empty", "Akun tidak ditemukan.")); }
+    return;
+  }
+  const mine = u.id === me.uid;
+  const totalSuka = profPosts.reduce((a, p) => a + Object.keys(p.likes || {}).length, 0);
+  const sig = [u.id, u.nama, u.bio, fotoLen(u), lastSeenText(u), statusAktif(u), profPosts.length, totalSuka, mine ? 1 : 0].join("|");
+  if (sig !== profSig) {
+    profSig = sig;
+    const m = memberOf(u.nama);
+    box.innerHTML = "";
+    box.appendChild(el("div", "pf-cover"));
+    const body = el("div", "pf-body");
+
+    const row = el("div", "pf-row");
+    const av = avatarU(u, 96); av.classList.add("pf-av");
+    if (u.foto) { av.style.cursor = "zoom-in"; av.addEventListener("click", () => bukaFoto(u.foto)); }
+    const info = el("div", "pf-info");
+    info.append(el("h2", null, u.nama || "Anonim"), el("div", "pf-sub" + (isOnline(u) ? " onl" : ""), lastSeenText(u)));
+    row.append(av, info);
+    body.appendChild(row);
+
+    const st = statusAktif(u);
+    if (st) body.appendChild(el("div", "pf-status", "💭 " + st));
+
+    const chips = el("div", "chips pf-chips");
+    if (m) {
+      chips.appendChild(el("span", "chip", "⭐ " + m.role));
+      chips.appendChild(el("span", "chip", "🎯 " + m.data[1]));
+      chips.appendChild(el("span", "chip", "🎮 " + m.data[2]));
+      m.tags.forEach(t => chips.appendChild(el("span", "mtag", t)));
+    }
+    if (chips.children.length) body.appendChild(chips);
+
+    body.appendChild(el("p", "pf-bio", u.bio || (m ? m.bio : (mine ? "Belum ada bio. Ketuk Edit profil untuk menulisnya." : "Belum ada bio."))));
+
+    const stats = el("div", "pf-stats");
+    const gabung = u.dibuat ? (() => { const d = new Date(u.dibuat); return d.getDate() + " " + BULAN[d.getMonth()] + " " + d.getFullYear(); })() : "-";
+    [[profPosts.length, "Postingan"], [totalSuka, "Suka diterima"], [gabung, "Bergabung"]].forEach(([v, l]) => {
+      const d = el("div"); d.append(el("b", null, String(v)), el("span", null, l)); stats.appendChild(d);
+    });
+    body.appendChild(stats);
+
+    const act = el("div", "pf-act");
+    if (mine) {
+      const b1 = el("button", "btn-sm", "✏️ Edit profil"); b1.type = "button"; b1.addEventListener("click", bukaProfEdit);
+      const b2 = el("button", "btn-sm line", "💭 Atur status"); b2.type = "button"; b2.addEventListener("click", bukaStatus);
+      const b3 = el("button", "btn-sm line", "📝 Buat postingan"); b3.type = "button"; b3.addEventListener("click", () => bukaPost("teks"));
+      act.append(b1, b2, b3);
+    } else {
+      const b1 = el("button", "btn-sm", "💬 Kirim pesan"); b1.type = "button"; b1.addEventListener("click", () => go("#/chat/" + u.id));
+      act.appendChild(b1);
+    }
+    body.appendChild(act);
+    box.appendChild(body);
+  }
+  $("profCount").textContent = profPosts.length ? "· " + profPosts.length : "";
+  renderPosts($("profPosts"), profPosts, profCache, mine ? "Kamu belum punya postingan. Buat yang pertama! ✨" : "Belum ada postingan.");
+}
+
+/* ---- edit profil (foto & bio) ---- */
+let peFoto; // undefined = tidak berubah · string = foto baru · null = hapus foto
+function gambarPE() {
+  const u = userById(me.uid) || {};
+  $("peAv").innerHTML = "";
+  $("peAv").appendChild(avatar(me.nama, 84, peFoto === undefined ? u.foto : peFoto));
+}
+function bukaProfEdit() {
+  const u = userById(me.uid) || {};
+  peFoto = undefined;
+  $("peBio").value = u.bio || "";
+  gambarPE();
+  $("profModal").classList.add("on");
+}
+function tutupProfEdit() { $("profModal").classList.remove("on"); }
+$("peGanti").addEventListener("click", () => $("peFile").click());
+$("peHapusFoto").addEventListener("click", () => { peFoto = null; gambarPE(); });
+$("peBatal").addEventListener("click", tutupProfEdit);
+$("profModal").addEventListener("click", e => { if (e.target === $("profModal")) tutupProfEdit(); });
+$("peFile").addEventListener("change", async e => {
+  const f = e.target.files[0]; e.target.value = "";
+  if (!f || !f.type.startsWith("image/")) return;
+  try { peFoto = await kompresAvatar(f); gambarPE(); } catch (er) { toast("Foto tidak bisa dibaca."); }
+});
+$("peSimpan").addEventListener("click", async () => {
+  const data = { bio: $("peBio").value.trim().slice(0, 150) };
+  if (peFoto !== undefined) data.foto = peFoto === null ? deleteField() : peFoto;
+  $("peSimpan").disabled = true;
+  try {
+    await setDoc(doc(db, "users", me.uid), data, { merge: true });
+    toast("Profil diperbarui ✨"); tutupProfEdit();
+  } catch (er) { toast("Gagal menyimpan profil."); }
+  $("peSimpan").disabled = false;
+});
+
 /* ========================= TOMBOL ESC ========================= */
 document.addEventListener("keydown", e => {
   if (e.key !== "Escape") return;
-  tutupFoto(); tutupSheet(); tutupPlan(); tutupMenu(); tutupPanel();
+  tutupFoto(); tutupSheet(); tutupPlan(); tutupStatus(); tutupMenu(); tutupPanel(); tutupPost(); tutupProfEdit();
 });
 </script>
 </body>
