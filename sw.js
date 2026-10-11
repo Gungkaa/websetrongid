@@ -1,46 +1,34 @@
-const CACHE = 'boeng-v1';
-const SHELL = ['./', 'index.html', 'manifest.json', 'icon-192.png'];
+// Service worker Para Boeng: menerima push (FCM) & menangani klik notifikasi.
+self.addEventListener("install", () => self.skipWaiting());
+self.addEventListener("activate", e => e.waitUntil((async () => {
+  try { const ks = await caches.keys(); await Promise.all(ks.map(k => caches.delete(k))); } catch (_) {}
+  await self.clients.claim();
+})()));
 
-self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL).catch(() => {})));
-  self.skipWaiting();
+self.addEventListener("push", e => {
+  let p = {};
+  try { p = e.data ? e.data.json() : {}; } catch (_) { try { p = { body: e.data.text() }; } catch (__) {} }
+  const d = p.data || p.notification || p;
+  e.waitUntil(self.registration.showNotification(d.title || "Para Boeng", {
+    body: d.body || "",
+    icon: "icon-192.png",
+    badge: "icon-192.png",
+    tag: d.tag || "chat",
+    renotify: true,
+    vibrate: [120, 60, 120],
+    data: { url: d.url || "./#/chat" }
+  }));
 });
 
-self.addEventListener('activate', e => {
-  e.waitUntil(
-    caches.keys()
-      .then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k))))
-      .then(() => self.clients.claim())
-  );
-});
-
-// Jaringan dulu (supaya update selalu terbaru), cache hanya cadangan saat offline.
-self.addEventListener('fetch', e => {
-  const r = e.request;
-  if (r.method !== 'GET' || r.headers.has('range')) return;
-  if (new URL(r.url).origin !== location.origin) return;
-  e.respondWith(
-    fetch(r)
-      .then(res => {
-        if (res && res.status === 200) {
-          const cp = res.clone();
-          caches.open(CACHE).then(c => c.put(r, cp)).catch(() => {});
-        }
-        return res;
-      })
-      .catch(() => caches.match(r).then(x => x || caches.match('index.html')))
-  );
-});
-
-self.addEventListener('notificationclick', e => {
+self.addEventListener("notificationclick", e => {
   e.notification.close();
-  const url = (e.notification.data && e.notification.data.url) || './#/chat';
-  e.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
-      for (const c of list) {
-        if ('focus' in c) { c.postMessage({ go: 'chat' }); return c.focus(); }
-      }
-      return clients.openWindow(url);
-    })
-  );
+  const url = (e.notification.data && e.notification.data.url) || "./#/chat";
+  const go = url.split("#/")[1] || "chat";
+  e.waitUntil((async () => {
+    const cs = await clients.matchAll({ type: "window", includeUncontrolled: true });
+    for (const c of cs) {
+      if ("focus" in c) { await c.focus(); c.postMessage({ go }); return; }
+    }
+    await clients.openWindow(url);
+  })());
 });
