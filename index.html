@@ -592,6 +592,37 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 .cinput {
   outline: none !important;
 }
+
+
+/* FIX FINAL: composer chat dan daftar percakapan tidak melebar di layar HP */
+*, *::before, *::after { box-sizing: border-box; }
+#p-chat, #p-chat.on, #chatList, #composer { min-width: 0; max-width: 100%; }
+#chatList { width: 100%; overflow-x: clip; }
+#chatList .cl-row {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+#chatList .cl-row .cl-mid { flex: 1 1 0; width: 0; min-width: 0; overflow: hidden; }
+#chatList .cl-top { display: flex; min-width: 0; max-width: 100%; overflow: hidden; }
+#chatList .cl-top b { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#chatList .cl-sub { display: block; width: 100%; min-width: 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#composer { width: 100%; overflow: visible; }
+#composer .crow { display: flex; width: 100%; min-width: 0; max-width: 100%; gap: 6px; }
+#composer .cinput { flex: 1 1 0; width: 0; min-width: 0; max-width: 100%; box-shadow: none; outline: none; }
+#composer #chatIsi { display: block; flex: 1 1 0; width: 0; min-width: 0; max-width: 100%; box-sizing: border-box; overflow-x: hidden; overflow-wrap: anywhere; outline: none !important; box-shadow: none !important; }
+#composer .cinput:focus-within { outline: none !important; box-shadow: none !important; }
+#composer #btnAttach, #composer #btnSend, #composer #btnEmoji { flex-shrink: 0; }
+@media (max-width: 420px) {
+  #chatList .cl-row { gap: 10px; padding: 12px; }
+  #composer { padding-left: 8px; padding-right: 8px; }
+  #composer .crow { gap: 4px; }
+  #composer .cbtn { width: 38px; height: 42px; }
+  #composer .csend { width: 42px; height: 42px; }
+}
+
 </style>
 </head>
 
@@ -1767,6 +1798,34 @@ function renderChatList(force) {
         hapusPercakapanBersama(r);
       });
       a.appendChild(del);
+
+      // Tekan lama pada kartu chat untuk membuka opsi pengelolaan akun.
+      let pressTimer = null, longPressed = false, startX = 0, startY = 0;
+      const cancelPress = () => { if (pressTimer) clearTimeout(pressTimer); pressTimer = null; };
+      a.addEventListener("touchstart", e => {
+        if (e.touches.length !== 1) return;
+        startX = e.touches[0].clientX; startY = e.touches[0].clientY; longPressed = false;
+        cancelPress();
+        pressTimer = setTimeout(() => {
+          pressTimer = null; longPressed = true; buzz(25);
+          const pilih = confirm(`Opsi akun: ${r.nama}\n\nOK = kelola/hapus akun\nBatal = tutup\n\nCatatan: penghapusan akun login secara permanen harus dilakukan lewat backend Admin Firebase.`);
+          if (pilih) {
+            toast("Opsi hapus akun dipilih. Penghapusan akun login perlu Firebase Cloud Function/Admin SDK; belum dijalankan dari halaman ini.", {ms: 6000});
+          }
+        }, 650);
+      }, { passive: true });
+      a.addEventListener("touchmove", e => {
+        if (!pressTimer || !e.touches[0]) return;
+        if (Math.abs(e.touches[0].clientX - startX) > 12 || Math.abs(e.touches[0].clientY - startY) > 12) cancelPress();
+      }, { passive: true });
+      a.addEventListener("touchend", cancelPress);
+      a.addEventListener("touchcancel", cancelPress);
+      a.addEventListener("contextmenu", e => {
+        e.preventDefault(); cancelPress(); longPressed = true; buzz(25);
+        const pilih = confirm(`Opsi akun: ${r.nama}\n\nOK = kelola/hapus akun\nBatal = tutup\n\nCatatan: penghapusan akun login secara permanen harus dilakukan lewat backend Admin Firebase.`);
+        if (pilih) toast("Opsi hapus akun dipilih. Penghapusan akun login perlu Firebase Cloud Function/Admin SDK; belum dijalankan dari halaman ini.", {ms: 6000});
+      });
+      a.addEventListener("click", e => { if (longPressed) { e.preventDefault(); e.stopPropagation(); longPressed = false; } }, true);
     }
     box.appendChild(a);
   });
