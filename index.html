@@ -16,57 +16,6 @@
 <!-- APK BUILDER: gunakan URL HTTPS; aktifkan Microphone/Audio Recording, Camera (untuk video call), File Upload, dan WebRTC bila opsinya tersedia. HTML tidak dapat memberikan izin Android secara mandiri. -->
 
 <style>
-  
-/* FIX CHAT AGAR TIDAK MELEBAR DI HP */
-#chatList {
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  overflow-x: hidden;
-}
-
-#chatList .cl-row {
-  display: flex;
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-#chatList .cl-row > .avw {
-  flex: 0 0 48px;
-}
-
-#chatList .cl-mid {
-  flex: 1 1 0;
-  width: 0;
-  min-width: 0;
-  overflow: hidden;
-}
-
-#chatList .cl-top,
-#chatList .cl-sub {
-  display: block;
-  width: 100%;
-  min-width: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-#chatList .cl-top b {
-  display: block;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-#chatList .cl-sub {
-  overflow-wrap: normal;
-  word-break: normal;
-}
-
 /* ========================= DASAR ========================= */
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 [hidden]{display:none!important}
@@ -490,6 +439,12 @@ body:not(.r-rencana) .fab{display:none}
 .cl-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:20px;background:var(--card);border:1px solid var(--line);text-decoration:none;transition:background .2s,transform .15s}
 .cl-row:hover{background:var(--card2)}
 .cl-row:active{transform:scale(.97)}
+
+/* Tombol hapus percakapan pribadi */
+.cl-delete{width:36px;height:36px;flex:0 0 36px;border-radius:12px;display:grid;place-items:center;color:#fca5a5;background:#ef444418;border:1px solid #ef444433;position:relative;z-index:2}
+.cl-delete:hover{background:#ef444433;color:#fff}
+.cl-delete .i{width:17px;height:17px}
+
 .cl-mid{flex:1;min-width:0}
 .cl-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .cl-top b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -628,6 +583,15 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
   .b-text { max-height: 130px; }
 }
 
+
+/* Hilangkan kotak outline cyan/hijau yang mengelilingi kolom pesan */
+#chatIsi:focus, #chatIsi:focus-visible, .cinput:focus-within {
+  outline: none !important;
+  box-shadow: none !important;
+}
+.cinput {
+  outline: none !important;
+}
 </style>
 </head>
 
@@ -1792,9 +1756,59 @@ function renderChatList(force) {
     mid.append(top, sub);
     a.append(av, mid);
     if (n) a.appendChild(el("i", "un-badge", n > 99 ? "99+" : String(n)));
+    if (!r.group) {
+      const del = el("button", "cl-delete");
+      del.type = "button";
+      del.title = "Hapus percakapan untuk kedua pihak";
+      del.setAttribute("aria-label", "Hapus percakapan dengan " + r.nama);
+      del.innerHTML = ic("trash");
+      del.addEventListener("click", e => {
+        e.preventDefault(); e.stopPropagation();
+        hapusPercakapanBersama(r);
+      });
+      a.appendChild(del);
+    }
     box.appendChild(a);
   });
   if (!dms.length) box.appendChild(el("div", "chat-empty", "Belum ada Boeng lain yang mendaftar."));
+}
+
+/* ---- hapus percakapan pribadi untuk kedua pihak ---- */
+async function hapusPercakapanBersama(room) {
+  if (!room || room.group || !me) return;
+  const nama = room.nama || "kontak ini";
+  if (!confirm(`Hapus seluruh riwayat chat dengan ${nama} untuk KEDUA pihak? Pesan dan lampiran di percakapan ini akan dihapus dan tidak bisa dipulihkan. Akun ${nama} tetap ada di daftar anggota.`)) return;
+  try {
+    const msgsRef = collection(db, "dm", room.key, "msgs");
+    const msgs = await getDocs(msgsRef);
+    // Hapus subkoleksi lampiran lebih dulu agar tidak tertinggal sebagai data yatim.
+    for (const msg of msgs.docs) {
+      const parts = await getDocs(collection(db, "dm", room.key, "msgs", msg.id, "part"));
+      for (let i = 0; i < parts.docs.length; i += 400) {
+        const batch = writeBatch(db);
+        parts.docs.slice(i, i + 400).forEach(part => batch.delete(part.ref));
+        await batch.commit();
+      }
+    }
+    for (let i = 0; i < msgs.docs.length; i += 400) {
+      const batch = writeBatch(db);
+      msgs.docs.slice(i, i + 400).forEach(msg => batch.delete(msg.ref));
+      await batch.commit();
+    }
+    await deleteDoc(doc(db, "dm", room.key));
+    delete dmMeta[room.key];
+    delete unreadBy[room.key];
+    delete seen[room.key];
+    lsSet("pb_read_" + room.key, String(Date.now()));
+    recount();
+    chatListSig = "";
+    renderChatList(true);
+    if (curRoom && curRoom.type === "dm" && curRoom.key === room.key) go("#/chat");
+    toast("Riwayat chat sudah dihapus untuk kedua pihak.");
+  } catch (err) {
+    console.error("Gagal menghapus percakapan bersama:", err);
+    toast("Gagal menghapus chat. Periksa Firestore Rules agar anggota chat diizinkan menghapus pesan dan dokumen percakapan.", {ms:6000});
+  }
 }
 
 /* ---- status tulis (mengetik) ---- */
