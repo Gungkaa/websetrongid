@@ -551,7 +551,33 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
  #p-chat.on{height:calc(100dvh - 24px);margin:12px auto}
  .composer{padding-left:16px;padding-right:16px}
 }
-\n</style>
+\n
+/* ========================= FIX: PESAN PANJANG TIDAK MEMBESARKAN CHAT ========================= */
+/* Batasi area teks saja; pesan media, tombol, dan metadata tetap memakai layout semula. */
+.msg { min-width: 0; }
+.bubble {
+  min-width: 0;
+  max-width: min(82%, 520px);
+}
+.b-text {
+  display: block;
+  max-height: 150px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  scrollbar-width: thin;
+  scrollbar-color: #a5b4fc66 transparent;
+}
+.b-text::-webkit-scrollbar { width: 4px; }
+.b-text::-webkit-scrollbar-thumb { background: #a5b4fc66; border-radius: 8px; }
+@media (max-width: 520px) {
+  .bubble { max-width: 88%; }
+  .b-text { max-height: 130px; }
+}
+
+</style>
 </head>
 
 <body class="locked">
