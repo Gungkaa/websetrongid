@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <meta name="theme-color" content="#080d1c">
+<meta http-equiv="Permissions-Policy" content="microphone=(self), camera=(self)">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -12,6 +13,7 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <title>Para Boeng</title>
+<!-- APK BUILDER: gunakan URL HTTPS; aktifkan Microphone/Audio Recording, Camera (untuk video call), File Upload, dan WebRTC bila opsinya tersedia. HTML tidak dapat memberikan izin Android secara mandiri. -->
 
 <style>
 /* ========================= DASAR ========================= */
@@ -500,7 +502,56 @@ body:not(.r-rencana) .fab{display:none}
 .toast.out{opacity:0;transform:translateY(-10px)}
 
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:.01ms!important}}
-</style>
+
+/* ========================= REFRESH UI ANDROID MODERN ========================= */
+:root{--brand:#7c83ff;--cyan:#22d3ee;--grad:linear-gradient(135deg,#22d3ee 0%,#6366f1 55%,#c084fc 100%)}
+button,a,input,textarea{outline-offset:3px}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid #67e8f9}
+.page{padding:clamp(12px,3vw,22px)}
+.card,.post,.news,.music-card,.member,.plan,.trip,.album,.cl-row{box-shadow:0 8px 28px #00000012}
+.compose{position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(99,102,241,.12),rgba(34,211,238,.06)),var(--card);padding:16px}
+.compose-in{min-height:48px;text-align:left;white-space:normal}
+.compose-acts button{min-height:44px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;gap:6px}
+#feedList{gap:16px}
+.post{padding:clamp(13px,3vw,19px);border-radius:22px;background:linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.025))}
+.p-text{line-height:1.65}
+.p-act{gap:8px}
+.p-act button{min-height:40px}
+.p-comments{padding-top:12px}
+.p-comment-form input{min-height:44px;font-size:16px}
+#p-chat.on{min-height:0;overscroll-behavior:none}
+.chat-head{min-height:64px}
+.msgs{padding:14px clamp(10px,3vw,18px) 12px;scrollbar-width:thin;scrollbar-color:#6366f166 transparent}
+.bubble{padding:9px 12px 7px;box-shadow:0 2px 7px #00000010}
+.b-text{line-height:1.5}
+.composer{padding:10px 12px calc(10px + var(--sb));padding-bottom:max(10px,env(safe-area-inset-bottom))}
+.crow{gap:6px}
+.cbtn{width:42px;height:42px}
+.cinput{background:#202944;border-color:#ffffff18}
+.cinput textarea{max-height:140px;min-height:44px;padding-top:11px;padding-bottom:11px}
+.csend{width:46px;height:46px}
+.cl-row{padding:13px;border-radius:18px}
+.mic-permission{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding:13px 14px;background:linear-gradient(120deg,#0891b222,#6366f122)}
+.mic-permission-icon{width:42px;height:42px;border-radius:14px;background:#22d3ee20;display:grid;place-items:center;font-size:22px;flex-shrink:0}
+.mic-permission-copy{flex:1;min-width:0}
+.mic-permission-copy b{display:block;font-size:14px}
+.mic-permission-copy span{display:block;color:var(--mut);font-size:12px;line-height:1.4;margin-top:2px}
+.mic-permission .btn-sm{min-height:40px;white-space:nowrap}
+@media(max-width:420px){
+ .page{padding:12px}
+ .compose-acts{gap:6px}
+ .compose-acts button{font-size:12px;padding:9px 3px}
+ .mic-permission{gap:9px;align-items:flex-start}
+ .mic-permission .btn-sm{padding:8px 10px;font-size:12px}
+ .bubble{max-width:88%}
+ .voice{min-width:190px}
+}
+@media(min-width:900px){
+ #p-feed{max-width:850px}
+ #p-chat.on{height:calc(100dvh - 24px);margin:12px auto}
+ .composer{padding-left:16px;padding-right:16px}
+}
+\n</style>
 </head>
 
 <body class="locked">
@@ -621,6 +672,7 @@ body:not(.r-rencana) .fab{display:none}
           <a class="tile" href="#/chat"><span class="tile-ic" style="--c:#0891b2">💬</span>Chat<i class="dotn" id="tileUnread" hidden></i></a>
           <a class="tile" href="#/rencana"><span class="tile-ic" style="--c:#7c3aed">🗺️</span>Rencana</a>
           <a class="tile" href="#/anggota"><span class="tile-ic" style="--c:#db2777">👥</span>Anggota</a>
+          <a class="tile" href="#/profilboeng"><span class="tile-ic" style="--c:#9333ea">🪪</span>Profil Para Boeng</a>
           <a class="tile" href="#/album"><span class="tile-ic" style="--c:#ea580c">📸</span>Album</a>
           <a class="tile" href="#/lagu"><span class="tile-ic" style="--c:#16a34a">🎵</span>Lagu</a>
           <a class="tile" href="#/berita"><span class="tile-ic" style="--c:#2563eb">📰</span>Info</a>
@@ -644,6 +696,11 @@ body:not(.r-rencana) .fab{display:none}
 
       <!-- ===== FEED ===== -->
       <section class="page" id="p-feed">
+        <div class="mic-permission card" id="micPermissionCard">
+          <div class="mic-permission-icon">🎙️</div>
+          <div class="mic-permission-copy"><b>Pesan suara</b><span id="micPermissionText">Izinkan mikrofon untuk merekam pesan suara saat chat.</span></div>
+          <button class="btn-sm" id="btnMicPermission" type="button">Izinkan mic</button>
+        </div>
         <div class="card compose" id="composeCard">
           <div class="compose-top">
             <div id="cmpAv"></div>
@@ -753,7 +810,14 @@ body:not(.r-rencana) .fab{display:none}
         <h3 class="sec" style="margin-top:4px">Akun terdaftar <span class="muted" id="userCount" style="font-size:13px"></span></h3>
         <p class="muted" style="font-size:12px;margin:-4px 2px 10px">Ketuk akun mana saja untuk melihat profilnya.</p>
         <div class="stack" id="userList"><div class="chat-empty">Memuat…</div></div>
-        <h3 class="sec">Profil Para Boeng</h3>
+      </section>
+
+      <!-- ===== PROFIL PARA BOENG (HALAMAN TERPISAH) ===== -->
+      <section class="page" id="p-profilboeng">
+        <div class="card about" style="margin-bottom:16px">
+          <h3 style="margin:0 0 8px">👋 Kenalan dengan Para Boeng</h3>
+          <p>Inilah profil Pemilik Aplikasi ini .</p>
+        </div>
         <div class="members stagger" id="members"></div>
       </section>
       
@@ -960,10 +1024,11 @@ const ROUTES = {
   berita:{t:"Info Boeng",tab:"lainnya",parent:"lainnya"}, lagu:{t:"Lagu Favorit",tab:"lainnya",parent:"lainnya"},
   skill:{t:"Skill Kami",tab:"lainnya",parent:"lainnya"}, perjalanan:{t:"Perjalanan",tab:"lainnya",parent:"lainnya"},
   album:{t:"Album",tab:"lainnya",parent:"lainnya"}, tentang:{t:"Tentang Kami",tab:"lainnya",parent:"lainnya"},
+  profilboeng:{t:"Profil Para Boeng",tab:"lainnya",parent:"lainnya"},
   kontak:{t:"Kontak",tab:"lainnya",parent:"lainnya"}
 };
 const TABS = [["home","Beranda","home"],["feed","Feed","feed"],["chat","Chat","chat"],["rencana","Rencana","map"],["anggota","Anggota","users"],["lainnya","Lainnya","grid"]];
-const SIDE_EXTRA = [["berita","Info Boeng","📰"],["lagu","Lagu Favorit","🎵"],["skill","Skill Kami","⭐"],["perjalanan","Perjalanan","🧭"],["album","Album","📸"],["tentang","Tentang Kami","ℹ️"],["kontak","Kontak","☎️"]];
+const SIDE_EXTRA = [["profilboeng","Profil Para Boeng","🪪"],["berita","Info Boeng","📰"],["lagu","Lagu Favorit","🎵"],["skill","Skill Kami","⭐"],["perjalanan","Perjalanan","🧭"],["album","Album","📸"],["tentang","Tentang Kami","ℹ️"],["kontak","Kontak","☎️"]];
 
 
 const EMOJI = {
@@ -1260,7 +1325,7 @@ $("sideNav").innerHTML =
   `<a href="#/lainnya" data-r="lainnya">${ic("grid")}<span>Pengaturan</span></a>`;
 
 $("menuList").innerHTML = SIDE_EXTRA.map(([r, l, e]) => {
-  const d = { berita:"Kabar terbaru dari Para Boeng", lagu:"Lagu favorit tiap Boeng", skill:"Keahlian andalan kami", perjalanan:"Perjalanan yang sudah selesai", album:"Dokumentasi foto perjalanan", tentang:"Siapa kami", kontak:"Email, WhatsApp, lokasi" }[r];
+  const d = { profilboeng:"Foto, hobi, dan informasi setiap anggota", berita:"Kabar terbaru dari Para Boeng", lagu:"Lagu favorit tiap Boeng", skill:"Keahlian andalan kami", perjalanan:"Perjalanan yang sudah selesai", album:"Dokumentasi foto perjalanan", tentang:"Siapa kami", kontak:"Email, WhatsApp, lokasi" }[r];
   return `<a class="menu-item" href="#/${r}"><span class="mi">${e}</span><div><b>${l}</b><small>${d}</small></div>${ic("next")}</a>`;
 }).join("");
 
@@ -1353,7 +1418,7 @@ $("aMata").addEventListener("click", () => {
 
 function pesanAuth(err) {
   const c = (err && err.code) || "";
-  if (c === "kode-salah") return "Kode grup salah. Tanya Boeng Agung ya.";
+  if (c === "kode-salah") return "Kode grup salah. Tanya ke admin ya.";
   if (c === "auth/email-already-in-use") return "Nama pengguna itu sudah dipakai. Pilih nama lain atau masuk.";
   if (["auth/invalid-credential", "auth/user-not-found", "auth/wrong-password", "auth/invalid-email"].includes(c)) return "Nama pengguna atau sandi salah.";
   if (c === "auth/weak-password") return "Sandi terlalu lemah. Minimal 6 karakter.";
@@ -1617,7 +1682,7 @@ function renderUsers(force) {
 /* ---- daftar chat (grup + pribadi) ---- */
 function renderChatList(force) {
   const box = $("chatList"); if (!box || !me) return;
-  const rows = [{ key: "group", group: true, nama: "Chat Para Boeng", last: groupLast, hash: "#/chat/group" }];
+  const rows = [{ key: "group", group: true, nama: "Grup khusus boeng saja", last: groupLast, hash: "#/chat/group" }];
   const dms = users.filter(u => u.id !== me.uid).map(u => {
     const key = pairId(me.uid, u.id), mt = dmMeta[key];
     return { key, u, nama: u.nama || "Anonim", last: mt && mt.last, hash: "#/chat/" + u.id };
@@ -2398,14 +2463,14 @@ for (let i = 0; i < 28; i++) { const b = document.createElement("i"); b.style.an
 async function mulaiRekam() {
   if (rec) return;
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || typeof MediaRecorder === "undefined") {
-    toast("Rekam suara butuh browser modern dan koneksi aman (https)."); return;
+    toast("Mikrofon tidak tersedia. Buka melalui HTTPS dan aktifkan izin Microphone/Audio Recording di pengaturan Website APK Builder.", {ms:5500}); return;
   }
   try { recStream = await navigator.mediaDevices.getUserMedia({ audio: true }); }
-  catch (e) { toast("Izin mikrofon ditolak."); return; }
+  catch (e) { toast("Izin mikrofon ditolak. Izinkan Microphone di Android dan di pengaturan aplikasi APK.", {ms:5500}); return; }
   recMime = ["audio/webm;codecs=opus", "audio/webm", "audio/mp4", "audio/ogg;codecs=opus"].find(t => MediaRecorder.isTypeSupported(t)) || "";
   try {
     rec = new MediaRecorder(recStream, recMime ? { mimeType: recMime, audioBitsPerSecond: 24000 } : { audioBitsPerSecond: 24000 });
-  } catch (e) { recStream.getTracks().forEach(t => t.stop()); rec = null; toast("Perekam suara tidak didukung."); return; }
+  } catch (e) { recStream.getTracks().forEach(t => t.stop()); rec = null; toast("Perekam suara tidak didukung oleh WebView aplikasi ini. Perbarui Android System WebView/Chrome atau gunakan builder yang mendukung MediaRecorder.", {ms:6000}); return; }
   recChunks = [];
   rec.ondataavailable = e => { if (e.data && e.data.size) recChunks.push(e.data); };
   rec.start(250);
@@ -3045,7 +3110,7 @@ async function mulaiPanggilan(videoOn) {
       if (d.status === "ended") akhiriPanggilan(false);
     });
   } catch (err) {
-    console.error(err); toast("Panggilan gagal. Pastikan HTTPS, izin mikrofon/kamera, dan Rules Firestore sudah benar.", {ms:5000});
+    console.error(err); toast("Panggilan gagal. Periksa HTTPS, izin Microphone/Camera pada Website APK Builder, dukungan WebRTC, dan Rules Firestore.", {ms:6000});
     await akhiriPanggilan();
   }
 }
@@ -3069,7 +3134,7 @@ async function jawabPanggilan(id, data) {
       for(const c of (d.callerCandidates||[])){const key=JSON.stringify(c);if(!callPc._seenCaller)callPc._seenCaller=new Set();if(!callPc._seenCaller.has(key)){callPc._seenCaller.add(key);try{await callPc.addIceCandidate(new RTCIceCandidate(c));}catch{}}}
       if(d.status==="ended")akhiriPanggilan(false);
     });
-  } catch(err) { console.error(err); toast("Tidak bisa menjawab panggilan."); await akhiriPanggilan(); }
+  } catch(err) { console.error(err); toast("Tidak bisa menjawab panggilan. Periksa izin Microphone/Camera dan dukungan WebRTC pada APK.", {ms:5500}); await akhiriPanggilan(); }
 }
 function pantauPanggilanMasuk() {
   if (incomingUnsub) incomingUnsub();
@@ -3101,6 +3166,37 @@ document.addEventListener("keydown", e => {
   if (e.key !== "Escape") return;
   tutupFoto(); tutupSheet(); tutupPlan(); tutupStatus(); tutupMenu(); tutupPanel(); tutupPost(); tutupProfEdit();
 });
+
+/* ---------- izin mikrofon eksplisit ---------- */
+const micPermissionBtn = document.getElementById("btnMicPermission");
+if (micPermissionBtn) {
+  micPermissionBtn.addEventListener("click", async () => {
+    const label = document.getElementById("micPermissionText");
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      if (label) label.textContent = "Mikrofon perlu HTTPS serta dukungan izin Microphone dari Website APK Builder.";
+      toast("Gunakan URL HTTPS dan aktifkan izin Microphone/Audio Recording di Website APK Builder.", {ms:5500});
+      return;
+    }
+    micPermissionBtn.disabled = true;
+    micPermissionBtn.textContent = "Meminta izin…";
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+      stream.getTracks().forEach(track => track.stop());
+      if (label) label.textContent = "Izin mikrofon tersedia. Buka chat dan tekan ikon mic untuk merekam pesan suara.";
+      micPermissionBtn.textContent = "Mic aktif ✓";
+      micPermissionBtn.classList.add("line");
+      toast("Izin mikrofon berhasil diberikan.");
+    } catch (err) {
+      if (label) label.textContent = err && err.name === "NotAllowedError"
+        ? "Izin ditolak. Ubah izin Mikrofon di pengaturan situs browser Android."
+        : "Mikrofon tidak dapat diakses. Periksa perangkat dan izin browser.";
+      micPermissionBtn.textContent = "Coba lagi";
+      toast("Mikrofon belum diizinkan.");
+    } finally {
+      micPermissionBtn.disabled = false;
+    }
+  });
+}
 </script>
 </body>
 </html>
