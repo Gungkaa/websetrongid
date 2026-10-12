@@ -16,6 +16,57 @@
 <!-- APK BUILDER: gunakan URL HTTPS; aktifkan Microphone/Audio Recording, Camera (untuk video call), File Upload, dan WebRTC bila opsinya tersedia. HTML tidak dapat memberikan izin Android secara mandiri. -->
 
 <style>
+  
+/* FIX CHAT AGAR TIDAK MELEBAR DI HP */
+#chatList {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+#chatList .cl-row {
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+#chatList .cl-row > .avw {
+  flex: 0 0 48px;
+}
+
+#chatList .cl-mid {
+  flex: 1 1 0;
+  width: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+#chatList .cl-top,
+#chatList .cl-sub {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+#chatList .cl-top b {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+#chatList .cl-sub {
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
 /* ========================= DASAR ========================= */
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 [hidden]{display:none!important}
