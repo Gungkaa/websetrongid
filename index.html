@@ -1015,6 +1015,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 
 <!-- ========================= JAVASCRIPT ========================= -->
 <script type="module">
+  import {
+  getMessaging,
+  getToken,
+  onMessage
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut, deleteUser, EmailAuthProvider, reauthenticateWithCredential }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -1039,6 +1044,49 @@ const HASH_KODE = "7ec96ea767828ac5f1c3c8f8e2e75af08c2c0e504a72ea0b4d2c417ec5df7
 const fbApp = initializeApp(FB);
 const auth = getAuth(fbApp);
 const db = initializeFirestore(fbApp, { experimentalAutoDetectLongPolling: true });
+async function aktifkanNotifikasi() {
+  try {
+    if (!("Notification" in window) || !("serviceWorker" in navigator)) {
+      alert("Browser ini belum mendukung notifikasi web.");
+      return;
+    }
+
+    const izin = await Notification.requestPermission();
+
+    if (izin !== "granted") {
+      alert("Izin notifikasi belum diberikan.");
+      return;
+    }
+
+    const registrasi = await navigator.serviceWorker.register(
+      "/websetrongid/firebase-messaging-sw.js"
+    );
+
+    const messaging = getMessaging(fbApp);
+
+    const token = await getToken(messaging, {
+      vapidKey: VAPID_KEY,
+      serviceWorkerRegistration: registrasi
+    });
+
+    if (token) {
+      console.log("Token notifikasi perangkat:", token);
+      alert("Notifikasi berhasil didaftarkan di perangkat ini.");
+    } else {
+      alert("Token notifikasi belum tersedia.");
+    }
+
+    onMessage(messaging, (payload) => {
+      const judul = payload.notification?.title || "PARA BOENG";
+      const isi = payload.notification?.body || "Ada pesan baru!";
+
+      new Notification(judul, { body: isi });
+    });
+  } catch (error) {
+    console.error("Gagal mengaktifkan notifikasi:", error);
+    alert("Notifikasi gagal diaktifkan. Periksa Console untuk detail error.");
+  }
+}
 
 /* ========================= DATA KONTEN ========================= */
 const BERITA = [
