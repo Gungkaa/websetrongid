@@ -557,7 +557,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
  #p-chat.on{height:calc(100dvh - 24px);margin:12px auto}
  .composer{padding-left:16px;padding-right:16px}
 }
-\n
+
 /* ========================= FIX: PESAN PANJANG TIDAK MEMBESARKAN CHAT ========================= */
 /* Batasi area teks saja; pesan media, tombol, dan metadata tetap memakai layout semula. */
 .msg { min-width: 0; }
@@ -623,10 +623,16 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
   #composer .csend { width: 42px; height: 42px; }
 }
 
+/* ========================= LAYAR PEMBUKA (pemulihan login) ========================= */
+body.booting #auth{display:none}
+#splash{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:var(--bg)}
+#splash img{width:76px;height:76px;border-radius:22px;box-shadow:0 0 34px #6366f188;animation:floaty 2s ease-in-out infinite}
+body:not(.booting) #splash{display:none}
+
 </style>
 </head>
 
-<body class="locked">
+<body class="locked booting">
 
 <!-- ========================= IKON ========================= -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -667,6 +673,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 </defs></svg>
 
 <div id="toasts"></div>
+<div id="splash"><img src="icon-192.png" alt=""></div>
 
 <!-- ========================= LOGIN / DAFTAR ========================= -->
 <div id="auth">
@@ -1015,13 +1022,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 
 <!-- ========================= JAVASCRIPT ========================= -->
 <script type="module">
-  import {
-  getMessaging,
-  getToken,
-  onMessage
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut, deleteUser, EmailAuthProvider, reauthenticateWithCredential, setPersistence, browserLocalPersistence }
+import { initializeAuth, indexedDBLocalPersistence, browserLocalPersistence, browserSessionPersistence, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut, deleteUser, EmailAuthProvider, reauthenticateWithCredential }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { initializeFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteDoc, deleteField, onSnapshot, query, orderBy, limit, where, getDocs, writeBatch, arrayUnion, arrayRemove }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -1042,54 +1044,11 @@ const VAPID_KEY = "BDX7NZSlnQr6IhZvhSxn85HRGGpwcN11aR-o40FOka6lV58MHVVzzJBqPwNWz
 const HASH_KODE = "7ec96ea767828ac5f1c3c8f8e2e75af08c2c0e504a72ea0b4d2c417ec5df7d6b";
 
 const fbApp = initializeApp(FB);
-const auth = getAuth(fbApp);
-// Simpan sesi login secara lokal agar akun tetap masuk setelah APK ditutup/dibuka.
-// Sesi hilang jika pengguna logout atau data aplikasi dihapus.
-await setPersistence(auth, browserLocalPersistence);
+/* Login disimpan permanen (IndexedDB, cadangan localStorage) sehingga tidak perlu masuk ulang */
+const auth = initializeAuth(fbApp, {
+  persistence: [indexedDBLocalPersistence, browserLocalPersistence, browserSessionPersistence]
+});
 const db = initializeFirestore(fbApp, { experimentalAutoDetectLongPolling: true });
-async function aktifkanNotifikasi() {
-  try {
-    if (!("Notification" in window) || !("serviceWorker" in navigator)) {
-      alert("Browser ini belum mendukung notifikasi web.");
-      return;
-    }
-
-    const izin = await Notification.requestPermission();
-
-    if (izin !== "granted") {
-      alert("Izin notifikasi belum diberikan.");
-      return;
-    }
-
-    const registrasi = await navigator.serviceWorker.register(
-      "/websetrongid/firebase-messaging-sw.js"
-    );
-
-    const messaging = getMessaging(fbApp);
-
-    const token = await getToken(messaging, {
-      vapidKey: VAPID_KEY,
-      serviceWorkerRegistration: registrasi
-    });
-
-    if (token) {
-      console.log("Token notifikasi perangkat:", token);
-      alert("Notifikasi berhasil didaftarkan di perangkat ini.");
-    } else {
-      alert("Token notifikasi belum tersedia.");
-    }
-
-    onMessage(messaging, (payload) => {
-      const judul = payload.notification?.title || "PARA BOENG";
-      const isi = payload.notification?.body || "Ada pesan baru!";
-
-      new Notification(judul, { body: isi });
-    });
-  } catch (error) {
-    console.error("Gagal mengaktifkan notifikasi:", error);
-    alert("Notifikasi gagal diaktifkan. Periksa Console untuk detail error.");
-  }
-}
 
 /* ========================= DATA KONTEN ========================= */
 const BERITA = [
@@ -1313,20 +1272,22 @@ async function tampilNotif(m, key) {
   try { new Notification(title, opts); } catch (e) {}
 }
 
-/* ---- Push ke HP saat aplikasi ditutup (Firebase Cloud Messaging) ---- */
+/* ---- Push ke HP saat aplikasi ditutup (Firebase Cloud Messaging) ----
+   Perlu: firebase-messaging-sw.js di folder yang sama + Cloud Function pengirim (folder functions/) */
 let fcmToken = null;
 async function iniPush() {
   if (!VAPID_KEY || !FB.messagingSenderId || !FB.appId || !me || !notifAktif() || !("serviceWorker" in navigator)) return;
   try {
     const { getMessaging, getToken, isSupported } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js");
     if (!(await isSupported())) return;
-    const reg = await navigator.serviceWorker.register("/websetrongid/firebase-messaging-sw.js");
+    const reg = await navigator.serviceWorker.register("firebase-messaging-sw.js", { scope: "./fcm-scope/" });
+    await navigator.serviceWorker.ready;
     const token = await getToken(getMessaging(fbApp), { vapidKey: VAPID_KEY, serviceWorkerRegistration: reg });
     if (token) {
       fcmToken = token;
       await setDoc(doc(db, "users", me.uid), { tokens: arrayUnion(token) }, { merge: true });
     }
-  } catch (e) { console.warn("Push notification belum aktif:", e); }
+  } catch (e) { console.warn("Push tidak aktif:", e); }
 }
 async function hapusToken() {
   if (!fcmToken || !me) return;
@@ -1580,6 +1541,7 @@ $("authForm").addEventListener("submit", async e => {
 });
 
 onAuthStateChanged(auth, user => {
+  document.body.classList.remove("booting");
   if (user) {
     if (sedangDaftar) return;
     me = { uid: user.uid, nama: user.displayName || (user.email || "").split("@")[0] };
@@ -1664,6 +1626,8 @@ function masuk() {
   ping(true); timerPing = setInterval(() => { if (!document.hidden) ping(true); }, 40000);
   timerUsers = setInterval(tick, 1000);
   daftarSW(); iniPush(); pasangGuard();
+  // minta penyimpanan permanen agar data login tidak dihapus sistem
+  try { navigator.storage && navigator.storage.persist && navigator.storage.persist(); } catch (e) {}
   tampilRute();
 }
 
