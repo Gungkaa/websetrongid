@@ -1021,7 +1021,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
   onMessage
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut, deleteUser, EmailAuthProvider, reauthenticateWithCredential }
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut, deleteUser, EmailAuthProvider, reauthenticateWithCredential, setPersistence, browserLocalPersistence }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { initializeFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteDoc, deleteField, onSnapshot, query, orderBy, limit, where, getDocs, writeBatch, arrayUnion, arrayRemove }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -1043,6 +1043,9 @@ const HASH_KODE = "7ec96ea767828ac5f1c3c8f8e2e75af08c2c0e504a72ea0b4d2c417ec5df7
 
 const fbApp = initializeApp(FB);
 const auth = getAuth(fbApp);
+// Simpan sesi login secara lokal agar akun tetap masuk setelah APK ditutup/dibuka.
+// Sesi hilang jika pengguna logout atau data aplikasi dihapus.
+await setPersistence(auth, browserLocalPersistence);
 const db = initializeFirestore(fbApp, { experimentalAutoDetectLongPolling: true });
 async function aktifkanNotifikasi() {
   try {
@@ -1317,13 +1320,13 @@ async function iniPush() {
   try {
     const { getMessaging, getToken, isSupported } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js");
     if (!(await isSupported())) return;
-    const reg = await navigator.serviceWorker.ready;
+    const reg = await navigator.serviceWorker.register("/websetrongid/firebase-messaging-sw.js");
     const token = await getToken(getMessaging(fbApp), { vapidKey: VAPID_KEY, serviceWorkerRegistration: reg });
     if (token) {
       fcmToken = token;
       await setDoc(doc(db, "users", me.uid), { tokens: arrayUnion(token) }, { merge: true });
     }
-  } catch (e) {}
+  } catch (e) { console.warn("Push notification belum aktif:", e); }
 }
 async function hapusToken() {
   if (!fcmToken || !me) return;
