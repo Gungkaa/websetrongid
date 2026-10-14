@@ -559,7 +559,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 }
 
 /* ========================= FIX: PESAN PANJANG TIDAK MEMBESARKAN CHAT ========================= */
-/* Batasi area teks saja; pesan media, tombol, dan metadata tetap memakai layout semula. */
 .msg { min-width: 0; }
 .bubble {
   min-width: 0;
@@ -1033,18 +1032,16 @@ const FB = {
   apiKey: "AIzaSyApRQAlGhvkccuXHRE6xEKgZDnNBQpMPxo",
   authDomain: "data-boeng.firebaseapp.com",
   projectId: "data-boeng",
-  // Untuk notifikasi push saat aplikasi ditutup, isi dua baris ini dari
-  // Firebase Console > Project settings > General > Your apps
   messagingSenderId: "511128746426",
   appId: "1:511128746426:web:be10a471d00274329e4583"
 };
-// Kunci VAPID (Firebase Console > Project settings > Cloud Messaging > Web Push certificates). Kosongkan jika belum.
+// Kunci VAPID (Firebase Console > Project settings > Cloud Messaging > Web Push certificates).
 const VAPID_KEY = "BDX7NZSlnQr6IhZvhSxn85HRGGpwcN11aR-o40FOka6lV58MHVVzzJBqPwNWzZqWDtqd4f1Uvdq6rHDjrGKoNwg";
 // Kode grup = sandi lama web ini (hash SHA-256). Dipakai supaya hanya Para Boeng yang bisa daftar.
 const HASH_KODE = "7ec96ea767828ac5f1c3c8f8e2e75af08c2c0e504a72ea0b4d2c417ec5df7d6b";
 
 const fbApp = initializeApp(FB);
-/* Login disimpan permanen (IndexedDB, cadangan localStorage) sehingga tidak perlu masuk ulang */
+/* Login disimpan permanen: IndexedDB, lalu cadangan localStorage, lalu sessionStorage */
 const auth = initializeAuth(fbApp, {
   persistence: [indexedDBLocalPersistence, browserLocalPersistence, browserSessionPersistence]
 });
@@ -1273,7 +1270,7 @@ async function tampilNotif(m, key) {
 }
 
 /* ---- Push ke HP saat aplikasi ditutup (Firebase Cloud Messaging) ----
-   Perlu: firebase-messaging-sw.js di folder yang sama + Cloud Function pengirim (folder functions/) */
+   Pengirim push ada di Cloud Function (folder functions/). Service worker: firebase-messaging-sw.js */
 let fcmToken = null;
 async function iniPush() {
   if (!VAPID_KEY || !FB.messagingSenderId || !FB.appId || !me || !notifAktif() || !("serviceWorker" in navigator)) return;
@@ -1287,7 +1284,7 @@ async function iniPush() {
       fcmToken = token;
       await setDoc(doc(db, "users", me.uid), { tokens: arrayUnion(token) }, { merge: true });
     }
-  } catch (e) { console.warn("Push tidak aktif:", e); }
+  } catch (e) { console.warn("Push belum aktif:", e); }
 }
 async function hapusToken() {
   if (!fcmToken || !me) return;
