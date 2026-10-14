@@ -1,43 +1,37 @@
-/* Firebase Cloud Messaging service worker untuk PARA BOENG.
-   Letakkan di root publik GitHub Pages: /websetrongid/firebase-messaging-sw.js */
-importScripts("https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js");
-importScripts("https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js");
+/* Service worker khusus push (FCM). Letakkan di folder yang sama dengan index.html */
+self.addEventListener("install", () => self.skipWaiting());
+self.addEventListener("activate", e => e.waitUntil(self.clients.claim()));
 
-firebase.initializeApp({
-  apiKey: "AIzaSyApRQAlGhvkccuXHRE6xEKgZDnNBQpMPxo",
-  authDomain: "data-boeng.firebaseapp.com",
-  projectId: "data-boeng",
-  messagingSenderId: "511128746426",
-  appId: "1:511128746426:web:be10a471d00274329e4583"
+self.addEventListener("push", event => {
+  let p = {};
+  try { p = event.data ? event.data.json() : {}; } catch (e) {}
+  const d = p.data || p;
+  const title = d.title || (p.notification && p.notification.title) || "Para Boeng";
+  const body = d.body || (p.notification && p.notification.body) || "Ada pesan baru";
+  event.waitUntil(self.registration.showNotification(title, {
+    body,
+    icon: "icon-192.png",
+    badge: "icon-192.png",
+    tag: d.tag || "chat",
+    renotify: true,
+    vibrate: [120, 60, 120],
+    data: { url: d.url || "./" }
+  }));
 });
 
-const messaging = firebase.messaging();
-
-messaging.onBackgroundMessage((payload) => {
-  const title = payload.notification?.title || "PARA BOENG";
-  const options = {
-    body: payload.notification?.body || "Ada pesan baru!",
-    icon: "/websetrongid/icon-192.png",
-    badge: "/websetrongid/icon-192.png",
-    data: { url: payload.data?.url || "/websetrongid/#/chat" },
-    tag: payload.data?.tag || "para-boeng-message",
-    renotify: true
-  };
-  self.registration.showNotification(title, options);
-});
-
-self.addEventListener("notificationclick", (event) => {
+self.addEventListener("notificationclick", event => {
   event.notification.close();
-  const target = new URL(event.notification.data?.url || "/websetrongid/#/chat", self.location.origin).href;
+  const url = (event.notification.data && event.notification.data.url) || "./";
+  const hash = url.includes("#/") ? url.split("#/")[1] : "chat";
   event.waitUntil((async () => {
-    const clientsList = await clients.matchAll({ type: "window", includeUncontrolled: true });
-    for (const client of clientsList) {
-      if (client.url.startsWith(self.location.origin) && "focus" in client) {
-        await client.focus();
-        client.navigate(target);
+    const list = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
+    for (const c of list) {
+      try {
+        await c.focus();
+        c.postMessage({ go: hash });
         return;
-      }
+      } catch (e) {}
     }
-    if (clients.openWindow) await clients.openWindow(target);
+    if (self.clients.openWindow) await self.clients.openWindow(url);
   })());
 });
