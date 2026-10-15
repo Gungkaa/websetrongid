@@ -1024,7 +1024,7 @@ body:not(.booting) #splash{display:none}
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { initializeAuth, indexedDBLocalPersistence, browserLocalPersistence, browserSessionPersistence, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut, deleteUser, EmailAuthProvider, reauthenticateWithCredential }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { initializeFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteDoc, deleteField, onSnapshot, query, orderBy, limit, where, getDocs, writeBatch, arrayUnion, arrayRemove }
+import { initializeFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteDoc, deleteField, onSnapshot, query, orderBy, limit, where, getDocs, writeBatch, arrayUnion, arrayRemove, enableNetwork }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 /* ========================= KONFIGURASI ========================= */
@@ -1037,6 +1037,9 @@ const FB = {
 };
 // Kunci VAPID (Firebase Console > Project settings > Cloud Messaging > Web Push certificates).
 const VAPID_KEY = "BDX7NZSlnQr6IhZvhSxn85HRGGpwcN11aR-o40FOka6lV58MHVVzzJBqPwNWzZqWDtqd4f1Uvdq6rHDjrGKoNwg";
+// OneSignal (push notifikasi). Isi dengan App ID dari dashboard OneSignal (Settings > Keys & IDs).
+// Jika diisi, OneSignal dipakai menggantikan FCM langsung. Kosongkan untuk tetap memakai FCM.
+const ONESIGNAL_APP_ID = "d018126d-9bdc-489f-b76f-79414615aa2e";
 // Kode grup = sandi lama web ini (hash SHA-256). Dipakai supaya hanya Para Boeng yang bisa daftar.
 const HASH_KODE = "7ec96ea767828ac5f1c3c8f8e2e75af08c2c0e504a72ea0b4d2c417ec5df7d6b";
 
@@ -1257,7 +1260,7 @@ async function mintaNotif() {
   return false;
 }
 async function tampilNotif(m, key) {
-  if (fcmToken) return; // push dari server yang menangani
+  if (fcmToken || osOn) return; // push dari server (FCM/OneSignal) yang menangani
   if (!notifAktif()) return;
   const h = key ? hashRoom(key) : "#/chat";
   const title = key === "group" ? (m.nama || "Para Boeng") + " · Grup" : (m.nama || "Para Boeng");
@@ -1271,8 +1274,37 @@ async function tampilNotif(m, key) {
 
 /* ---- Push ke HP saat aplikasi ditutup (Firebase Cloud Messaging) ----
    Pengirim push ada di Cloud Function (folder functions/). Service worker: firebase-messaging-sw.js */
-let fcmToken = null;
+let fcmToken = null, osOn = false, osInit = false;
+async function iniOneSignal() {
+  if (!ONESIGNAL_APP_ID || !me) return;
+  try {
+    if (!window.OneSignalDeferred) {
+      window.OneSignalDeferred = [];
+      const sc = document.createElement("script");
+      sc.src = "https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"; sc.defer = true;
+      document.head.appendChild(sc);
+    }
+    const uid = me.uid, nama = me.nama;
+    window.OneSignalDeferred.push(async OneSignal => {
+      if (!osInit) {
+        osInit = true;
+        await OneSignal.init({
+          appId: ONESIGNAL_APP_ID,
+          serviceWorkerPath: "OneSignalSDKWorker.js",
+          serviceWorkerParam: { scope: "./onesignal-scope/" },   // terpisah dari sw.js agar tidak bentrok
+          allowLocalhostAsSecureOrigin: true,
+          notifyButton: { enable: false }
+        });
+      }
+      await OneSignal.login(uid);                    // external id = uid akun, dipakai untuk kirim ke orang tertentu
+      try { OneSignal.User.addTag("nama", nama); } catch (e) {}
+      if (Notification.permission === "granted") { try { await OneSignal.User.PushSubscription.optIn(); } catch (e) {} }
+      osOn = true;
+    });
+  } catch (e) { console.warn("OneSignal belum aktif:", e); }
+}
 async function iniPush() {
+  if (ONESIGNAL_APP_ID) return iniOneSignal();
   if (!VAPID_KEY || !FB.messagingSenderId || !FB.appId || !me || !notifAktif() || !("serviceWorker" in navigator)) return;
   try {
     const { getMessaging, getToken, isSupported } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js");
@@ -1287,6 +1319,7 @@ async function iniPush() {
   } catch (e) { console.warn("Push belum aktif:", e); }
 }
 async function hapusToken() {
+  if (window.OneSignal) { try { await window.OneSignal.logout(); } catch (e) {} osOn = false; }
   if (!fcmToken || !me) return;
   try { await updateDoc(doc(db, "users", me.uid), { tokens: arrayRemove(fcmToken) }); } catch (e) {}
 }
@@ -1620,7 +1653,7 @@ function masuk() {
   cekBannerNotif();
   subUsers(); subGroup(); subDm(); subRencana(); subFeed();
   pantauPanggilanMasuk();
-  ping(true); timerPing = setInterval(() => { if (!document.hidden) ping(true); }, 40000);
+  ping(true); timerPing = setInterval(() => ping(true), 40000); // tetap kirim sinyal online walau aplikasi di latar belakang
   timerUsers = setInterval(tick, 1000);
   daftarSW(); iniPush(); pasangGuard();
   // minta penyimpanan permanen agar data login tidak dihapus sistem
@@ -1654,10 +1687,19 @@ async function ping(on) {
 }
 document.addEventListener("visibilitychange", () => {
   if (!started) return;
-  if (document.hidden) { sendTyping(false); ping(false); }
-  else { ping(true); if (rute === "chat" && curRoom) markRead(curRoom.key); }
+  if (document.hidden) { sendTyping(false); ping(true); }   // di latar belakang tetap dianggap online
+  else { enableNetwork(db).catch(() => {}); ping(true); iniPush(); if (rute === "chat" && curRoom) markRead(curRoom.key); }
 });
-window.addEventListener("pagehide", () => { if (started) ping(false); });
+/* Status online otomatis kedaluwarsa sendiri (100 dtk) bila aplikasi benar-benar tertutup */
+window.addEventListener("pagehide", () => { if (started) sendTyping(false); });
+window.addEventListener("pageshow", e => { if (started && e.persisted) { enableNetwork(db).catch(() => {}); ping(true); } });
+/* Sambung ulang otomatis begitu internet kembali */
+window.addEventListener("online", () => {
+  if (!started) return;
+  enableNetwork(db).catch(() => {}); ping(true); iniPush();
+  toast("Kembali online ✅");
+});
+window.addEventListener("offline", () => { if (started) toast("Internet terputus. Akan tersambung otomatis saat online."); });
 
 /* ========================= SERVICE WORKER & PASANG ========================= */
 function daftarSW() {
